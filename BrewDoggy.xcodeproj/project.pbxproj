@@ -1,0 +1,600 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		D5ADD54725CFE1DC00C904B6 /* BrewDoggyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5ADD54625CFE1DC00C904B6 /* BrewDoggyApp.swift */; };
+		D5ADD54925CFE1DC00C904B6 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5ADD54825CFE1DC00C904B6 /* ContentView.swift */; };
+		D5ADD54B25CFE1DF00C904B6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D5ADD54A25CFE1DF00C904B6 /* Assets.xcassets */; };
+		D5ADD54E25CFE1DF00C904B6 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D5ADD54D25CFE1DF00C904B6 /* Preview Assets.xcassets */; };
+		D5ADD55025CFE1DF00C904B6 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5ADD54F25CFE1DF00C904B6 /* Persistence.swift */; };
+		D5ADD55325CFE1DF00C904B6 /* BrewDoggy.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D5ADD55125CFE1DF00C904B6 /* BrewDoggy.xcdatamodeld */; };
+		D5ADD55E25CFE1DF00C904B6 /* BrewDoggyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5ADD55D25CFE1DF00C904B6 /* BrewDoggyTests.swift */; };
+		D5ADD56925CFE1DF00C904B6 /* BrewDoggyUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5ADD56825CFE1DF00C904B6 /* BrewDoggyUITests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		D5ADD55A25CFE1DF00C904B6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D5ADD53B25CFE1DC00C904B6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D5ADD54225CFE1DC00C904B6;
+			remoteInfo = BrewDoggy;
+		};
+		D5ADD56525CFE1DF00C904B6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D5ADD53B25CFE1DC00C904B6 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D5ADD54225CFE1DC00C904B6;
+			remoteInfo = BrewDoggy;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		D5ADD54325CFE1DC00C904B6 /* BrewDoggy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BrewDoggy.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D5ADD54625CFE1DC00C904B6 /* BrewDoggyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrewDoggyApp.swift; sourceTree = "<group>"; };
+		D5ADD54825CFE1DC00C904B6 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		D5ADD54A25CFE1DF00C904B6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		D5ADD54D25CFE1DF00C904B6 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		D5ADD54F25CFE1DF00C904B6 /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
+		D5ADD55225CFE1DF00C904B6 /* BrewDoggy.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = BrewDoggy.xcdatamodel; sourceTree = "<group>"; };
+		D5ADD55425CFE1DF00C904B6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D5ADD55925CFE1DF00C904B6 /* BrewDoggyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BrewDoggyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D5ADD55D25CFE1DF00C904B6 /* BrewDoggyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrewDoggyTests.swift; sourceTree = "<group>"; };
+		D5ADD55F25CFE1DF00C904B6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D5ADD56425CFE1DF00C904B6 /* BrewDoggyUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BrewDoggyUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		D5ADD56825CFE1DF00C904B6 /* BrewDoggyUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrewDoggyUITests.swift; sourceTree = "<group>"; };
+		D5ADD56A25CFE1DF00C904B6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		D5ADD54025CFE1DC00C904B6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D5ADD55625CFE1DF00C904B6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D5ADD56125CFE1DF00C904B6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		D5ADD53A25CFE1DC00C904B6 = {
+			isa = PBXGroup;
+			children = (
+				D5ADD54525CFE1DC00C904B6 /* BrewDoggy */,
+				D5ADD55C25CFE1DF00C904B6 /* BrewDoggyTests */,
+				D5ADD56725CFE1DF00C904B6 /* BrewDoggyUITests */,
+				D5ADD54425CFE1DC00C904B6 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		D5ADD54425CFE1DC00C904B6 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D5ADD54325CFE1DC00C904B6 /* BrewDoggy.app */,
+				D5ADD55925CFE1DF00C904B6 /* BrewDoggyTests.xctest */,
+				D5ADD56425CFE1DF00C904B6 /* BrewDoggyUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		D5ADD54525CFE1DC00C904B6 /* BrewDoggy */ = {
+			isa = PBXGroup;
+			children = (
+				D5ADD54625CFE1DC00C904B6 /* BrewDoggyApp.swift */,
+				D5ADD54825CFE1DC00C904B6 /* ContentView.swift */,
+				D5ADD54A25CFE1DF00C904B6 /* Assets.xcassets */,
+				D5ADD54F25CFE1DF00C904B6 /* Persistence.swift */,
+				D5ADD55425CFE1DF00C904B6 /* Info.plist */,
+				D5ADD55125CFE1DF00C904B6 /* BrewDoggy.xcdatamodeld */,
+				D5ADD54C25CFE1DF00C904B6 /* Preview Content */,
+			);
+			path = BrewDoggy;
+			sourceTree = "<group>";
+		};
+		D5ADD54C25CFE1DF00C904B6 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				D5ADD54D25CFE1DF00C904B6 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		D5ADD55C25CFE1DF00C904B6 /* BrewDoggyTests */ = {
+			isa = PBXGroup;
+			children = (
+				D5ADD55D25CFE1DF00C904B6 /* BrewDoggyTests.swift */,
+				D5ADD55F25CFE1DF00C904B6 /* Info.plist */,
+			);
+			path = BrewDoggyTests;
+			sourceTree = "<group>";
+		};
+		D5ADD56725CFE1DF00C904B6 /* BrewDoggyUITests */ = {
+			isa = PBXGroup;
+			children = (
+				D5ADD56825CFE1DF00C904B6 /* BrewDoggyUITests.swift */,
+				D5ADD56A25CFE1DF00C904B6 /* Info.plist */,
+			);
+			path = BrewDoggyUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		D5ADD54225CFE1DC00C904B6 /* BrewDoggy */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D5ADD56D25CFE1E000C904B6 /* Build configuration list for PBXNativeTarget "BrewDoggy" */;
+			buildPhases = (
+				D5ADD53F25CFE1DC00C904B6 /* Sources */,
+				D5ADD54025CFE1DC00C904B6 /* Frameworks */,
+				D5ADD54125CFE1DC00C904B6 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = BrewDoggy;
+			productName = BrewDoggy;
+			productReference = D5ADD54325CFE1DC00C904B6 /* BrewDoggy.app */;
+			productType = "com.apple.product-type.application";
+		};
+		D5ADD55825CFE1DF00C904B6 /* BrewDoggyTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D5ADD57025CFE1E000C904B6 /* Build configuration list for PBXNativeTarget "BrewDoggyTests" */;
+			buildPhases = (
+				D5ADD55525CFE1DF00C904B6 /* Sources */,
+				D5ADD55625CFE1DF00C904B6 /* Frameworks */,
+				D5ADD55725CFE1DF00C904B6 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D5ADD55B25CFE1DF00C904B6 /* PBXTargetDependency */,
+			);
+			name = BrewDoggyTests;
+			productName = BrewDoggyTests;
+			productReference = D5ADD55925CFE1DF00C904B6 /* BrewDoggyTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		D5ADD56325CFE1DF00C904B6 /* BrewDoggyUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D5ADD57325CFE1E000C904B6 /* Build configuration list for PBXNativeTarget "BrewDoggyUITests" */;
+			buildPhases = (
+				D5ADD56025CFE1DF00C904B6 /* Sources */,
+				D5ADD56125CFE1DF00C904B6 /* Frameworks */,
+				D5ADD56225CFE1DF00C904B6 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D5ADD56625CFE1DF00C904B6 /* PBXTargetDependency */,
+			);
+			name = BrewDoggyUITests;
+			productName = BrewDoggyUITests;
+			productReference = D5ADD56425CFE1DF00C904B6 /* BrewDoggyUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		D5ADD53B25CFE1DC00C904B6 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1240;
+				LastUpgradeCheck = 1240;
+				TargetAttributes = {
+					D5ADD54225CFE1DC00C904B6 = {
+						CreatedOnToolsVersion = 12.4;
+					};
+					D5ADD55825CFE1DF00C904B6 = {
+						CreatedOnToolsVersion = 12.4;
+						TestTargetID = D5ADD54225CFE1DC00C904B6;
+					};
+					D5ADD56325CFE1DF00C904B6 = {
+						CreatedOnToolsVersion = 12.4;
+						TestTargetID = D5ADD54225CFE1DC00C904B6;
+					};
+				};
+			};
+			buildConfigurationList = D5ADD53E25CFE1DC00C904B6 /* Build configuration list for PBXProject "BrewDoggy" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = D5ADD53A25CFE1DC00C904B6;
+			productRefGroup = D5ADD54425CFE1DC00C904B6 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				D5ADD54225CFE1DC00C904B6 /* BrewDoggy */,
+				D5ADD55825CFE1DF00C904B6 /* BrewDoggyTests */,
+				D5ADD56325CFE1DF00C904B6 /* BrewDoggyUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		D5ADD54125CFE1DC00C904B6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D5ADD54E25CFE1DF00C904B6 /* Preview Assets.xcassets in Resources */,
+				D5ADD54B25CFE1DF00C904B6 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D5ADD55725CFE1DF00C904B6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D5ADD56225CFE1DF00C904B6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		D5ADD53F25CFE1DC00C904B6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D5ADD55325CFE1DF00C904B6 /* BrewDoggy.xcdatamodeld in Sources */,
+				D5ADD55025CFE1DF00C904B6 /* Persistence.swift in Sources */,
+				D5ADD54925CFE1DC00C904B6 /* ContentView.swift in Sources */,
+				D5ADD54725CFE1DC00C904B6 /* BrewDoggyApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D5ADD55525CFE1DF00C904B6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D5ADD55E25CFE1DF00C904B6 /* BrewDoggyTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D5ADD56025CFE1DF00C904B6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D5ADD56925CFE1DF00C904B6 /* BrewDoggyUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		D5ADD55B25CFE1DF00C904B6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D5ADD54225CFE1DC00C904B6 /* BrewDoggy */;
+			targetProxy = D5ADD55A25CFE1DF00C904B6 /* PBXContainerItemProxy */;
+		};
+		D5ADD56625CFE1DF00C904B6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D5ADD54225CFE1DC00C904B6 /* BrewDoggy */;
+			targetProxy = D5ADD56525CFE1DF00C904B6 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		D5ADD56B25CFE1E000C904B6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		D5ADD56C25CFE1E000C904B6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.4;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		D5ADD56E25CFE1E000C904B6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_ASSET_PATHS = "\"BrewDoggy/Preview Content\"";
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = BrewDoggy/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = se.ctescape.BrewDoggy;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		D5ADD56F25CFE1E000C904B6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_ASSET_PATHS = "\"BrewDoggy/Preview Content\"";
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = BrewDoggy/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = se.ctescape.BrewDoggy;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		D5ADD57125CFE1E000C904B6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = BrewDoggyTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = se.ctescape.BrewDoggyTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BrewDoggy.app/BrewDoggy";
+			};
+			name = Debug;
+		};
+		D5ADD57225CFE1E000C904B6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = BrewDoggyTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = se.ctescape.BrewDoggyTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/BrewDoggy.app/BrewDoggy";
+			};
+			name = Release;
+		};
+		D5ADD57425CFE1E000C904B6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = BrewDoggyUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = se.ctescape.BrewDoggyUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = BrewDoggy;
+			};
+			name = Debug;
+		};
+		D5ADD57525CFE1E000C904B6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = BrewDoggyUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = se.ctescape.BrewDoggyUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = BrewDoggy;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		D5ADD53E25CFE1DC00C904B6 /* Build configuration list for PBXProject "BrewDoggy" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D5ADD56B25CFE1E000C904B6 /* Debug */,
+				D5ADD56C25CFE1E000C904B6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D5ADD56D25CFE1E000C904B6 /* Build configuration list for PBXNativeTarget "BrewDoggy" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D5ADD56E25CFE1E000C904B6 /* Debug */,
+				D5ADD56F25CFE1E000C904B6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D5ADD57025CFE1E000C904B6 /* Build configuration list for PBXNativeTarget "BrewDoggyTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D5ADD57125CFE1E000C904B6 /* Debug */,
+				D5ADD57225CFE1E000C904B6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D5ADD57325CFE1E000C904B6 /* Build configuration list for PBXNativeTarget "BrewDoggyUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D5ADD57425CFE1E000C904B6 /* Debug */,
+				D5ADD57525CFE1E000C904B6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		D5ADD55125CFE1DF00C904B6 /* BrewDoggy.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				D5ADD55225CFE1DF00C904B6 /* BrewDoggy.xcdatamodel */,
+			);
+			currentVersion = D5ADD55225CFE1DF00C904B6 /* BrewDoggy.xcdatamodel */;
+			path = BrewDoggy.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = D5ADD53B25CFE1DC00C904B6 /* Project object */;
+}
