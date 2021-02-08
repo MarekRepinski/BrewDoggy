@@ -12,7 +12,7 @@
         <attribute name="isFavorite" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
         <attribute name="name" attributeType="String"/>
         <attribute name="picture" optional="YES" attributeType="String"/>
-        <attribute name="timestamp" attributeType="Date" defaultDateTimeInterval="634382580" usesScalarValueType="NO"/>
+        <attribute name="timestamp" attributeType="Date" defaultDateTimeInterval="-161590980" usesScalarValueType="NO"/>
         <relationship name="recipeToBrewType" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="BrewType" inverseName="brewTypeToRecipe" inverseEntity="BrewType"/>
         <relationship name="recipeToRecipeItem" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="RecipeItem" inverseName="recipeItemToRecipe" inverseEntity="RecipeItem"/>
     </entity>
@@ -25,8 +25,8 @@
         <relationship name="recipeItemToRecipe" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Recipe" inverseName="recipeToRecipeItem" inverseEntity="Recipe"/>
     </entity>
     <elements>
-        <element name="Recipe" positionX="-63" positionY="-18" width="128" height="149"/>
         <element name="BrewType" positionX="-63" positionY="18" width="128" height="89"/>
+        <element name="Recipe" positionX="-63" positionY="-18" width="128" height="149"/>
         <element name="RecipeItem" positionX="-45" positionY="54" width="128" height="119"/>
     </elements>
 </model>
