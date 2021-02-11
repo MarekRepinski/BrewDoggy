@@ -16,6 +16,11 @@
 		D5ADD55E25CFE1DF00C904B6 /* BrewDoggyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5ADD55D25CFE1DF00C904B6 /* BrewDoggyTests.swift */; };
 		D5ADD56925CFE1DF00C904B6 /* BrewDoggyUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5ADD56825CFE1DF00C904B6 /* BrewDoggyUITests.swift */; };
 		D5ADD57F25D183AF00C904B6 /* AddRecipeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5ADD57E25D183AF00C904B6 /* AddRecipeView.swift */; };
+		D5ADD58425D18CD200C904B6 /* RecipeDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5ADD58325D18CD200C904B6 /* RecipeDetailView.swift */; };
+		D5ADD58925D1932200C904B6 /* RecipeListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5ADD58825D1932200C904B6 /* RecipeListView.swift */; };
+		D5ADD5D625D1C1AD00C904B6 /* RecipeImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5ADD5D525D1C1AD00C904B6 /* RecipeImage.swift */; };
+		D5ADD62A25D3D7C300C904B6 /* FavoriteButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5ADD62925D3D7C300C904B6 /* FavoriteButton.swift */; };
+		D5ADD65225D476B000C904B6 /* MockData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5ADD65125D476B000C904B6 /* MockData.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -52,6 +57,20 @@
 		D5ADD56A25CFE1DF00C904B6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D5ADD57A25D1801C00C904B6 /* BrewDoggy 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BrewDoggy 2.xcdatamodel"; sourceTree = "<group>"; };
 		D5ADD57E25D183AF00C904B6 /* AddRecipeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddRecipeView.swift; sourceTree = "<group>"; };
+		D5ADD58325D18CD200C904B6 /* RecipeDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeDetailView.swift; sourceTree = "<group>"; };
+		D5ADD58825D1932200C904B6 /* RecipeListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeListView.swift; sourceTree = "<group>"; };
+		D5ADD58D25D19AC500C904B6 /* BrewDoggy 3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BrewDoggy 3.xcdatamodel"; sourceTree = "<group>"; };
+		D5ADD5CD25D1A31B00C904B6 /* BrewDoggy 4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BrewDoggy 4.xcdatamodel"; sourceTree = "<group>"; };
+		D5ADD5CE25D1A33B00C904B6 /* BrewDoggy 5.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BrewDoggy 5.xcdatamodel"; sourceTree = "<group>"; };
+		D5ADD5CF25D1A35D00C904B6 /* BrewDoggy 6.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BrewDoggy 6.xcdatamodel"; sourceTree = "<group>"; };
+		D5ADD5D025D1A6CF00C904B6 /* BrewDoggy 7.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BrewDoggy 7.xcdatamodel"; sourceTree = "<group>"; };
+		D5ADD5D525D1C1AD00C904B6 /* RecipeImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecipeImage.swift; sourceTree = "<group>"; };
+		D5ADD5DD25D1C97B00C904B6 /* BrewDoggy 8.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BrewDoggy 8.xcdatamodel"; sourceTree = "<group>"; };
+		D5ADD62925D3D7C300C904B6 /* FavoriteButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteButton.swift; sourceTree = "<group>"; };
+		D5ADD63125D46D5100C904B6 /* BrewDoggy 9.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BrewDoggy 9.xcdatamodel"; sourceTree = "<group>"; };
+		D5ADD63525D46E4F00C904B6 /* BrewDoggy 10.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BrewDoggy 10.xcdatamodel"; sourceTree = "<group>"; };
+		D5ADD65125D476B000C904B6 /* MockData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockData.swift; sourceTree = "<group>"; };
+		D5ADD69F25D556A800C904B6 /* BrewDoggy 11.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BrewDoggy 11.xcdatamodel"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,9 +121,8 @@
 		D5ADD54525CFE1DC00C904B6 /* BrewDoggy */ = {
 			isa = PBXGroup;
 			children = (
-				D5ADD57925D17F6B00C904B6 /* Recipe */,
+				D5ADD5D425D1C17B00C904B6 /* Views */,
 				D5ADD54625CFE1DC00C904B6 /* BrewDoggyApp.swift */,
-				D5ADD54825CFE1DC00C904B6 /* ContentView.swift */,
 				D5ADD54A25CFE1DF00C904B6 /* Assets.xcassets */,
 				D5ADD54F25CFE1DF00C904B6 /* Persistence.swift */,
 				D5ADD55425CFE1DF00C904B6 /* Info.plist */,
@@ -144,8 +162,30 @@
 			isa = PBXGroup;
 			children = (
 				D5ADD57E25D183AF00C904B6 /* AddRecipeView.swift */,
+				D5ADD58325D18CD200C904B6 /* RecipeDetailView.swift */,
+				D5ADD58825D1932200C904B6 /* RecipeListView.swift */,
+				D5ADD5D525D1C1AD00C904B6 /* RecipeImage.swift */,
 			);
 			path = Recipe;
+			sourceTree = "<group>";
+		};
+		D5ADD5D425D1C17B00C904B6 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				D5ADD62825D3D7A800C904B6 /* Helpers */,
+				D5ADD54825CFE1DC00C904B6 /* ContentView.swift */,
+				D5ADD57925D17F6B00C904B6 /* Recipe */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		D5ADD62825D3D7A800C904B6 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				D5ADD62925D3D7C300C904B6 /* FavoriteButton.swift */,
+				D5ADD65125D476B000C904B6 /* MockData.swift */,
+			);
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -278,10 +318,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				D5ADD55325CFE1DF00C904B6 /* BrewDoggy.xcdatamodeld in Sources */,
+				D5ADD58925D1932200C904B6 /* RecipeListView.swift in Sources */,
+				D5ADD58425D18CD200C904B6 /* RecipeDetailView.swift in Sources */,
+				D5ADD62A25D3D7C300C904B6 /* FavoriteButton.swift in Sources */,
 				D5ADD55025CFE1DF00C904B6 /* Persistence.swift in Sources */,
 				D5ADD54925CFE1DC00C904B6 /* ContentView.swift in Sources */,
 				D5ADD54725CFE1DC00C904B6 /* BrewDoggyApp.swift in Sources */,
 				D5ADD57F25D183AF00C904B6 /* AddRecipeView.swift in Sources */,
+				D5ADD5D625D1C1AD00C904B6 /* RecipeImage.swift in Sources */,
+				D5ADD65225D476B000C904B6 /* MockData.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -600,10 +645,19 @@
 		D5ADD55125CFE1DF00C904B6 /* BrewDoggy.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				D5ADD69F25D556A800C904B6 /* BrewDoggy 11.xcdatamodel */,
+				D5ADD63525D46E4F00C904B6 /* BrewDoggy 10.xcdatamodel */,
+				D5ADD63125D46D5100C904B6 /* BrewDoggy 9.xcdatamodel */,
+				D5ADD5DD25D1C97B00C904B6 /* BrewDoggy 8.xcdatamodel */,
+				D5ADD5D025D1A6CF00C904B6 /* BrewDoggy 7.xcdatamodel */,
+				D5ADD5CF25D1A35D00C904B6 /* BrewDoggy 6.xcdatamodel */,
+				D5ADD5CE25D1A33B00C904B6 /* BrewDoggy 5.xcdatamodel */,
+				D5ADD5CD25D1A31B00C904B6 /* BrewDoggy 4.xcdatamodel */,
+				D5ADD58D25D19AC500C904B6 /* BrewDoggy 3.xcdatamodel */,
 				D5ADD57A25D1801C00C904B6 /* BrewDoggy 2.xcdatamodel */,
 				D5ADD55225CFE1DF00C904B6 /* BrewDoggy.xcdatamodel */,
 			);
-			currentVersion = D5ADD57A25D1801C00C904B6 /* BrewDoggy 2.xcdatamodel */;
+			currentVersion = D5ADD63125D46D5100C904B6 /* BrewDoggy 9.xcdatamodel */;
 			path = BrewDoggy.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

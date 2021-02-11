@@ -11,6 +11,7 @@ struct PersistenceController {
     static let shared = PersistenceController()
     
     static var preview: PersistenceController = {
+        //Special for preview
         let result = PersistenceController(inMemory: true)
         let viewContext = result.container.viewContext
 //        for _ in 0..<10 {

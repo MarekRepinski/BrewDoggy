@@ -9,6 +9,7 @@ import SwiftUI
 
 struct AddRecipeView: View {
     @Environment(\.managedObjectContext) private var viewContext
+    @Environment(\.presentationMode) var presentationMode
     @State private var name = ""
     @State private var picture = ""
     @State private var instructions = ""
@@ -33,6 +34,8 @@ struct AddRecipeView: View {
                         newRecipe.timestamp = Date()
                         
                         try? self.viewContext.save()
+                        
+                        self.presentationMode.wrappedValue.dismiss()
                     }
                 }
             }
