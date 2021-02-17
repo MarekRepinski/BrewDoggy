@@ -97,6 +97,7 @@ struct RecipeDetailView: View {
                 }
                 setUpIngrediens()
                 changeMeasurement(type: recipe.recipeToUnitType!.unitTypeName!)
+                selectedType = recipe.recipeToUnitType!.unitTypeName!
             }
             .padding(.horizontal, 15)
             .padding(.bottom, 15)
