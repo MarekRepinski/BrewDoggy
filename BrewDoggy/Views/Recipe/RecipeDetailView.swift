@@ -15,11 +15,18 @@ struct RecipeDetailView: View {
     private var brewTypes: FetchedResults<BrewType>
     @FetchRequest(entity: RecipeItem.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \RecipeItem.sortId, ascending: true)], animation: .default)
     private var recipeItems: FetchedResults<RecipeItem>
-    
+    @FetchRequest(entity: UnitType.entity(),
+                  sortDescriptors: [NSSortDescriptor(keyPath: \UnitType.unitTypeSort, ascending: true)],
+                  predicate: NSPredicate(format: "unitTypeSort > 0"), animation: .default)
+    private var unitTypes: FetchedResults<UnitType>
+
     @State private var currentItems: [ItemRow] = []
     @State private var metItems = [ItemRow]()
     @State private var impItems = [ItemRow]()
     @State private var usItems = [ItemRow]()
+    @State private var pickerVisible = false
+    @State private var selectedType = "Metric"
+    @State private var types: [String] = []
     var recipe: Recipe
     
     var recipeIndex: Int {
@@ -54,17 +61,42 @@ struct RecipeDetailView: View {
 
             Divider()
 
-            Text("Recipe:")
-                .font(.title2)
-                .bold()
+            HStack {
+                Spacer()
+
+                Text("Recipe:")
+                    .font(.title2)
+                    .bold()
+                
+                Spacer()
+                
+                Button(selectedType){
+                    self.pickerVisible.toggle()
+                }
+            }.padding(.horizontal, 15)
+            
+            if pickerVisible {
+                Picker("", selection: $selectedType) {
+                    ForEach(types, id: \.self) {
+                        Text($0)
+                    }
+                }
+                .onTapGesture {
+                    self.pickerVisible.toggle()
+                    changeMeasurement(type: selectedType)
+                }
+            }
 
             VStack(alignment: .leading, spacing: 5) {
                 ForEach(currentItems) {rI in
                     RecipeItemView(item: rI.name, amount: rI.amount, measure: rI.unit)
                 }
             }.onAppear() {
+                for ut in unitTypes {
+                    types.append(ut.unitTypeName!)
+                }
                 setUpIngrediens()
-                currentItems = metItems
+                changeMeasurement(type: recipe.recipeToUnitType!.unitTypeName!)
             }
             .padding(.horizontal, 15)
             .padding(.bottom, 15)
@@ -90,9 +122,23 @@ struct RecipeDetailView: View {
         )
     }
     
+    private func changeMeasurement(type: String) {
+        switch type {
+        case "Metric":
+            currentItems = metItems
+        case "Imperial":
+            currentItems = impItems
+        case "US":
+            currentItems = usItems
+        default:
+            currentItems = metItems
+        }
+    }
+    
     private func convertAmount(convStr: String, convRatio: Double) -> String {
         let rc = convStr.replacingOccurrences(of: ",", with: ".")
-        if let decimalValue = Double(rc) {
+        if var decimalValue = Double(rc) {
+            decimalValue *= convRatio
             return String(format: "%.2f", decimalValue)
         }
         return "*"
