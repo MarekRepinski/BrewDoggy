@@ -9,7 +9,7 @@ import SwiftUI
 
 struct AddRecipeView: View {
     @Environment(\.managedObjectContext) private var viewContext
-    @Environment(\.presentationMode) var presentationMode
+//    @Environment(\.presentationMode) var presentationMode
     @State private var name = ""
     @State private var picture = ""
     @State private var instructions = ""
@@ -26,6 +26,9 @@ struct AddRecipeView: View {
                     TextField("Instructions", text: $instructions)
                 }
                 Section {
+                    
+                }
+                Section {
                     Button("Save") {
                         let newRecipe = Recipe(context: viewContext)
                         newRecipe.name = self.name
@@ -35,7 +38,7 @@ struct AddRecipeView: View {
                         
                         try? self.viewContext.save()
                         
-                        self.presentationMode.wrappedValue.dismiss()
+//                        self.presentationMode.wrappedValue.dismiss()
                     }
                 }
             }

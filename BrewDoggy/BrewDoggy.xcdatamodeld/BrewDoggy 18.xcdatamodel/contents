@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17709" systemVersion="20D74" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="BrewType" representedClassName="BrewType" syncable="YES" codeGenerationType="class">
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="picture" optional="YES" attributeType="String"/>
+        <attribute name="timestamp" attributeType="Date" defaultDateTimeInterval="-161590980" usesScalarValueType="NO"/>
+        <attribute name="typeDescription" optional="YES" attributeType="String"/>
+        <relationship name="brewTypeToRecipe" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Recipe" inverseName="recipeToBrewType" inverseEntity="Recipe"/>
+    </entity>
+    <entity name="Recipe" representedClassName="Recipe" syncable="YES" codeGenerationType="class">
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="instructions" optional="YES" attributeType="String"/>
+        <attribute name="isFavorite" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
+        <attribute name="name" attributeType="String"/>
+        <attribute name="picture" optional="YES" attributeType="String"/>
+        <attribute name="timestamp" attributeType="Date" defaultDateTimeInterval="-161590980" usesScalarValueType="NO"/>
+        <relationship name="recipeToBrewType" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="BrewType" inverseName="brewTypeToRecipe" inverseEntity="BrewType"/>
+        <relationship name="recipeToRecipeItem" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="RecipeItem" inverseName="recipeItemToRecipe" inverseEntity="RecipeItem"/>
+        <relationship name="recipeToUnitType" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UnitType" inverseName="unitTypeToRecipe" inverseEntity="UnitType"/>
+    </entity>
+    <entity name="RecipeItem" representedClassName="RecipeItem" syncable="YES" codeGenerationType="class">
+        <attribute name="amount" attributeType="String"/>
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="itemDescription" attributeType="String"/>
+        <attribute name="sortId" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="timestamp" attributeType="Date" defaultDateTimeInterval="-161590980" usesScalarValueType="NO"/>
+        <relationship name="recipeItemToRecipe" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Recipe" inverseName="recipeToRecipeItem" inverseEntity="Recipe"/>
+        <relationship name="recipeItemToUnit" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Unit" inverseName="unitToRecipeItem" inverseEntity="Unit"/>
+    </entity>
+    <entity name="Unit" representedClassName="Unit" syncable="YES" codeGenerationType="class">
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="timestamp" attributeType="Date" defaultDateTimeInterval="-161590980" usesScalarValueType="NO"/>
+        <attribute name="toImp" attributeType="Decimal" defaultValueString="1"/>
+        <attribute name="toImpStr" attributeType="String" defaultValueString=""/>
+        <attribute name="toMet" attributeType="Decimal" defaultValueString="1"/>
+        <attribute name="toMetStr" attributeType="String" defaultValueString=""/>
+        <attribute name="toUS" attributeType="Decimal" defaultValueString="1"/>
+        <attribute name="toUSStr" attributeType="String" defaultValueString=""/>
+        <attribute name="unitAbbreviation" attributeType="String"/>
+        <attribute name="unitDescription" optional="YES" attributeType="String"/>
+        <relationship name="unitToRecipeItem" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="RecipeItem" inverseName="recipeItemToUnit" inverseEntity="RecipeItem"/>
+        <relationship name="unitToUnitType" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UnitType" inverseName="unitTypeToUnit" inverseEntity="UnitType"/>
+    </entity>
+    <entity name="UnitType" representedClassName="UnitType" syncable="YES" codeGenerationType="class">
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="timestamp" attributeType="Date" defaultDateTimeInterval="-161590980" usesScalarValueType="NO"/>
+        <attribute name="unitTypeName" attributeType="String"/>
+        <attribute name="unitTypePic" optional="YES" attributeType="String"/>
+        <attribute name="unitTypeSort" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="unitTypeToRecipe" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Recipe" inverseName="recipeToUnitType" inverseEntity="Recipe"/>
+        <relationship name="unitTypeToUnit" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Unit" inverseName="unitToUnitType" inverseEntity="Unit"/>
+    </entity>
+    <elements>
+        <element name="BrewType" positionX="-63" positionY="18" width="128" height="104"/>
+        <element name="Recipe" positionX="-63" positionY="-18" width="128" height="164"/>
+        <element name="RecipeItem" positionX="-45" positionY="54" width="128" height="134"/>
+        <element name="Unit" positionX="-54" positionY="81" width="128" height="209"/>
+        <element name="UnitType" positionX="-45" positionY="108" width="128" height="134"/>
+    </elements>
+</model>

@@ -14,7 +14,7 @@ struct RecipeListView: View {
     @FetchRequest(entity: BrewType.entity(), sortDescriptors: [], animation: .default)
     private var brewTypes: FetchedResults<BrewType>
 
-    @State private var showingAddScreen = false
+//    @State private var showingAddScreen = false
     @State private var showFavoritesOnly = false
 
     var filteredRecipies: [Recipe] {
@@ -47,6 +47,7 @@ struct RecipeListView: View {
                         }
                     }
                 }
+                .onDelete(perform: deleteRecipe)
             }
             .onAppear() {
                 if brewTypes.count == 0 {
@@ -55,16 +56,18 @@ struct RecipeListView: View {
             }
             .navigationBarTitle("Your Recipies:")
             .navigationBarItems(trailing:
-                Button(action: {
-                    self.showingAddScreen.toggle()
-                }) {
-                    Image(systemName: "plus")
+                NavigationLink(destination: AddRecipeView().environment(\.managedObjectContext, viewContext)) {
+                    Text("Add")
                 }
             )
-            .sheet(isPresented: $showingAddScreen) {
-                AddRecipeView().environment(\.managedObjectContext, viewContext)
-            }
+//            .sheet(isPresented: $showingAddScreen) {
+//                AddRecipeView().environment(\.managedObjectContext, viewContext)
+//            }
         }
+    }
+    
+    private func deleteRecipe(offsets: IndexSet) {
+        print("Recipe deleted")
     }
 }
 

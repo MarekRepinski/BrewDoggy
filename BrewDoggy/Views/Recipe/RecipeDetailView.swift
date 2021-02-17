@@ -13,20 +13,26 @@ struct RecipeDetailView: View {
     private var recipies: FetchedResults<Recipe>
     @FetchRequest(entity: BrewType.entity(), sortDescriptors: [], animation: .default)
     private var brewTypes: FetchedResults<BrewType>
-    @FetchRequest(entity: RecipeItem.entity(), sortDescriptors: [], animation: .default)
+    @FetchRequest(entity: RecipeItem.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \RecipeItem.sortId, ascending: true)], animation: .default)
     private var recipeItems: FetchedResults<RecipeItem>
+    
+    @State private var currentItems: [ItemRow] = []
+    @State private var metItems = [ItemRow]()
+    @State private var impItems = [ItemRow]()
+    @State private var usItems = [ItemRow]()
     var recipe: Recipe
     
     var recipeIndex: Int {
         recipies.firstIndex(where: { $0.id == recipe.id})!
     }
     
-    var currentItems: [RecipeItem] {
-        recipeItems.filter { rI in
-            (rI.recipeItemToRecipe == recipe)
+    var filteredRecipeItems: [RecipeItem] {
+        recipeItems.filter { r in
+            (r.recipeItemToRecipe == recipe)
         }
     }
     
+
     var body: some View {
         ScrollView {
             RecipeImage(image: Image(recipe.picture!))
@@ -54,8 +60,11 @@ struct RecipeDetailView: View {
 
             VStack(alignment: .leading, spacing: 5) {
                 ForEach(currentItems) {rI in
-                    RecipeItemView(item: rI.itemDescription!, amount: rI.amount!, measure: rI.measurement!)
+                    RecipeItemView(item: rI.name, amount: rI.amount, measure: rI.unit)
                 }
+            }.onAppear() {
+                setUpIngrediens()
+                currentItems = metItems
             }
             .padding(.horizontal, 15)
             .padding(.bottom, 15)
@@ -74,6 +83,19 @@ struct RecipeDetailView: View {
         }
         .navigationTitle(recipe.name!)
         .navigationBarTitleDisplayMode(.inline)
+        .navigationBarItems(trailing:
+                NavigationLink(destination: EditRecipeView(recipe: recipe)) {
+                    Text("Edit")
+                }
+        )
+    }
+    
+    private func convertAmount(convStr: String, convRatio: Double) -> String {
+        let rc = convStr.replacingOccurrences(of: ",", with: ".")
+        if let decimalValue = Double(rc) {
+            return String(format: "%.2f", decimalValue)
+        }
+        return "*"
     }
 
     private func toggle(r: Recipe) {
@@ -84,6 +106,72 @@ struct RecipeDetailView: View {
         } catch {
             let nsError = error as NSError
             fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
+        }
+    }
+    
+    private func setUpIngrediens() {
+        var metConvErr = false
+        var impConvErr = false
+        var usConvErr = false
+
+        for rI in filteredRecipeItems {
+            switch rI.recipeItemToUnit!.unitToUnitType!.unitTypeName {
+            case "Metric":
+                metItems.append(ItemRow(name: rI.itemDescription!, amount: rI.amount!, unit: rI.recipeItemToUnit!.unitAbbreviation!))
+                
+                var amount = convertAmount(convStr: rI.amount!, convRatio: Double(truncating: rI.recipeItemToUnit!.toImp!))
+                if amount == "*" {
+                    impConvErr = true
+                }
+                impItems.append(ItemRow(name: rI.itemDescription!, amount: amount, unit: rI.recipeItemToUnit!.toImpStr!))
+                
+                amount = convertAmount(convStr: rI.amount!, convRatio: Double(truncating: rI.recipeItemToUnit!.toUS!))
+                if amount == "*" {
+                    usConvErr = true
+                }
+                usItems.append(ItemRow(name: rI.itemDescription!, amount: amount, unit: rI.recipeItemToUnit!.toUSStr!))
+            case "Imperial":
+                impItems.append(ItemRow(name: rI.itemDescription!, amount: rI.amount!, unit: rI.recipeItemToUnit!.unitAbbreviation!))
+                
+                var amount = convertAmount(convStr: rI.amount!, convRatio: Double(truncating: rI.recipeItemToUnit!.toMet!))
+                if amount == "*" {
+                    metConvErr = true
+                }
+                metItems.append(ItemRow(name: rI.itemDescription!, amount: amount, unit: rI.recipeItemToUnit!.toMetStr!))
+                
+                amount = convertAmount(convStr: rI.amount!, convRatio: Double(truncating: rI.recipeItemToUnit!.toUS!))
+                if amount == "*" {
+                    usConvErr = true
+                }
+                usItems.append(ItemRow(name: rI.itemDescription!, amount: amount, unit: rI.recipeItemToUnit!.toUSStr!))
+            case "US":
+                usItems.append(ItemRow(name: rI.itemDescription!, amount: rI.amount!, unit: rI.recipeItemToUnit!.unitAbbreviation!))
+
+                var amount = convertAmount(convStr: rI.amount!, convRatio: Double(truncating: rI.recipeItemToUnit!.toMet!))
+                if amount == "*" {
+                    metConvErr = true
+                }
+                metItems.append(ItemRow(name: rI.itemDescription!, amount: amount, unit: rI.recipeItemToUnit!.toMetStr!))
+                
+                amount = convertAmount(convStr: rI.amount!, convRatio: Double(truncating: rI.recipeItemToUnit!.toImp!))
+                if amount == "*" {
+                    impConvErr = true
+                }
+                impItems.append(ItemRow(name: rI.itemDescription!, amount: amount, unit: rI.recipeItemToUnit!.toImpStr!))
+            default:
+                metItems.append(ItemRow(name: rI.itemDescription!, amount: rI.amount!, unit: rI.recipeItemToUnit!.unitAbbreviation!))
+                impItems.append(ItemRow(name: rI.itemDescription!, amount: rI.amount!, unit: rI.recipeItemToUnit!.unitAbbreviation!))
+                usItems.append(ItemRow(name: rI.itemDescription!, amount: rI.amount!, unit: rI.recipeItemToUnit!.unitAbbreviation!))
+            }
+        }
+        if metConvErr {
+            metItems.append(ItemRow(name: "* - cant convert. pls use decimal-format", amount: "", unit: ""))
+        }
+        if impConvErr {
+            impItems.append(ItemRow(name: "* - cant convert. pls use decimal-format", amount: "", unit: ""))
+        }
+        if usConvErr {
+            usItems.append(ItemRow(name: "* - cant convert. pls use decimal-format", amount: "", unit: ""))
         }
     }
 }
@@ -101,6 +189,13 @@ struct RecipeItemView: View {
         }
         .padding(.horizontal, 50)
     }
+}
+
+struct ItemRow: Identifiable {
+    var id = UUID()
+    var name: String
+    var amount: String
+    var unit: String
 }
 
 //struct RecipeDetailView_Previews: PreviewProvider {
