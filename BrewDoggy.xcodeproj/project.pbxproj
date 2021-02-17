@@ -43,6 +43,8 @@
 
 /* Begin PBXFileReference section */
 		D563C17C25DAA9E100A37003 /* BrewDoggy 13.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BrewDoggy 13.xcdatamodel"; sourceTree = "<group>"; };
+		D57B46F025DDC16D00E20036 /* BrewDoggy 20.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BrewDoggy 20.xcdatamodel"; sourceTree = "<group>"; };
+		D57B46F425DDC6DE00E20036 /* BrewDoggy 21.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BrewDoggy 21.xcdatamodel"; sourceTree = "<group>"; };
 		D5ACC84E25DC627E0056E276 /* BrewDoggy 14.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BrewDoggy 14.xcdatamodel"; sourceTree = "<group>"; };
 		D5ACC85525DC6CF60056E276 /* BrewDoggy 15.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BrewDoggy 15.xcdatamodel"; sourceTree = "<group>"; };
 		D5ACC85925DCF16B0056E276 /* BrewDoggy 16.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BrewDoggy 16.xcdatamodel"; sourceTree = "<group>"; };
@@ -657,6 +659,8 @@
 		D5ADD55125CFE1DF00C904B6 /* BrewDoggy.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				D57B46F425DDC6DE00E20036 /* BrewDoggy 21.xcdatamodel */,
+				D57B46F025DDC16D00E20036 /* BrewDoggy 20.xcdatamodel */,
 				D5ACC85C25DCF3300056E276 /* BrewDoggy 19.xcdatamodel */,
 				D5ACC85B25DCF20B0056E276 /* BrewDoggy 18.xcdatamodel */,
 				D5ACC85A25DCF1E50056E276 /* BrewDoggy 17.xcdatamodel */,
@@ -677,7 +681,7 @@
 				D5ADD57A25D1801C00C904B6 /* BrewDoggy 2.xcdatamodel */,
 				D5ADD55225CFE1DF00C904B6 /* BrewDoggy.xcdatamodel */,
 			);
-			currentVersion = D5ACC85B25DCF20B0056E276 /* BrewDoggy 18.xcdatamodel */;
+			currentVersion = D57B46F425DDC6DE00E20036 /* BrewDoggy 21.xcdatamodel */;
 			path = BrewDoggy.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

@@ -14,7 +14,6 @@ struct RecipeListView: View {
     @FetchRequest(entity: BrewType.entity(), sortDescriptors: [], animation: .default)
     private var brewTypes: FetchedResults<BrewType>
 
-//    @State private var showingAddScreen = false
     @State private var showFavoritesOnly = false
 
     var filteredRecipies: [Recipe] {
@@ -32,7 +31,7 @@ struct RecipeListView: View {
                 ForEach(filteredRecipies) { recipe in
                     NavigationLink(destination: RecipeDetailView(recipe: recipe)) {
                         HStack {
-                            Image(recipe.picture!)
+                            Image(uiImage: UIImage(data: recipe.picture!)!)
                                 .resizable()
                                 .frame(width: 50, height: 50)
                             

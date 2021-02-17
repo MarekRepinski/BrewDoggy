@@ -8,10 +8,10 @@
 import SwiftUI
 
 struct RecipeImage: View {
-    var image: Image
+    var image: UIImage
     
     var body: some View {
-        image
+        Image(uiImage: image)
             .resizable()
             .scaledToFit()
             .clipShape(Capsule())
@@ -21,9 +21,9 @@ struct RecipeImage: View {
     }
 }
 
-struct RecipeImage_Previews: PreviewProvider {
-    static var previews: some View {
-        RecipeImage(image: Image("beerStandard"))
-    }
-}
+//struct RecipeImage_Previews: PreviewProvider {
+//    static var previews: some View {
+//        RecipeImage(image: Image("beerStandard"))
+//    }
+//}
 

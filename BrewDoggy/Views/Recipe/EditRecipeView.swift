@@ -91,7 +91,7 @@ struct EditRecipeView: View {
         if let r = recipe {
             name = r.name!
             title = "Edit recipe"
-            picture = r.picture!
+//            picture = r.picture!
             instructions = r.instructions!
             selectedType = r.recipeToBrewType!.typeDescription!
             recipeIndex = recipies.firstIndex(where: { $0.id == r.id})!

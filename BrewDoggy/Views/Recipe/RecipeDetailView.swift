@@ -42,7 +42,9 @@ struct RecipeDetailView: View {
 
     var body: some View {
         ScrollView {
-            RecipeImage(image: Image(recipe.picture!))
+            let test = UIImage(data: recipe.picture!)
+            
+            RecipeImage(image: test!)
                 .padding(.top, 20)
 
             HStack {
@@ -74,13 +76,14 @@ struct RecipeDetailView: View {
                     self.pickerVisible.toggle()
                 }
             }.padding(.horizontal, 15)
-            
+
             if pickerVisible {
                 Picker("", selection: $selectedType) {
                     ForEach(types, id: \.self) {
                         Text($0)
                     }
                 }
+                .pickerStyle(InlinePickerStyle())
                 .onTapGesture {
                     self.pickerVisible.toggle()
                     changeMeasurement(type: selectedType)
@@ -92,6 +95,7 @@ struct RecipeDetailView: View {
                     RecipeItemView(item: rI.name, amount: rI.amount, measure: rI.unit)
                 }
             }.onAppear() {
+                types.removeAll()
                 for ut in unitTypes {
                     types.append(ut.unitTypeName!)
                 }
@@ -160,6 +164,10 @@ struct RecipeDetailView: View {
         var metConvErr = false
         var impConvErr = false
         var usConvErr = false
+        
+        metItems.removeAll()
+        impItems.removeAll()
+        usItems.removeAll()
 
         for rI in filteredRecipeItems {
             switch rI.recipeItemToUnit!.unitToUnitType!.unitTypeName {

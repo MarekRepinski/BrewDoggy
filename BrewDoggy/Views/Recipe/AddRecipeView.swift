@@ -32,7 +32,7 @@ struct AddRecipeView: View {
                     Button("Save") {
                         let newRecipe = Recipe(context: viewContext)
                         newRecipe.name = self.name
-                        newRecipe.picture = self.picture
+//                        newRecipe.picture = self.picture
                         newRecipe.instructions = self.instructions
                         newRecipe.timestamp = Date()
                         
