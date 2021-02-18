@@ -42,9 +42,7 @@ struct RecipeDetailView: View {
 
     var body: some View {
         ScrollView {
-            let test = UIImage(data: recipe.picture!)
-            
-            RecipeImage(image: test!)
+            RecipeImage(image: UIImage(data: recipe.picture!)!)
                 .padding(.top, 20)
 
             HStack {

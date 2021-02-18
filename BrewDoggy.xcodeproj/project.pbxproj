@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D56B3D6E25DEAC9200DBE34C /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = D56B3D6D25DEAC9200DBE34C /* ImagePicker.swift */; };
 		D5ADD54725CFE1DC00C904B6 /* BrewDoggyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5ADD54625CFE1DC00C904B6 /* BrewDoggyApp.swift */; };
 		D5ADD54925CFE1DC00C904B6 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5ADD54825CFE1DC00C904B6 /* ContentView.swift */; };
 		D5ADD54B25CFE1DF00C904B6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D5ADD54A25CFE1DF00C904B6 /* Assets.xcassets */; };
@@ -43,6 +44,7 @@
 
 /* Begin PBXFileReference section */
 		D563C17C25DAA9E100A37003 /* BrewDoggy 13.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BrewDoggy 13.xcdatamodel"; sourceTree = "<group>"; };
+		D56B3D6D25DEAC9200DBE34C /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		D57B46F025DDC16D00E20036 /* BrewDoggy 20.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BrewDoggy 20.xcdatamodel"; sourceTree = "<group>"; };
 		D57B46F425DDC6DE00E20036 /* BrewDoggy 21.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BrewDoggy 21.xcdatamodel"; sourceTree = "<group>"; };
 		D5ACC84E25DC627E0056E276 /* BrewDoggy 14.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BrewDoggy 14.xcdatamodel"; sourceTree = "<group>"; };
@@ -197,6 +199,7 @@
 			children = (
 				D5ADD62925D3D7C300C904B6 /* FavoriteButton.swift */,
 				D5ADD65125D476B000C904B6 /* MockData.swift */,
+				D56B3D6D25DEAC9200DBE34C /* ImagePicker.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -339,6 +342,7 @@
 				D5ADD54925CFE1DC00C904B6 /* ContentView.swift in Sources */,
 				D5ADD54725CFE1DC00C904B6 /* BrewDoggyApp.swift in Sources */,
 				D5ADD57F25D183AF00C904B6 /* AddRecipeView.swift in Sources */,
+				D56B3D6E25DEAC9200DBE34C /* ImagePicker.swift in Sources */,
 				D5ADD5D625D1C1AD00C904B6 /* RecipeImage.swift in Sources */,
 				D5ADD65225D476B000C904B6 /* MockData.swift in Sources */,
 			);

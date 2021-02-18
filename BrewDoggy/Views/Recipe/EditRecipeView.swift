@@ -21,20 +21,41 @@ struct EditRecipeView: View {
 
     @State private var title = "Add a new Recipe"
     @State private var name = ""
-    @State private var picture = ""
     @State private var instructions = ""
     @State private var recipeIndex = 0
     @State private var currentItems: [RecipeItem] = []
     @State private var selectedType = "Beer"
     @State private var types: [String] = []
-    var recipe: Recipe?
 
+    @State private var picture: UIImage = UIImage(named: "dricku2")!
+    @State private var showImagePicker = false
+    @State private var inputImage: UIImage?
+    var recipe: Recipe?
+    
     var body: some View {
-        VStack {
+        VStack(alignment: .center, spacing: 0.0) {
+            Button(action: {
+                self.showImagePicker.toggle()
+            }, label: {
+                VStack(alignment: .center) {
+                    Image(uiImage: UIImage(data: recipe!.picture!)!)
+                        .resizable()
+                        .scaledToFit()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: 300, height: 200)
+                        .cornerRadius(15)
+
+                    Text("Tap to change")
+                        .foregroundColor(.blue)
+                        .font(.footnote)
+                }
+            })
+        }.padding(.init(top: 20, leading: 0, bottom: 0, trailing: 0))
+
+        VStack(alignment: .leading, spacing: 0.0) {
             Form {
                 Section {
                     TextField("Name of recipe", text: $name)
-                    TextField("Picture", text: $picture)
                 }
                 Section {
                     Picker("Recipe Type", selection: $selectedType) {
@@ -64,24 +85,28 @@ struct EditRecipeView: View {
                 setUpStates()
             }
             .navigationBarTitle("\(title)",displayMode: .inline)
-            NavigationView {
-                List {
-                    ForEach(currentItems) {rI in
-                        HStack {
-                            Text("\(rI.itemDescription!)")
-                            Spacer()
-                            Text("\(rI.amount!)")
-                            Text("\(rI.recipeItemToUnit!.unitAbbreviation!)")
-                        }
-                    }
-                    .onMove(perform: whenMove)
-                        .onDelete(perform: deleteRow)
-                }
-//                .toolbar {
-//                    EditButton()
-//                }
+            .sheet(isPresented: $showImagePicker, onDismiss: loadImage) {
+                ImagePicker(image: self.$inputImage)
             }
+//            NavigationView {
+//                List {
+//                    ForEach(currentItems) {rI in
+//                        HStack {
+//                            Text("\(rI.itemDescription!)")
+//                            Spacer()
+//                            Text("\(rI.amount!)")
+//                            Text("\(rI.recipeItemToUnit!.unitAbbreviation!)")
+//                        }
+//                    }
+//                    .onMove(perform: whenMove)
+//                        .onDelete(perform: deleteRow)
+//                }
+////                .toolbar {
+////                    EditButton()
+////                }
+//            }
         }
+        .padding(0)
     }
     
     private func setUpStates() {
@@ -91,7 +116,7 @@ struct EditRecipeView: View {
         if let r = recipe {
             name = r.name!
             title = "Edit recipe"
-//            picture = r.picture!
+            picture = UIImage(data: r.picture!)!
             instructions = r.instructions!
             selectedType = r.recipeToBrewType!.typeDescription!
             recipeIndex = recipies.firstIndex(where: { $0.id == r.id})!
@@ -109,6 +134,11 @@ struct EditRecipeView: View {
     private func whenMove(offsets: IndexSet, to destionation: Int) {
         currentItems.move(fromOffsets: offsets, toOffset: destionation)
         print("Moving")
+    }
+    
+    private func loadImage() {
+        guard let inputImage = inputImage else { return }
+        picture = inputImage
     }
 }
 
