@@ -120,7 +120,7 @@ struct RecipeDetailView: View {
         .navigationBarTitleDisplayMode(.inline)
         .navigationBarItems(trailing:
                 NavigationLink(destination: EditRecipeView(recipe: recipe)) {
-                    Text("Edit")
+                    Image(systemName: "pencil")
                 }
         )
     }

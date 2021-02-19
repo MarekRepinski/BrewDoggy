@@ -8,36 +8,45 @@
 import SwiftUI
 
 struct ImagePicker: UIViewControllerRepresentable {
-    class Coordinator: NSObject, UINavigationControllerDelegate, UIImagePickerControllerDelegate {
-        let parent: ImagePicker
-        
-        init(_ parent: ImagePicker) {
-            self.parent = parent
-        }
-        
-        func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-            if let uiImage = info[.originalImage] as? UIImage {
-                parent.image = uiImage
-            }
-            
-            parent.presentationMode.wrappedValue.dismiss()
-        }
+    typealias UIViewControllerType = UIImagePickerController
+    typealias SourceType = UIImagePickerController.SourceType
+
+    let sourceType: SourceType
+    let completionHandler: (UIImage?) -> Void
+    
+    func makeUIViewController(context: Context) -> UIImagePickerController {
+        let viewController = UIImagePickerController()
+//        viewController.allowsEditing = true
+        viewController.delegate = context.coordinator
+        viewController.sourceType = sourceType
+        return viewController
     }
     
-    @Environment(\.presentationMode) var presentationMode
-    @Binding var image: UIImage?
+    func updateUIViewController(_ uiViewController: UIImagePickerController, context: Context) {}
     
     func makeCoordinator() -> Coordinator {
-        Coordinator(self)
+        return Coordinator(completionHandler: completionHandler)
     }
     
-    func makeUIViewController(context: UIViewControllerRepresentableContext<ImagePicker>) -> UIImagePickerController {
-        let picker = UIImagePickerController()
-        picker.delegate = context.coordinator
-        return picker
-    }
-    
-    func updateUIViewController(_ uiViewController: UIImagePickerController, context: UIViewControllerRepresentableContext<ImagePicker>) {
+    final class Coordinator: NSObject, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+        let completionHandler: (UIImage?) -> Void
         
+        init(completionHandler: @escaping (UIImage?) -> Void) {
+            self.completionHandler = completionHandler
+        }
+        
+        func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
+            let image: UIImage? = {
+                if let image = info[.editedImage] as? UIImage {
+                    return image
+                }
+                return info[.originalImage] as? UIImage
+            }()
+            completionHandler(image)
+        }
+
+        func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+            completionHandler(nil)
+        }
     }
 }

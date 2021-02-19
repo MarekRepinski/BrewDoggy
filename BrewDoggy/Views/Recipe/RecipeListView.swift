@@ -56,7 +56,7 @@ struct RecipeListView: View {
             .navigationBarTitle("Your Recipies:")
             .navigationBarItems(trailing:
                 NavigationLink(destination: AddRecipeView().environment(\.managedObjectContext, viewContext)) {
-                    Text("Add")
+                    Image(systemName: "plus")
                 }
             )
 //            .sheet(isPresented: $showingAddScreen) {

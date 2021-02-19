@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		D56B3D6E25DEAC9200DBE34C /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = D56B3D6D25DEAC9200DBE34C /* ImagePicker.swift */; };
+		D56B3D7425DF0D9500DBE34C /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D56B3D7325DF0D9500DBE34C /* ViewModel.swift */; };
 		D5ADD54725CFE1DC00C904B6 /* BrewDoggyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5ADD54625CFE1DC00C904B6 /* BrewDoggyApp.swift */; };
 		D5ADD54925CFE1DC00C904B6 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5ADD54825CFE1DC00C904B6 /* ContentView.swift */; };
 		D5ADD54B25CFE1DF00C904B6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D5ADD54A25CFE1DF00C904B6 /* Assets.xcassets */; };
@@ -45,6 +46,7 @@
 /* Begin PBXFileReference section */
 		D563C17C25DAA9E100A37003 /* BrewDoggy 13.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BrewDoggy 13.xcdatamodel"; sourceTree = "<group>"; };
 		D56B3D6D25DEAC9200DBE34C /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
+		D56B3D7325DF0D9500DBE34C /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
 		D57B46F025DDC16D00E20036 /* BrewDoggy 20.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BrewDoggy 20.xcdatamodel"; sourceTree = "<group>"; };
 		D57B46F425DDC6DE00E20036 /* BrewDoggy 21.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BrewDoggy 21.xcdatamodel"; sourceTree = "<group>"; };
 		D5ACC84E25DC627E0056E276 /* BrewDoggy 14.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BrewDoggy 14.xcdatamodel"; sourceTree = "<group>"; };
@@ -112,6 +114,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D56B3D7225DF0D6C00DBE34C /* ModelData */ = {
+			isa = PBXGroup;
+			children = (
+				D56B3D7325DF0D9500DBE34C /* ViewModel.swift */,
+			);
+			path = ModelData;
+			sourceTree = "<group>";
+		};
 		D5ADD53A25CFE1DC00C904B6 = {
 			isa = PBXGroup;
 			children = (
@@ -135,6 +145,7 @@
 		D5ADD54525CFE1DC00C904B6 /* BrewDoggy */ = {
 			isa = PBXGroup;
 			children = (
+				D56B3D7225DF0D6C00DBE34C /* ModelData */,
 				D5ADD5D425D1C17B00C904B6 /* Views */,
 				D5ADD54625CFE1DC00C904B6 /* BrewDoggyApp.swift */,
 				D5ADD54A25CFE1DF00C904B6 /* Assets.xcassets */,
@@ -339,6 +350,7 @@
 				D5ADD62A25D3D7C300C904B6 /* FavoriteButton.swift in Sources */,
 				D5ADD55025CFE1DF00C904B6 /* Persistence.swift in Sources */,
 				D5ADD6A425D5949600C904B6 /* EditRecipeView.swift in Sources */,
+				D56B3D7425DF0D9500DBE34C /* ViewModel.swift in Sources */,
 				D5ADD54925CFE1DC00C904B6 /* ContentView.swift in Sources */,
 				D5ADD54725CFE1DC00C904B6 /* BrewDoggyApp.swift in Sources */,
 				D5ADD57F25D183AF00C904B6 /* AddRecipeView.swift in Sources */,

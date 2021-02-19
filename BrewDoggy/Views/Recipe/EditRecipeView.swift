@@ -9,6 +9,7 @@ import SwiftUI
 
 struct EditRecipeView: View {
     @Environment(\.managedObjectContext) private var viewContext
+    @StateObject var viewModel = ViewModel()
 
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Recipe.timestamp, ascending: true)], animation: .default)
     private var recipies: FetchedResults<Recipe>
@@ -18,54 +19,94 @@ struct EditRecipeView: View {
 
     @FetchRequest(entity: RecipeItem.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \RecipeItem.sortId, ascending: true)], animation: .default)
     private var recipeItems: FetchedResults<RecipeItem>
+    
+    @FetchRequest(entity: UnitType.entity(),
+                  sortDescriptors: [NSSortDescriptor(keyPath: \UnitType.unitTypeSort, ascending: true)],
+                  predicate: NSPredicate(format: "unitTypeSort > 0"), animation: .default)
+    private var unitTypes: FetchedResults<UnitType>
 
     @State private var title = "Add a new Recipe"
     @State private var name = ""
     @State private var instructions = ""
     @State private var recipeIndex = 0
     @State private var currentItems: [RecipeItem] = []
-    @State private var selectedType = "Beer"
-    @State private var types: [String] = []
+    @State private var selectedUnitType = ""
+    @State private var uTypes: [String] = []
+    @State private var selectedBrewType = ""
+    @State private var bTypes: [String] = []
+    @State private var editMode = EditMode.inactive
+    @State private var showIngredientSheet = false
 
-    @State private var picture: UIImage = UIImage(named: "dricku2")!
-    @State private var showImagePicker = false
-    @State private var inputImage: UIImage?
     var recipe: Recipe?
     
     var body: some View {
-        VStack(alignment: .center, spacing: 0.0) {
-            Button(action: {
-                self.showImagePicker.toggle()
-            }, label: {
-                VStack(alignment: .center) {
-                    Image(uiImage: UIImage(data: recipe!.picture!)!)
-                        .resizable()
-                        .scaledToFit()
-                        .aspectRatio(contentMode: .fill)
-                        .frame(width: 300, height: 200)
-                        .cornerRadius(15)
-
-                    Text("Tap to change")
-                        .foregroundColor(.blue)
-                        .font(.footnote)
-                }
-            })
-        }.padding(.init(top: 20, leading: 0, bottom: 0, trailing: 0))
 
         VStack(alignment: .leading, spacing: 0.0) {
             Form {
-                Section {
+                VStack(alignment: .center, spacing: 0.0) {
+                    Button(action: { viewModel.choosePhoto() }, label: {
+                        VStack(alignment: .center) {
+                            Image(uiImage: viewModel.selectedImage ?? UIImage(named: "dricku2")!)
+                                .resizable()
+                                .scaledToFit()
+                                .aspectRatio(contentMode: .fill)
+                                .frame(width: 300, height: 200)
+                                .cornerRadius(15)
+
+                            Text("Tap to change")
+                                    .foregroundColor(.blue)
+                                    .font(.footnote)
+                        }
+                    })
+                }.padding(.init(top: 20, leading: 0, bottom: 0, trailing: 0))
+
+                Section(header: Text("Name:")) {
                     TextField("Name of recipe", text: $name)
                 }
-                Section {
-                    Picker("Recipe Type", selection: $selectedType) {
-                        ForEach(types, id: \.self) {
+                Section(header: Text("Type:")) {
+                    Picker("Recipe Type", selection: $selectedBrewType) {
+                        ForEach(bTypes, id: \.self) {
+                            Text($0)
+                        }
+                    }
+//                }
+//                Section {
+                    Picker("Measurement System", selection: $selectedUnitType) {
+                        ForEach(uTypes, id: \.self) {
                             Text($0)
                         }
                     }
                 }
-                Section {
-                    TextField("Instructions", text: $instructions)
+//                NavigationView {
+                    List {
+                        Section(header: Text("Ingredients:")) {
+                        ForEach(currentItems) {rI in
+                            HStack {
+                                Text("\(rI.itemDescription!)")
+                                Spacer()
+                                Text("\(rI.amount!)")
+                                Text("\(rI.recipeItemToUnit!.unitAbbreviation!)")
+                            }
+                        }
+                            Button(action: { showIngredientSheet = true }) {
+                                HStack {
+                                    Spacer()
+                                    Text("Edit Ingredients")
+                                        .padding()
+                                }
+                            }
+//                        .onMove(perform: whenMove)
+//                        .onDelete(perform: deleteRow)
+                        }}
+//                    .navigationBarTitle("Ingregient")
+//                    .navigationBarItems(leading: EditButton(), trailing: addButton)
+//                    .environment(\.editMode, $editMode)
+//                    .toolbar {
+//                        EditButton()
+//                    }
+//                }
+                Section(header: Text("Instructions:")) {
+                    TextEditor(text: $instructions)
                 }
                 Section {
                     Button("Save") {
@@ -85,40 +126,38 @@ struct EditRecipeView: View {
                 setUpStates()
             }
             .navigationBarTitle("\(title)",displayMode: .inline)
-            .sheet(isPresented: $showImagePicker, onDismiss: loadImage) {
-                ImagePicker(image: self.$inputImage)
+            .navigationBarItems(trailing: Image(systemName: "camera").foregroundColor(.blue).onTapGesture { viewModel.takePhoto() })
+            .fullScreenCover(isPresented: $viewModel.isPresentingImagePicker) {
+                ImagePicker(sourceType: viewModel.sourceType, completionHandler: viewModel.didSelectImage)
             }
-//            NavigationView {
-//                List {
-//                    ForEach(currentItems) {rI in
-//                        HStack {
-//                            Text("\(rI.itemDescription!)")
-//                            Spacer()
-//                            Text("\(rI.amount!)")
-//                            Text("\(rI.recipeItemToUnit!.unitAbbreviation!)")
-//                        }
-//                    }
-//                    .onMove(perform: whenMove)
-//                        .onDelete(perform: deleteRow)
-//                }
-////                .toolbar {
-////                    EditButton()
-////                }
-//            }
         }
-        .padding(0)
+    }
+    
+    private var addButton: some View {
+        switch editMode {
+        case .inactive:
+            return AnyView(Button(action: {}) { Image(systemName: "plus") })
+        default:
+            return AnyView(EmptyView())
+        }
     }
     
     private func setUpStates() {
+        bTypes.removeAll()
         for bt in brewTypes {
-            types.append(bt.typeDescription!)
+            bTypes.append(bt.typeDescription!)
+        }
+        uTypes.removeAll()
+        for ut in unitTypes {
+            uTypes.append(ut.unitTypeName!)
         }
         if let r = recipe {
             name = r.name!
             title = "Edit recipe"
-            picture = UIImage(data: r.picture!)!
+            viewModel.selectedImage = UIImage(data: r.picture!)!
             instructions = r.instructions!
-            selectedType = r.recipeToBrewType!.typeDescription!
+            if selectedBrewType == "" { selectedBrewType = r.recipeToBrewType!.typeDescription! }
+            if selectedUnitType == "" { selectedUnitType = r.recipeToUnitType!.unitTypeName! }
             recipeIndex = recipies.firstIndex(where: { $0.id == r.id})!
 
             currentItems = recipeItems.filter { rI in
@@ -134,11 +173,6 @@ struct EditRecipeView: View {
     private func whenMove(offsets: IndexSet, to destionation: Int) {
         currentItems.move(fromOffsets: offsets, toOffset: destionation)
         print("Moving")
-    }
-    
-    private func loadImage() {
-        guard let inputImage = inputImage else { return }
-        picture = inputImage
     }
 }
 
