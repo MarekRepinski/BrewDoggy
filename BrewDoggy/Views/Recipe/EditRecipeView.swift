@@ -14,7 +14,7 @@ struct EditRecipeView: View {
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Recipe.timestamp, ascending: true)], animation: .default)
     private var recipies: FetchedResults<Recipe>
 
-    @FetchRequest(entity: BrewType.entity(), sortDescriptors: [], animation: .default)
+    @FetchRequest(entity: BrewType.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \BrewType.timestamp, ascending: true)], animation: .default)
     private var brewTypes: FetchedResults<BrewType>
 
     @FetchRequest(entity: RecipeItem.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \RecipeItem.sortId, ascending: true)], animation: .default)
@@ -34,7 +34,6 @@ struct EditRecipeView: View {
     @State private var uTypes: [String] = []
     @State private var selectedBrewType = ""
     @State private var bTypes: [String] = []
-    @State private var editMode = EditMode.inactive
     @State private var showIngredientSheet = false
 
     var recipe: Recipe?
@@ -69,42 +68,32 @@ struct EditRecipeView: View {
                             Text($0)
                         }
                     }
-//                }
-//                Section {
+
                     Picker("Measurement System", selection: $selectedUnitType) {
                         ForEach(uTypes, id: \.self) {
                             Text($0)
                         }
                     }
                 }
-//                NavigationView {
-                    List {
-                        Section(header: Text("Ingredients:")) {
-                        ForEach(currentItems) {rI in
+                List {
+                    Section(header: Text("Ingredients:")) {
+                    ForEach(currentItems) {rI in
+                        HStack {
+                            Text("\(rI.itemDescription!)")
+                            Spacer()
+                            Text("\(rI.amount!)")
+                            Text("\(rI.recipeItemToUnit!.unitAbbreviation!)")
+                        }
+                    }
+                        NavigationLink(destination: IngredientsView(currentItems: $currentItems, unitType: selectedUnitType)) {
                             HStack {
-                                Text("\(rI.itemDescription!)")
                                 Spacer()
-                                Text("\(rI.amount!)")
-                                Text("\(rI.recipeItemToUnit!.unitAbbreviation!)")
+                                Text("Edit Ingredients")
+                                    .foregroundColor(.blue)
                             }
                         }
-                            Button(action: { showIngredientSheet = true }) {
-                                HStack {
-                                    Spacer()
-                                    Text("Edit Ingredients")
-                                        .padding()
-                                }
-                            }
-//                        .onMove(perform: whenMove)
-//                        .onDelete(perform: deleteRow)
-                        }}
-//                    .navigationBarTitle("Ingregient")
-//                    .navigationBarItems(leading: EditButton(), trailing: addButton)
-//                    .environment(\.editMode, $editMode)
-//                    .toolbar {
-//                        EditButton()
-//                    }
-//                }
+                    }
+                }
                 Section(header: Text("Instructions:")) {
                     TextEditor(text: $instructions)
                 }
@@ -126,19 +115,10 @@ struct EditRecipeView: View {
                 setUpStates()
             }
             .navigationBarTitle("\(title)",displayMode: .inline)
-            .navigationBarItems(trailing: Image(systemName: "camera").foregroundColor(.blue).onTapGesture { viewModel.takePhoto() })
+            .navigationBarItems(trailing: Image(systemName: "camera").foregroundColor(.blue).onTapGesture { viewModel.takePhoto() }.padding())
             .fullScreenCover(isPresented: $viewModel.isPresentingImagePicker) {
                 ImagePicker(sourceType: viewModel.sourceType, completionHandler: viewModel.didSelectImage)
             }
-        }
-    }
-    
-    private var addButton: some View {
-        switch editMode {
-        case .inactive:
-            return AnyView(Button(action: {}) { Image(systemName: "plus") })
-        default:
-            return AnyView(EmptyView())
         }
     }
     
@@ -164,15 +144,6 @@ struct EditRecipeView: View {
                     (rI.recipeItemToRecipe == r)
             }
         }
-    }
-
-    private func deleteRow(offsets: IndexSet) {
-        print("Recipe deleted")
-    }
-
-    private func whenMove(offsets: IndexSet, to destionation: Int) {
-        currentItems.move(fromOffsets: offsets, toOffset: destionation)
-        print("Moving")
     }
 }
 

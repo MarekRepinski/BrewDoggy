@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D569055425E0F8F300B6DEFE /* IngredientsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D569055325E0F8F300B6DEFE /* IngredientsView.swift */; };
 		D56B3D6E25DEAC9200DBE34C /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = D56B3D6D25DEAC9200DBE34C /* ImagePicker.swift */; };
 		D56B3D7425DF0D9500DBE34C /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D56B3D7325DF0D9500DBE34C /* ViewModel.swift */; };
 		D5ADD54725CFE1DC00C904B6 /* BrewDoggyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5ADD54625CFE1DC00C904B6 /* BrewDoggyApp.swift */; };
@@ -45,6 +46,7 @@
 
 /* Begin PBXFileReference section */
 		D563C17C25DAA9E100A37003 /* BrewDoggy 13.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BrewDoggy 13.xcdatamodel"; sourceTree = "<group>"; };
+		D569055325E0F8F300B6DEFE /* IngredientsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientsView.swift; sourceTree = "<group>"; };
 		D56B3D6D25DEAC9200DBE34C /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		D56B3D7325DF0D9500DBE34C /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
 		D57B46F025DDC16D00E20036 /* BrewDoggy 20.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BrewDoggy 20.xcdatamodel"; sourceTree = "<group>"; };
@@ -191,6 +193,7 @@
 				D5ADD58825D1932200C904B6 /* RecipeListView.swift */,
 				D5ADD5D525D1C1AD00C904B6 /* RecipeImage.swift */,
 				D5ADD6A325D5949600C904B6 /* EditRecipeView.swift */,
+				D569055325E0F8F300B6DEFE /* IngredientsView.swift */,
 			);
 			path = Recipe;
 			sourceTree = "<group>";
@@ -347,6 +350,7 @@
 				D5ADD55325CFE1DF00C904B6 /* BrewDoggy.xcdatamodeld in Sources */,
 				D5ADD58925D1932200C904B6 /* RecipeListView.swift in Sources */,
 				D5ADD58425D18CD200C904B6 /* RecipeDetailView.swift in Sources */,
+				D569055425E0F8F300B6DEFE /* IngredientsView.swift in Sources */,
 				D5ADD62A25D3D7C300C904B6 /* FavoriteButton.swift in Sources */,
 				D5ADD55025CFE1DF00C904B6 /* Persistence.swift in Sources */,
 				D5ADD6A425D5949600C904B6 /* EditRecipeView.swift in Sources */,
