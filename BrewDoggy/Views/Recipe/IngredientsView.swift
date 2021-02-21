@@ -22,6 +22,7 @@ struct IngredientsView : View {
     @State private var currIndex = -1
     @Binding var currentItems: [RecipeItem]
     var unitType: String
+    var recipe: Recipe
     
     var filteredUnits: [String] {
         var rc: [String] = []
@@ -35,7 +36,6 @@ struct IngredientsView : View {
     }
     
     var body: some View {
-        NavigationView {
             VStack {
                 if showAddIngredient {
                     Divider()
@@ -78,8 +78,9 @@ struct IngredientsView : View {
                         showAddIngredient = false
                     }
                 }
+                NavigationView {
                 List {
-                    ForEach(0..<currentItems.count) {index in
+                    ForEach(0..<currentItems.count, id:\.self) {index in
                         HStack {
                             Text("\(currentItems[index].itemDescription!)")
                             Spacer()
@@ -123,7 +124,10 @@ struct IngredientsView : View {
             newRecipeItem.timestamp = Date()
             newRecipeItem.id = UUID()
             newRecipeItem.recipeItemToUnit = findUnit(abbr: selectedUnit)
+            newRecipeItem.recipeItemToRecipe = recipe
             currentItems.append(newRecipeItem)
+            reSortUnits()
+            print("\(self.ingredient) added")
 
         } else {
             currentItems[currIndex].itemDescription = self.ingredient
@@ -131,6 +135,10 @@ struct IngredientsView : View {
             currentItems[currIndex].timestamp = Date()
             currentItems[currIndex].recipeItemToUnit = findUnit(abbr: selectedUnit)
         }
+        ingredient = ""
+        amount = ""
+        selectedUnit = "Unit"
+        showAddIngredient = false
     }
     
     private func reSortUnits() {
@@ -160,6 +168,7 @@ struct IngredientsView : View {
     
     private func onDelete(offsets: IndexSet) {
         currentItems.remove(atOffsets: offsets)
+        reSortUnits()
     }
     
     private var addButton: some View {

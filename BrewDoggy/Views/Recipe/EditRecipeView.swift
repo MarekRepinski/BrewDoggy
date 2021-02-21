@@ -85,7 +85,7 @@ struct EditRecipeView: View {
                             Text("\(rI.recipeItemToUnit!.unitAbbreviation!)")
                         }
                     }
-                        NavigationLink(destination: IngredientsView(currentItems: $currentItems, unitType: selectedUnitType)) {
+                        NavigationLink(destination: IngredientsView(currentItems: $currentItems, unitType: selectedUnitType, recipe: recipe!)) {
                             HStack {
                                 Spacer()
                                 Text("Edit Ingredients")
