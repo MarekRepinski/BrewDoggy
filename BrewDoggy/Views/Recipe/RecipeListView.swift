@@ -15,6 +15,7 @@ struct RecipeListView: View {
     private var brewTypes: FetchedResults<BrewType>
 
     @State private var showFavoritesOnly = false
+    @State private var bruteForceReload = false
 
     var filteredRecipies: [Recipe] {
         recipies.filter { r in
@@ -55,9 +56,10 @@ struct RecipeListView: View {
             }
             .navigationBarTitle("Your Recipies:")
             .navigationBarItems(trailing:
-                NavigationLink(destination: AddRecipeView().environment(\.managedObjectContext, viewContext)) {
-                    Image(systemName: "plus")
-                }
+                                    NavigationLink(destination: EditRecipeView(isSet: $bruteForceReload, recipe: nil)
+                                                    .environment(\.managedObjectContext, viewContext)) {
+                                                        Image(systemName: "plus")
+                                                    }
             )
 //            .sheet(isPresented: $showingAddScreen) {
 //                AddRecipeView().environment(\.managedObjectContext, viewContext)

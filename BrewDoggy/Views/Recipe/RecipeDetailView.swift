@@ -27,6 +27,7 @@ struct RecipeDetailView: View {
     @State private var pickerVisible = false
     @State private var selectedType = "Metric"
     @State private var types: [String] = []
+    @State private var bruteForceReload = false
     var recipe: Recipe
     
     var recipeIndex: Int {
@@ -119,7 +120,7 @@ struct RecipeDetailView: View {
         .navigationTitle(recipe.name!)
         .navigationBarTitleDisplayMode(.inline)
         .navigationBarItems(trailing:
-                NavigationLink(destination: EditRecipeView(recipe: recipe)) {
+                                NavigationLink(destination: EditRecipeView(isSet: $bruteForceReload, recipe: recipe)) {
                     Image(systemName: "pencil").padding()
                 }
         )

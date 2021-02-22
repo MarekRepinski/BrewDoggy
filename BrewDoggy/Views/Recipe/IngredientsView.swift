@@ -22,6 +22,7 @@ struct IngredientsView : View {
     @State private var orgItems: [ItemRow] = []
     @State private var currIndex = -1
     @Binding var ingredientItems: [ItemRow]
+    @Binding var changed: Bool
     var unitType: String
     
     var filteredUnits: [String] {
@@ -77,6 +78,7 @@ struct IngredientsView : View {
                     saveUpdateItem()
                     showAddIngredient = false
                     editMode = EditMode.inactive
+                    pickerVisible = false
                 }
             }
             NavigationView {
@@ -99,7 +101,6 @@ struct IngredientsView : View {
                     }
                     .onDelete(perform: onDelete)
                     .onMove(perform: onMove)
-                    //                        .onInsert(of: [String(kUTTypeURL)], perform: onInsert)
                 }
                 .navigationBarTitle("Edit Ingredients:",displayMode: .inline)
                 .navigationBarItems(leading: EditButton(), trailing: addButton)
@@ -132,11 +133,13 @@ struct IngredientsView : View {
         selectedUnit = "Tbsp"
         currIndex = -1
         showUndoButton = true
+        changed = true
     }
     
     private func onMove(source: IndexSet, destination: Int) {
         ingredientItems.move(fromOffsets: source, toOffset: destination)
         showUndoButton = true
+        changed = true
     }
     
     private func onDelete(offsets: IndexSet) {
@@ -147,6 +150,7 @@ struct IngredientsView : View {
         selectedUnit = "Tbsp"
         currIndex = -1
         showUndoButton = true
+        changed = true
     }
     
     private var addButton: some View {

@@ -35,6 +35,7 @@ struct EditRecipeView: View {
     @State private var instructions = ""
     @State private var currentItems: [RecipeItem] = []
     @State private var prevUnitType = ""
+    @State private var showChangeAlert = false
     @State private var showUnitChangeAlert = false
     @State private var selectedUnitType = ""
     @State private var showUnitTypePicker = false
@@ -43,16 +44,21 @@ struct EditRecipeView: View {
     @State private var selectedBrewType = ""
     @State private var bTypes: [String] = []
     @State var ingredientItems = [ItemRow(name: "dummy", amount: "dummy", unit: "dummy")]
-    
+    @State private var changed = false
+    @State private var firstTime = true
+    @Binding var isSet: Bool
     
     var recipe: Recipe?
     
     var body: some View {
         ScrollView {
             VStack(alignment: .center, spacing: 5.0) {
-                Button(action: { viewModel.choosePhoto() }, label: {
+                Button(action: {
+                    viewModel.choosePhoto()
+                    changed = true
+                }, label: {
                     VStack(alignment: .center) {
-                        Image(uiImage: viewModel.selectedImage ?? UIImage(named: "dricku2")!)
+                        Image(uiImage: viewModel.selectedImage ?? UIImage(named: "LTd5gaBKcTextTrans")!)
                             .resizable()
                             .scaledToFit()
                             .aspectRatio(contentMode: .fill)
@@ -71,8 +77,20 @@ struct EditRecipeView: View {
             .onAppear(){
                 setUpStates()
             }
+            .navigationBarBackButtonHidden(true)
+            .navigationBarItems(leading: Button(action: {
+                if changed {
+                    showChangeAlert = true
+                } else {
+                    self.presentationMode.wrappedValue.dismiss()
+                }
+            }) {
+                HStack{
+                    Image(systemName: "chevron.left")
+                    Text("Back")
+                }
+            }, trailing: Image(systemName: "camera").foregroundColor(.blue).onTapGesture { viewModel.takePhoto() }.padding())
             .navigationBarTitle("\(title)",displayMode: .inline)
-            .navigationBarItems(trailing: Image(systemName: "camera").foregroundColor(.blue).onTapGesture { viewModel.takePhoto() }.padding())
             .fullScreenCover(isPresented: $viewModel.isPresentingImagePicker) {
                 ImagePicker(sourceType: viewModel.sourceType, completionHandler: viewModel.didSelectImage)
             }
@@ -83,6 +101,9 @@ struct EditRecipeView: View {
                         .bold()
                     TextField("Name of recipe", text: $name)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .onChange(of: name) {dummy in
+                            changed = true
+                        }
                 }
                 .padding(.horizontal, 15)
                 .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.blue, lineWidth: 1))
@@ -123,6 +144,7 @@ struct EditRecipeView: View {
                     }
                     .pickerStyle(InlinePickerStyle())
                     .onTapGesture {
+                        changed = true
                         self.showBrewTypePicker.toggle()
                     }
                 }
@@ -135,6 +157,7 @@ struct EditRecipeView: View {
                     }
                     .pickerStyle(InlinePickerStyle())
                     .onTapGesture {
+                        changed = true
                         convertUnits()
                         self.showUnitTypePicker.toggle()
                     }
@@ -155,7 +178,7 @@ struct EditRecipeView: View {
                             Text("\(rI.unit)")
                         }
                     }
-                    NavigationLink(destination: IngredientsView(ingredientItems: $ingredientItems, unitType: selectedUnitType)) {
+                    NavigationLink(destination: IngredientsView(ingredientItems: $ingredientItems, changed: $changed, unitType: selectedUnitType)) {
                         HStack(alignment: .center) {
                             Text("Edit Ingredients")
                                 .foregroundColor(.blue)
@@ -173,6 +196,9 @@ struct EditRecipeView: View {
                         .bold()
                     TextEditor(text: $instructions)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .onChange(of: instructions) {dummy in
+                            changed = true
+                        }
                 }
                 .padding(.horizontal, 15)
                 .padding(.vertical, 5)
@@ -196,6 +222,12 @@ struct EditRecipeView: View {
                   message: Text("Ingredients has changed to \(selectedUnitType) System, but the amounts are NOT converted. Please Check!"),
                   dismissButton: .cancel())
         }
+        .alert(isPresented: $showChangeAlert) {
+            Alert(title: Text("Forgot to save?"),
+                  message: Text("Do you want to save before exit?"),
+                  primaryButton: .default(Text("Yes")) { saveRecipe() },
+                  secondaryButton: .cancel(Text("No")) { self.presentationMode.wrappedValue.dismiss() })
+        }
     }
     
     private func setUpStates() {
@@ -208,14 +240,18 @@ struct EditRecipeView: View {
             uTypes.append(ut.unitTypeName!)
         }
         if let r = recipe {
-            name = r.name!
-            title = "Edit recipe"
-            viewModel.selectedImage = UIImage(data: r.picture!)!
-            instructions = r.instructions!
-            if selectedBrewType == "" { selectedBrewType = r.recipeToBrewType!.typeDescription! }
-            if selectedUnitType == "" { selectedUnitType = r.recipeToUnitType!.unitTypeName! }
-            currentItems = recipeItems.filter { rI in
-                    (rI.recipeItemToRecipe == r)
+            if firstTime {
+                print("Hallo!")
+                firstTime = false
+                name = r.name!
+                title = "Edit recipe"
+                viewModel.selectedImage = UIImage(data: r.picture!)!
+                instructions = r.instructions!
+                if selectedBrewType == "" { selectedBrewType = r.recipeToBrewType!.typeDescription! }
+                if selectedUnitType == "" { selectedUnitType = r.recipeToUnitType!.unitTypeName! }
+                currentItems = recipeItems.filter { rI in
+                        (rI.recipeItemToRecipe == r)
+                }
             }
         }
         if ingredientItems.count == 1 {
@@ -227,6 +263,8 @@ struct EditRecipeView: View {
                 }
             }
         }
+        if selectedBrewType == "" { selectedBrewType = "Beer" }
+        if selectedUnitType == "" { selectedUnitType = "Metric" }
     }
     
     private func saveRecipe() {
@@ -262,20 +300,36 @@ struct EditRecipeView: View {
                 newItem.recipeItemToRecipe = r
                 saveViewContext()
             }
-            self.presentationMode.wrappedValue.dismiss()
-        }
-        
-        
-        
-        
-//                        let newRecipe = Recipe(context: viewContext)
-//                        newRecipe.name = self.name
-//                        newRecipe.picture = self.picture
-//                        newRecipe.instructions = self.instructions
-//                        newRecipe.timestamp = Date()
-//
-//                        try? self.viewContext.save()
+        } else {
+            let newRecipe = Recipe(context: viewContext)
+            newRecipe.id = UUID()
+            newRecipe.name = name
+            newRecipe.instructions = instructions
+            if let pic = viewModel.selectedImage {
+                newRecipe.picture = pic.jpegData(compressionQuality: 1.0)
+            } else {
+                newRecipe.picture = UIImage(named: "LTd5gaBKcTextTrans")!.jpegData(compressionQuality: 1.0)
+            }
+            newRecipe.recipeToBrewType = getBrewType(str: selectedBrewType)
+            newRecipe.recipeToUnitType = getUnitType(str: selectedUnitType)
+            newRecipe.timestamp = Date()
+            saveViewContext()
 
+            var sortID = 1
+            for iI in ingredientItems {
+                let newItem = RecipeItem(context: viewContext)
+                newItem.id = UUID()
+                newItem.itemDescription = iI.name
+                newItem.amount = iI.amount
+                newItem.sortId = Int64(sortID)
+                sortID += 1
+                newItem.recipeItemToUnit = getUnit(str: iI.unit)
+                newItem.recipeItemToRecipe = newRecipe
+                saveViewContext()
+            }
+        }
+        isSet.toggle()
+        self.presentationMode.wrappedValue.dismiss()
     }
     
     private func getUnit(str: String) -> Unit? {
