@@ -9,70 +9,53 @@ import SwiftUI
 import CoreData
 
 struct ContentView: View {
-//    @Environment(\.managedObjectContext) private var viewContext
-//
-//    @FetchRequest(
-//        sortDescriptors: [NSSortDescriptor(keyPath: \Recipe.timestamp, ascending: true)],
-//        animation: .default)
-//    private var items: FetchedResults<Recipe>
-//
+    @Environment(\.managedObjectContext) private var viewContext
+
     var body: some View {
-        RecipeListView()
-//        List {
-//            ForEach(items) { item in
-//                Text("Item at \(item.timestamp!, formatter: itemFormatter)")
-//            }
-//            .onDelete(perform: deleteItems)
-//        }
-//        .toolbar {
-//            #if os(iOS)
-//            EditButton()
-//            #endif
-//
-//            Button(action: addItem) {
-//                Label("Add Item", systemImage: "plus")
-//            }
-//        }
-    }
-
-    private func addItem() {
-        withAnimation {
-//            let newItem = Item(context: viewContext)
-//            newItem.timestamp = Date()
-//
-//            do {
-//                try viewContext.save()
-//            } catch {
-//                // Replace this implementation with code to handle the error appropriately.
-//                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-//                let nsError = error as NSError
-//                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
-//            }
+        NavigationView {
+            ZStack(alignment: .top) {
+                VStack(alignment: .center) {
+                    Spacer()
+                    Image("LTd5gaBKcTextTrans")
+                        .opacity(0.05)
+                    Spacer()
+                }
+                VStack {
+                    Spacer()
+                    Text("Welcome to")
+                        .font(.largeTitle)
+                        .bold()
+                        .padding()
+                    Text("Brew Doggy")
+                        .font(.largeTitle)
+                        .bold()
+                        .padding()
+                    NavigationLink(destination: RecipeListView()) {
+                        HStack {
+                            Image("recipeHeader")
+                                .resizable()
+                                .scaledToFit()
+                                .clipShape(RoundedRectangle(cornerRadius: 25.0))
+                                .overlay(RoundedRectangle(cornerRadius: 25.0).stroke(Color.white, lineWidth: 8))
+                                .frame(width: 75, height: 75, alignment: .leading)
+                            Spacer()
+                            Text("Recipies")
+                                .font(.title)
+                                .bold()
+                        }
+                        .padding(.init(top: 5, leading: 60, bottom: 5, trailing: 100))
+                        .contentShape(Rectangle())
+                        .background(Color.white)
+                    }
+                    Spacer()
+                }
+            }
+            .background(Color.white)
+//            .ignoresSafeArea()
         }
-    }
-
-    private func deleteItems(offsets: IndexSet) {
-        withAnimation {
-//            offsets.map { items[$0] }.forEach(viewContext.delete)
-//
-//            do {
-//                try viewContext.save()
-//            } catch {
-//                // Replace this implementation with code to handle the error appropriately.
-//                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-//                let nsError = error as NSError
-//                fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
-//            }
-        }
+//        RecipeListView()
     }
 }
-
-private let itemFormatter: DateFormatter = {
-    let formatter = DateFormatter()
-    formatter.dateStyle = .short
-    formatter.timeStyle = .medium
-    return formatter
-}()
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {

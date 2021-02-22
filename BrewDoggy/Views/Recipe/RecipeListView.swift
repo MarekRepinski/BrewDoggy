@@ -54,6 +54,7 @@ struct RecipeListView: View {
                     MockData(context: viewContext)
                 }
             }
+            .navigationBarTitleDisplayMode(.inline)
             .navigationBarTitle("Your Recipies:")
             .navigationBarItems(trailing:
                                     NavigationLink(destination: EditRecipeView(isSet: $bruteForceReload, recipe: nil)
