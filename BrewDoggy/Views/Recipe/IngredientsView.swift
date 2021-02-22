@@ -11,18 +11,18 @@ struct IngredientsView : View {
     @Environment(\.managedObjectContext) private var viewContext
     @FetchRequest(entity: Unit.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \Unit.timestamp, ascending: true)], animation: .default)
     private var units: FetchedResults<Unit>
-    
+
     @State private var ingredient = ""
     @State private var amount = ""
-    @State private var selectedUnit = "Unit"
+    @State private var selectedUnit = "Tbsp"
     @State private var showAddIngredient = false
+    @State private var showUndoButton = false
     @State private var pickerVisible = false
     @State private var editMode = EditMode.inactive
-    @State private var orgItems: [RecipeItem] = []
+    @State private var orgItems: [ItemRow] = []
     @State private var currIndex = -1
-    @Binding var currentItems: [RecipeItem]
+    @Binding var ingredientItems: [ItemRow]
     var unitType: String
-    var recipe: Recipe
     
     var filteredUnits: [String] {
         var rc: [String] = []
@@ -36,64 +36,65 @@ struct IngredientsView : View {
     }
     
     var body: some View {
-            VStack {
-                if showAddIngredient {
-                    Divider()
-                    HStack(alignment: .center) {
-                        TextField("Enter ingredient", text: $ingredient)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.blue, lineWidth: 1))
-                        HStack{
-                            TextField("", text: $amount)
-                                .textFieldStyle(RoundedBorderTextFieldStyle())
-                                .fixedSize()
-                            Button(selectedUnit){
-                                self.pickerVisible.toggle()
-                            }
-                        }
-                        .padding(.horizontal, 10)
+        VStack {
+            if showAddIngredient {
+                Divider()
+                HStack(alignment: .center) {
+                    TextField("Enter ingredient", text: $ingredient)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
                         .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.blue, lineWidth: 1))
-                    }.padding(.horizontal, 15)
-
-                    if pickerVisible {
-                        Picker("", selection: $selectedUnit) {
-                            ForEach(filteredUnits, id: \.self) {
-                                Text($0)
-                            }
-                        }
-                        .pickerStyle(InlinePickerStyle())
-                        .onTapGesture {
+                    HStack{
+                        TextField("", text: $amount)
+                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                            .fixedSize()
+                        Button(selectedUnit){
                             self.pickerVisible.toggle()
                         }
                     }
-                    
-                    Button(self.currIndex == -1 ? "Add" : "Update") {
-                        if ingredient == "" {
-                            ingredient = "Unknown ingredient"
+                    .padding(.horizontal, 10)
+                    .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.blue, lineWidth: 1))
+                }.padding(.horizontal, 15)
+                
+                if pickerVisible {
+                    Picker("", selection: $selectedUnit) {
+                        ForEach(filteredUnits, id: \.self) {
+                            Text($0)
                         }
-                        if selectedUnit == "Unit" {
-                            selectedUnit = "other"
-                        }
-                        saveUpdateItem()
-                        showAddIngredient = false
+                    }
+                    .pickerStyle(InlinePickerStyle())
+                    .onTapGesture {
+                        self.pickerVisible.toggle()
                     }
                 }
-                NavigationView {
+                
+                Button(self.currIndex == -1 ? "Add" : "Update") {
+                    if ingredient == "" {
+                        ingredient = "Unknown ingredient"
+                    }
+                    if selectedUnit == "Unit" {
+                        selectedUnit = "other"
+                    }
+                    saveUpdateItem()
+                    showAddIngredient = false
+                    editMode = EditMode.inactive
+                }
+            }
+            NavigationView {
                 List {
-                    ForEach(0..<currentItems.count, id:\.self) {index in
+                    ForEach(0..<ingredientItems.count, id:\.self) {index in
                         HStack {
-                            Text("\(currentItems[index].itemDescription!)")
+                            Text("\(ingredientItems[index].name)")
                             Spacer()
-                            Text("\(currentItems[index].amount!)")
-                            Text("\(currentItems[index].recipeItemToUnit!.unitAbbreviation!)")
+                            Text("\(ingredientItems[index].amount)")
+                            Text("\(ingredientItems[index].unit)")
                         }
                         .contentShape(Rectangle())
                         .onTapGesture {
                             showAddIngredient = true
                             self.currIndex = index
-                            ingredient = currentItems[index].itemDescription!
-                            amount = currentItems[index].amount!
-                            selectedUnit = currentItems[index].recipeItemToUnit!.unitAbbreviation!
+                            ingredient = ingredientItems[index].name
+                            amount = ingredientItems[index].amount
+                            selectedUnit = ingredientItems[index].unit
                         }
                     }
                     .onDelete(perform: onDelete)
@@ -104,79 +105,54 @@ struct IngredientsView : View {
                 .navigationBarItems(leading: EditButton(), trailing: addButton)
                 .environment(\.editMode, $editMode)
                 .onAppear() {
-                    print("org has \(orgItems.count) posts")
-                    if orgItems.isEmpty {
-                        orgItems = currentItems
-                        print("Org is set")
-                    }
+                    if orgItems.isEmpty { orgItems = ingredientItems }
                 }
+            }
+            if showUndoButton {
+                Button("Undo changes") {
+                    ingredientItems = orgItems
+                    showUndoButton = false
+                }.padding()
             }
         }
     }
     
     private func saveUpdateItem() {
-        print("\(currIndex)")
         if currIndex == -1 {
-            let newRecipeItem = RecipeItem(context: viewContext)
-            newRecipeItem.itemDescription = self.ingredient
-            newRecipeItem.sortId = 0
-            newRecipeItem.amount = self.amount
-            newRecipeItem.timestamp = Date()
-            newRecipeItem.id = UUID()
-            newRecipeItem.recipeItemToUnit = findUnit(abbr: selectedUnit)
-            newRecipeItem.recipeItemToRecipe = recipe
-            currentItems.append(newRecipeItem)
-            reSortUnits()
-            print("\(self.ingredient) added")
-
+            let newItemRow = ItemRow(id: UUID(), name: ingredient, amount: amount, unit: selectedUnit)
+            ingredientItems.append(newItemRow)
         } else {
-            currentItems[currIndex].itemDescription = self.ingredient
-            currentItems[currIndex].amount = self.amount
-            currentItems[currIndex].timestamp = Date()
-            currentItems[currIndex].recipeItemToUnit = findUnit(abbr: selectedUnit)
+            ingredientItems[currIndex].name = ingredient
+            ingredientItems[currIndex].amount = amount
+            ingredientItems[currIndex].unit = selectedUnit
         }
-        ingredient = ""
-        amount = ""
-        selectedUnit = "Unit"
-        showAddIngredient = false
-    }
-    
-    private func reSortUnits() {
-        for index in 0..<currentItems.count {
-            currentItems[index].sortId = Int64(index + 1)
-        }
-    }
-    
-    private func findUnit(abbr: String) -> Unit? {
-        var rc: Unit?
-        
-        for u in units {
-            if u.unitAbbreviation == abbr {
-                return u
-            }
-            if u.unitAbbreviation == "other" {
-                rc = u
-            }
-        }
-        return rc
+        showUndoButton = true
     }
     
     private func onMove(source: IndexSet, destination: Int) {
-        currentItems.move(fromOffsets: source, toOffset: destination)
-        reSortUnits()
+        ingredientItems.move(fromOffsets: source, toOffset: destination)
+        showUndoButton = true
     }
     
     private func onDelete(offsets: IndexSet) {
-        currentItems.remove(atOffsets: offsets)
-        reSortUnits()
+        ingredientItems.remove(atOffsets: offsets)
+        showUndoButton = true
     }
     
     private var addButton: some View {
-        switch editMode {
-        case .inactive:
+        if !showAddIngredient {
             return AnyView(Button(action: { showAddIngredient = true }) { Image(systemName: "plus") })
-        default:
-            return AnyView(Button(action: { showAddIngredient = false }) { Image(systemName: "minus") })
+        } else {
+            return AnyView(Button(action: {
+                showAddIngredient = false
+                ingredient = ""
+                amount = ""
+                selectedUnit = "Tbsp"
+                currIndex = -1
+            }) {
+                Image(systemName: "minus")
+                
+            })
         }
     }
 }

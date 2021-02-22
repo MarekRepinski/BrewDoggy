@@ -244,7 +244,7 @@ struct RecipeItemView: View {
     }
 }
 
-struct ItemRow: Identifiable {
+struct ItemRow: Identifiable, Equatable {
     var id = UUID()
     var name: String
     var amount: String
