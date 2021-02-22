@@ -9,6 +9,7 @@ import SwiftUI
 
 struct EditRecipeView: View {
     @Environment(\.managedObjectContext) private var viewContext
+    @Environment(\.presentationMode) var presentationMode
     @StateObject var viewModel = ViewModel()
 
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Recipe.timestamp, ascending: true)], animation: .default)
@@ -24,19 +25,25 @@ struct EditRecipeView: View {
                   sortDescriptors: [NSSortDescriptor(keyPath: \UnitType.unitTypeSort, ascending: true)],
                   predicate: NSPredicate(format: "unitTypeSort > 0"), animation: .default)
     private var unitTypes: FetchedResults<UnitType>
+    
+    @FetchRequest(entity: Unit.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \Unit.timestamp, ascending: true)], animation: .default)
+    private var units: FetchedResults<Unit>
+
 
     @State private var title = "Add a new Recipe"
     @State private var name = ""
     @State private var instructions = ""
-    @State private var recipeIndex = 0
     @State private var currentItems: [RecipeItem] = []
-    @State private var selectedUnitType = "Metric"
+    @State private var prevUnitType = ""
+    @State private var showUnitChangeAlert = false
+    @State private var selectedUnitType = ""
     @State private var showUnitTypePicker = false
     @State private var uTypes: [String] = []
     @State private var showBrewTypePicker = false
-    @State private var selectedBrewType = "Wine"
+    @State private var selectedBrewType = ""
     @State private var bTypes: [String] = []
     @State var ingredientItems = [ItemRow(name: "dummy", amount: "dummy", unit: "dummy")]
+    
     
     var recipe: Recipe?
     
@@ -86,6 +93,7 @@ struct EditRecipeView: View {
                         Text("Type:")
                             .bold()
                         Button(selectedBrewType){
+                            convertUnits()
                             self.showBrewTypePicker.toggle()
                         }
                     }
@@ -127,13 +135,18 @@ struct EditRecipeView: View {
                     }
                     .pickerStyle(InlinePickerStyle())
                     .onTapGesture {
+                        convertUnits()
                         self.showUnitTypePicker.toggle()
                     }
                 }
 
                 VStack {
-                    Text("Ingredients:")
-                        .bold()
+                    HStack {
+                        Spacer()
+                        Text("Ingredients:")
+                            .bold()
+                        Spacer()
+                    }
                     ForEach(ingredientItems) {rI in
                         HStack {
                             Text("\(rI.name)")
@@ -166,19 +179,22 @@ struct EditRecipeView: View {
                 .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.blue, lineWidth: 1))
                 .padding(.vertical, 5)
 
-//                    Button("Save") {
-//                        let newRecipe = Recipe(context: viewContext)
-//                        newRecipe.name = self.name
-//                        newRecipe.picture = self.picture
-//                        newRecipe.instructions = self.instructions
-//                        newRecipe.timestamp = Date()
-//
-//                        try? self.viewContext.save()
-
-//                        self.presentationMode.wrappedValue.dismiss()
-//                    }
+                HStack {
+                    Spacer()
+                    Button(action: { saveRecipe() }) {
+                        Text("Save")
+                            .font(.title)
+                            .bold()
+                    }
+                    Spacer()
+                }
                 
             }.padding(.horizontal, 15)
+        }
+        .alert(isPresented: $showUnitChangeAlert) {
+            Alert(title: Text("Ingredients changed"),
+                  message: Text("Ingredients has changed to \(selectedUnitType) System, but the amounts are NOT converted. Please Check!"),
+                  dismissButton: .cancel())
         }
     }
     
@@ -198,20 +214,141 @@ struct EditRecipeView: View {
             instructions = r.instructions!
             if selectedBrewType == "" { selectedBrewType = r.recipeToBrewType!.typeDescription! }
             if selectedUnitType == "" { selectedUnitType = r.recipeToUnitType!.unitTypeName! }
-            recipeIndex = recipies.firstIndex(where: { $0.id == r.id})!
-
             currentItems = recipeItems.filter { rI in
                     (rI.recipeItemToRecipe == r)
             }
-            
-            if ingredientItems.count == 1 {
-                if ingredientItems[0].unit == "dummy" {
-                    ingredientItems.removeAll()
-                    for rI in currentItems {
-                        ingredientItems.append(ItemRow(name: rI.itemDescription!, amount: rI.amount!, unit: rI.recipeItemToUnit!.unitAbbreviation!))
+        }
+        if ingredientItems.count == 1 {
+            if ingredientItems[0].unit == "dummy" {
+                prevUnitType = selectedUnitType
+                ingredientItems.removeAll()
+                for rI in currentItems {
+                    ingredientItems.append(ItemRow(name: rI.itemDescription!, amount: rI.amount!, unit: rI.recipeItemToUnit!.unitAbbreviation!))
+                }
+            }
+        }
+    }
+    
+    private func saveRecipe() {
+        if let r = recipe {
+            r.name = name
+            r.instructions = instructions
+            r.picture = viewModel.selectedImage?.jpegData(compressionQuality: 1.0)
+            r.recipeToBrewType = getBrewType(str: selectedBrewType)
+            r.recipeToUnitType = getUnitType(str: selectedUnitType)
+            r.timestamp = Date()
+            saveViewContext()
+
+            var deleteList: [RecipeItem] = []
+            for rI in recipeItems {
+                if rI.recipeItemToRecipe == r {
+                    deleteList.append(rI)
+                }
+            }
+            for dl in deleteList {
+                viewContext.delete(dl)
+            }
+            saveViewContext()
+
+            var sortID = 1
+            for iI in ingredientItems {
+                let newItem = RecipeItem(context: viewContext)
+                newItem.id = UUID()
+                newItem.itemDescription = iI.name
+                newItem.amount = iI.amount
+                newItem.sortId = Int64(sortID)
+                sortID += 1
+                newItem.recipeItemToUnit = getUnit(str: iI.unit)
+                newItem.recipeItemToRecipe = r
+                saveViewContext()
+            }
+            self.presentationMode.wrappedValue.dismiss()
+        }
+        
+        
+        
+        
+//                        let newRecipe = Recipe(context: viewContext)
+//                        newRecipe.name = self.name
+//                        newRecipe.picture = self.picture
+//                        newRecipe.instructions = self.instructions
+//                        newRecipe.timestamp = Date()
+//
+//                        try? self.viewContext.save()
+
+    }
+    
+    private func getUnit(str: String) -> Unit? {
+        var lastUnit: Unit? = nil
+        for unit in units {
+            if unit.unitToUnitType?.unitTypeName == selectedUnitType && unit.unitAbbreviation == str {
+                return unit
+            }
+            lastUnit = unit
+        }
+        
+        return lastUnit
+    }
+    
+    private func getBrewType(str: String) -> BrewType? {
+        var lastBT: BrewType? = nil
+        for bt in brewTypes {
+            if bt.typeDescription == str { return bt}
+            lastBT = bt
+        }
+        
+        return lastBT
+    }
+    
+    private func getUnitType(str: String) -> UnitType? {
+        var lastUT: UnitType? = nil
+        for ut in unitTypes {
+            if ut.unitTypeName == str { return ut}
+            lastUT = ut
+        }
+        
+        return lastUT
+    }
+    
+    private func convertUnits() {
+        let mets = ["l", "dl", "ml", "kg", "g"]
+        let imps = ["gal", "pt", "fl.oz", "lb", "oz"]
+        var anyThindChange = false
+
+        if prevUnitType != selectedUnitType {
+            if prevUnitType == "Metric" {
+                for i in 0..<mets.count {
+                    for iI in 0..<ingredientItems.count {
+                        if ingredientItems[iI].unit == mets[i] {
+                            ingredientItems[iI].unit = imps[i]
+                            anyThindChange = true
+                        }
+                    }
+                }
+            } else if selectedUnitType == "Metric" {
+                for i in 0..<imps.count {
+                    for iI in 0..<ingredientItems.count {
+                        if ingredientItems[iI].unit == imps[i] {
+                            ingredientItems[iI].unit = mets[i]
+                            anyThindChange = true
+                        }
                     }
                 }
             }
+        }
+        
+        if anyThindChange {
+            showUnitChangeAlert = true
+        }
+        prevUnitType = selectedUnitType
+    }
+
+    private func saveViewContext() {
+        do {
+            try viewContext.save()
+        } catch {
+            let nsError = error as NSError
+            fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
         }
     }
 }

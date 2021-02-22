@@ -126,6 +126,11 @@ struct IngredientsView : View {
             ingredientItems[currIndex].amount = amount
             ingredientItems[currIndex].unit = selectedUnit
         }
+        showAddIngredient = false
+        ingredient = ""
+        amount = ""
+        selectedUnit = "Tbsp"
+        currIndex = -1
         showUndoButton = true
     }
     
@@ -136,6 +141,11 @@ struct IngredientsView : View {
     
     private func onDelete(offsets: IndexSet) {
         ingredientItems.remove(atOffsets: offsets)
+        showAddIngredient = false
+        ingredient = ""
+        amount = ""
+        selectedUnit = "Tbsp"
+        currIndex = -1
         showUndoButton = true
     }
     
