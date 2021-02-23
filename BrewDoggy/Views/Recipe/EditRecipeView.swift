@@ -46,12 +46,19 @@ struct EditRecipeView: View {
     @State var ingredientItems = [ItemRow(name: "dummy", amount: "dummy", unit: "dummy")]
     @State private var changed = false
     @State private var firstTime = true
+    @State private var goBack = false
+    @State private var goBackDetail = false
+    @State private var outRecipe: Recipe? = nil
     @Binding var isSet: Bool
     
     var recipe: Recipe?
     
     var body: some View {
         ScrollView {
+            // Fix: Back button
+            NavigationLink(destination: RecipeListView(), isActive: $goBack) { EmptyView() }
+            NavigationLink(destination: RecipeDetailView(recipe: outRecipe ?? recipies[0]), isActive: $goBackDetail) { EmptyView() }
+            
             VStack(alignment: .center, spacing: 5.0) {
                 Button(action: {
                     viewModel.choosePhoto()
@@ -82,14 +89,19 @@ struct EditRecipeView: View {
                 if changed {
                     showChangeAlert = true
                 } else {
-                    self.presentationMode.wrappedValue.dismiss()
+                    goBack = true
                 }
             }) {
                 HStack{
                     Image(systemName: "chevron.left")
                     Text("Back")
                 }
-            }, trailing: Image(systemName: "camera").foregroundColor(.blue).onTapGesture { viewModel.takePhoto() }.padding())
+            }, trailing: Image(systemName: "camera")
+                .foregroundColor(.blue)
+                .onTapGesture { viewModel.takePhoto() }
+                .imageScale(.large)
+                .animation(.easeInOut)
+                .padding())
             .navigationBarTitle("\(title)",displayMode: .inline)
             .fullScreenCover(isPresented: $viewModel.isPresentingImagePicker) {
                 ImagePicker(sourceType: viewModel.sourceType, completionHandler: viewModel.didSelectImage)
@@ -300,6 +312,7 @@ struct EditRecipeView: View {
                 newItem.recipeItemToRecipe = r
                 saveViewContext()
             }
+            outRecipe = r
         } else {
             let newRecipe = Recipe(context: viewContext)
             newRecipe.id = UUID()
@@ -327,9 +340,11 @@ struct EditRecipeView: View {
                 newItem.recipeItemToRecipe = newRecipe
                 saveViewContext()
             }
+            outRecipe = newRecipe
         }
         isSet.toggle()
-        self.presentationMode.wrappedValue.dismiss()
+        goBackDetail = true
+//        self.presentationMode.wrappedValue.dismiss()
     }
     
     private func getUnit(str: String) -> Unit? {

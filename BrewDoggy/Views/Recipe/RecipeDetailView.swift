@@ -28,6 +28,7 @@ struct RecipeDetailView: View {
     @State private var selectedType = "Metric"
     @State private var types: [String] = []
     @State private var bruteForceReload = false
+    @State private var goBack = false
     var recipe: Recipe
     
     var recipeIndex: Int {
@@ -43,6 +44,9 @@ struct RecipeDetailView: View {
 
     var body: some View {
         ScrollView {
+            // Fix: Back button
+            NavigationLink(destination: RecipeListView(), isActive: $goBack) { EmptyView() }
+
             RecipeImage(image: UIImage(data: recipe.picture!)!)
                 .padding(.top, 20)
 
@@ -117,13 +121,21 @@ struct RecipeDetailView: View {
             }
             .padding(.horizontal, 15)
         }
+        .navigationBarBackButtonHidden(true)
+        .navigationBarItems(leading: Button(action: { goBack = true }) {
+            HStack{
+                Image(systemName: "chevron.left")
+                Text("Back")
+            }
+        }, trailing:
+            NavigationLink(destination: EditRecipeView(isSet: $bruteForceReload, recipe: recipe)) {
+                Image(systemName: "pencil").padding()
+                    .imageScale(.large)
+                    .animation(.easeInOut)
+                    .padding()
+            })
         .navigationTitle(recipe.name!)
         .navigationBarTitleDisplayMode(.inline)
-        .navigationBarItems(trailing:
-                                NavigationLink(destination: EditRecipeView(isSet: $bruteForceReload, recipe: recipe)) {
-                    Image(systemName: "pencil").padding()
-                }
-        )
     }
     
     private func changeMeasurement(type: String) {

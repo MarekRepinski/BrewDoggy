@@ -10,50 +10,148 @@ import CoreData
 
 struct ContentView: View {
     @Environment(\.managedObjectContext) private var viewContext
+    @FetchRequest(entity: BrewType.entity(), sortDescriptors: [], animation: .default)
+    private var brewTypes: FetchedResults<BrewType>
+
+    @State private var opacity = 1.0
+    @State private var showMeny = false
 
     var body: some View {
         NavigationView {
             ZStack(alignment: .top) {
                 VStack(alignment: .center) {
-                    Spacer()
-                    Image("LTd5gaBKcTextTrans")
-                        .opacity(0.05)
-                    Spacer()
-                }
-                VStack {
-                    Spacer()
-                    Text("Welcome to")
-                        .font(.largeTitle)
-                        .bold()
-                        .padding()
-                    Text("Brew Doggy")
-                        .font(.largeTitle)
-                        .bold()
-                        .padding()
-                    NavigationLink(destination: RecipeListView()) {
-                        HStack {
-                            Image("recipeHeader")
-                                .resizable()
-                                .scaledToFit()
-                                .clipShape(RoundedRectangle(cornerRadius: 25.0))
-                                .overlay(RoundedRectangle(cornerRadius: 25.0).stroke(Color.white, lineWidth: 8))
-                                .frame(width: 75, height: 75, alignment: .leading)
-                            Spacer()
-                            Text("Recipies")
-                                .font(.title)
-                                .bold()
-                        }
-                        .padding(.init(top: 5, leading: 60, bottom: 5, trailing: 100))
-                        .contentShape(Rectangle())
-                        .background(Color.white)
+                    if !showMeny {
+                        Spacer()
                     }
-                    Spacer()
+                    Image("LTd5gaBKcTextTrans")
+                        .resizable()
+                        .frame(width: 300, height: 500)
+                        .opacity(opacity)
+                        .onTapGesture { enterApp() }
+                    if !showMeny {
+                        Button(action: { enterApp() }) {
+                            Text("Enter!!")
+                                .font(.title)
+                                .foregroundColor(Color.blue)
+                                .bold()
+                                .padding()
+                                .contentShape(Rectangle())
+                                .background(Color.white).opacity(0.8)
+                        }
+
+                        Spacer()
+                    }
+                }
+                if showMeny {
+                    VStack {
+                        Spacer()
+
+                        Text("Brew Doggy")
+                            .font(.largeTitle)
+                            .bold()
+                            .padding()
+                        NavigationLink(destination: RecipeListView()) {
+                            HStack {
+                                Image("recipeHeader2")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .clipShape(RoundedRectangle(cornerRadius: 25.0))
+                                    .overlay(RoundedRectangle(cornerRadius: 25.0).stroke(Color.white, lineWidth: 8))
+                                    .frame(width: 100, height: 80, alignment: .leading)
+
+                                Text("Recipies")
+                                    .font(.title)
+                                    .bold()
+                                    .padding()
+                            }
+                            .padding(.init(top: 5, leading: 60, bottom: 5, trailing: 30))
+                            .contentShape(Rectangle())
+                            .background(Color.white).opacity(0.8)
+
+                            Spacer()
+                        }
+
+                        NavigationLink(destination: EmptyView()) {
+                            HStack {
+                                Image("brewHeader")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .clipShape(RoundedRectangle(cornerRadius: 25.0))
+                                    .overlay(RoundedRectangle(cornerRadius: 25.0).stroke(Color.white, lineWidth: 8))
+                                    .frame(width: 100, height: 80, alignment: .leading)
+
+                                Text("Brews")
+                                    .font(.title)
+                                    .bold()
+                                    .padding()
+                            }
+                            .padding(.init(top: 5, leading: 60, bottom: 5, trailing: 30))
+                            .contentShape(Rectangle())
+                            .background(Color.white).opacity(0.8)
+
+                            Spacer()
+                        }
+
+                        NavigationLink(destination: EmptyView()) {
+                            HStack {
+                                Image("wineCellar")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .clipShape(RoundedRectangle(cornerRadius: 25.0))
+                                    .overlay(RoundedRectangle(cornerRadius: 25.0).stroke(Color.white, lineWidth: 8))
+                                    .frame(width: 100, height: 80, alignment: .leading)
+
+                                Text("Wine Cellar")
+                                    .font(.title)
+                                    .bold()
+                                    .padding()
+                            }
+                            .padding(.init(top: 5, leading: 60, bottom: 5, trailing: 30))
+                            .contentShape(Rectangle())
+                            .background(Color.white).opacity(0.8)
+
+                            Spacer()
+                        }
+
+                        NavigationLink(destination: EmptyView()) {
+                            HStack {
+                                Image("qrCodeHeader")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .clipShape(RoundedRectangle(cornerRadius: 25.0))
+                                    .overlay(RoundedRectangle(cornerRadius: 25.0).stroke(Color.white, lineWidth: 8))
+                                    .frame(width: 100, height: 80, alignment: .leading)
+
+                                Text("Scan")
+                                    .font(.title)
+                                    .bold()
+                                    .padding()
+                            }
+                            .padding(.init(top: 5, leading: 60, bottom: 5, trailing: 30))
+                            .contentShape(Rectangle())
+                            .background(Color.white).opacity(0.8)
+
+                            Spacer()
+                        }
+                        Spacer()
+                    }
                 }
             }
             .background(Color.white)
-//            .ignoresSafeArea()
+            .ignoresSafeArea()
+            .onAppear() {
+                if brewTypes.count == 0 {
+                    _ = MockData(context: viewContext)
+                }
+            }
         }
-//        RecipeListView()
+    }
+    
+    private func enterApp() {
+        withAnimation(Animation.easeInOut(duration: 2)){
+            opacity = 0.05
+            showMeny = true
+        }
     }
 }
 

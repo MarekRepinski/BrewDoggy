@@ -155,7 +155,10 @@ struct IngredientsView : View {
     
     private var addButton: some View {
         if !showAddIngredient {
-            return AnyView(Button(action: { showAddIngredient = true }) { Image(systemName: "plus") })
+            return AnyView(Button(action: { showAddIngredient = true }) {
+                            Image(systemName: "plus")
+                                .imageScale(.large)
+            })
         } else {
             return AnyView(Button(action: {
                 showAddIngredient = false
