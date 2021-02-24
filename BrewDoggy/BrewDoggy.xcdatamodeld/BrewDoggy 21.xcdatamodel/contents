@@ -15,7 +15,7 @@
         <attribute name="picture" optional="YES" attributeType="Binary"/>
         <attribute name="timestamp" attributeType="Date" defaultDateTimeInterval="-161590980" usesScalarValueType="NO"/>
         <relationship name="recipeToBrewType" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="BrewType" inverseName="brewTypeToRecipe" inverseEntity="BrewType"/>
-        <relationship name="recipeToRecipeItem" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="RecipeItem" inverseName="recipeItemToRecipe" inverseEntity="RecipeItem"/>
+        <relationship name="recipeToRecipeItem" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="RecipeItem" inverseName="recipeItemToRecipe" inverseEntity="RecipeItem"/>
         <relationship name="recipeToUnitType" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UnitType" inverseName="unitTypeToRecipe" inverseEntity="UnitType"/>
     </entity>
     <entity name="RecipeItem" representedClassName="RecipeItem" syncable="YES" codeGenerationType="class">

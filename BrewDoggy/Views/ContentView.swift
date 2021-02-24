@@ -20,14 +20,15 @@ struct ContentView: View {
         NavigationView {
             ZStack(alignment: .top) {
                 VStack(alignment: .center) {
-                    if !showMeny {
-                        Spacer()
-                    }
+//                    if !showMeny {
+//                        Spacer()
+//                    }
                     Image("LTd5gaBKcTextTrans")
                         .resizable()
                         .frame(width: 300, height: 500)
                         .opacity(opacity)
                         .onTapGesture { enterApp() }
+                        .padding(.init(top: 100, leading: 10, bottom: 5, trailing: 10))
                     if !showMeny {
                         Button(action: { enterApp() }) {
                             Text("Enter!!")
@@ -52,7 +53,7 @@ struct ContentView: View {
                             .padding()
                         NavigationLink(destination: RecipeListView()) {
                             HStack {
-                                Image("recipeHeader2")
+                                Image("RecipePic")
                                     .resizable()
                                     .scaledToFit()
                                     .clipShape(RoundedRectangle(cornerRadius: 25.0))
@@ -137,6 +138,7 @@ struct ContentView: View {
                     }
                 }
             }
+            .navigationViewStyle(StackNavigationViewStyle())
             .background(Color.white)
             .ignoresSafeArea()
             .onAppear() {
@@ -148,8 +150,8 @@ struct ContentView: View {
     }
     
     private func enterApp() {
-        withAnimation(Animation.easeInOut(duration: 2)){
-            opacity = 0.05
+        withAnimation(Animation.easeInOut(duration: 1)){
+            opacity = 0.08
             showMeny = true
         }
     }

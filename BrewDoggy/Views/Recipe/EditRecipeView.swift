@@ -46,19 +46,14 @@ struct EditRecipeView: View {
     @State var ingredientItems = [ItemRow(name: "dummy", amount: "dummy", unit: "dummy")]
     @State private var changed = false
     @State private var firstTime = true
-    @State private var goBack = false
-    @State private var goBackDetail = false
     @State private var outRecipe: Recipe? = nil
     @Binding var isSet: Bool
     
     var recipe: Recipe?
+    var returnShow: Bool = true
     
     var body: some View {
         ScrollView {
-            // Fix: Back button
-            NavigationLink(destination: RecipeListView(), isActive: $goBack) { EmptyView() }
-            NavigationLink(destination: RecipeDetailView(recipe: outRecipe ?? recipies[0]), isActive: $goBackDetail) { EmptyView() }
-            
             VStack(alignment: .center, spacing: 5.0) {
                 Button(action: {
                     viewModel.choosePhoto()
@@ -89,7 +84,7 @@ struct EditRecipeView: View {
                 if changed {
                     showChangeAlert = true
                 } else {
-                    goBack = true
+                    self.presentationMode.wrappedValue.dismiss()
                 }
             }) {
                 HStack{
@@ -253,7 +248,6 @@ struct EditRecipeView: View {
         }
         if let r = recipe {
             if firstTime {
-                print("Hallo!")
                 firstTime = false
                 name = r.name!
                 title = "Edit recipe"
@@ -343,8 +337,7 @@ struct EditRecipeView: View {
             outRecipe = newRecipe
         }
         isSet.toggle()
-        goBackDetail = true
-//        self.presentationMode.wrappedValue.dismiss()
+        self.presentationMode.wrappedValue.dismiss()
     }
     
     private func getUnit(str: String) -> Unit? {
