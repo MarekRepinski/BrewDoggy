@@ -19,8 +19,10 @@ struct RecipeListView: View {
     @State private var showFavoritesOnly = false
     @State private var bruteForceReload = false
     @State private var showList = true
+    @State private var askBeforeDelete = false
     @State private var editIsActive = false
     @State private var isAddActive = false
+    @State private var deleteOffSet: IndexSet = [0]
     
     var filteredRecipies: [Recipe] {
         recipies.filter { r in
@@ -137,13 +139,24 @@ struct RecipeListView: View {
                     Spacer()
                 }
             }
+            .alert(isPresented: $askBeforeDelete) {
+                Alert(title: Text("Deleting a recipe"),
+                      message: Text("This action can not be undone. Are you really sure?"),
+                      primaryButton: .default(Text("Yes")) { deleteRecipe() },
+                      secondaryButton: .cancel(Text("No")))
+            }
         }
         .navigationBarHidden(true)
     }
     
     private func onDelete(offsets: IndexSet) {
+        deleteOffSet = offsets
+        askBeforeDelete = true
+    }
+    
+    private func deleteRecipe() {
         withAnimation {
-            offsets.map { filteredRecipies[$0] }.forEach(viewContext.delete)
+            deleteOffSet.map { filteredRecipies[$0] }.forEach(viewContext.delete)
         }
         saveViewContext()
     }
@@ -209,8 +222,8 @@ struct CategoryItem: View {
     }
 }
 
-struct RecipeListView_Previews: PreviewProvider {
-    static var previews: some View {
-        RecipeListView()
-    }
-}
+//struct RecipeListView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        RecipeListView()
+//    }
+//}
