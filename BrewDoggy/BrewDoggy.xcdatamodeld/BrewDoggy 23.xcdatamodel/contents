@@ -10,7 +10,7 @@
         <attribute name="picture" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES"/>
         <attribute name="start" attributeType="Date" defaultDateTimeInterval="-162454980" usesScalarValueType="NO"/>
         <attribute name="timestamp" attributeType="Date" defaultDateTimeInterval="-161590980" usesScalarValueType="NO"/>
-        <relationship name="brewToBrewCheck" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="BrewCheck" inverseName="brewCheckToBrew" inverseEntity="BrewCheck"/>
+        <relationship name="brewToBrewCheck" optional="YES" toMany="YES" deletionRule="Deny" destinationEntity="BrewCheck" inverseName="brewCheckToBrew" inverseEntity="BrewCheck"/>
         <relationship name="brewToBrewType" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="BrewType" inverseName="brewTypeToBrew" inverseEntity="BrewType"/>
         <relationship name="brewToRecipe" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Recipe" inverseName="recipeToBrew" inverseEntity="Recipe"/>
     </entity>

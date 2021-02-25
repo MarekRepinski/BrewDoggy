@@ -9,6 +9,7 @@ import SwiftUI
 
 struct RecipeDetailView: View {
     @Environment(\.managedObjectContext) private var viewContext
+    @Environment(\.presentationMode) var presentationMode
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Recipe.timestamp, ascending: true)], animation: .default)
     private var recipies: FetchedResults<Recipe>
     @FetchRequest(entity: BrewType.entity(), sortDescriptors: [], animation: .default)
@@ -28,8 +29,10 @@ struct RecipeDetailView: View {
     @State private var selectedType = "Metric"
     @State private var types: [String] = []
     @State private var bruteForceReload = false
+    @State private var editIsActive = false
+    @Binding var isAddActive: Bool
+    
     var recipe: Recipe
-    var returnShow: Bool
     
     var recipeIndex: Int {
         recipies.firstIndex(where: { $0.id == recipe.id})!
@@ -44,6 +47,9 @@ struct RecipeDetailView: View {
 
     var body: some View {
         ScrollView {
+            NavigationLink(destination: EditRecipeView(isSet: $bruteForceReload, recipe: recipe),
+                           isActive: $editIsActive) { EmptyView() }.hidden()
+
             RecipeImage(image: UIImage(data: recipe.picture!)!)
                 .padding(.top, 20)
 
@@ -118,13 +124,27 @@ struct RecipeDetailView: View {
             }
             .padding(.horizontal, 15)
         }
-        .navigationBarItems(trailing:
-            NavigationLink(destination: EditRecipeView(isSet: $bruteForceReload, recipe: recipe)) {
-                Image(systemName: "pencil").padding()
-                    .imageScale(.large)
-                    .animation(.easeInOut)
-                    .padding()
-            })
+        .navigationBarBackButtonHidden(true)
+        .navigationBarItems(leading:
+                                Button(action: {
+                                    print("\(isAddActive)")
+                                    if isAddActive {
+                                        isAddActive = false
+                                    } else {
+                                        self.presentationMode.wrappedValue.dismiss()
+                                    }
+                                }) {
+                                    HStack{
+                                        Image(systemName: "chevron.left")
+                                        Text("Back")
+                                    }
+                                }, trailing:
+                                    Button(action: { editIsActive = true }) {
+                                        Image(systemName: "pencil").padding()
+                                            .imageScale(.large)
+                                            .animation(.easeInOut)
+                                            .padding()
+                                    })
         .navigationTitle(recipe.name!)
         .navigationBarTitleDisplayMode(.inline)
     }

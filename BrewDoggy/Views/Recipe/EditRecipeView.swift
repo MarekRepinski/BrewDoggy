@@ -46,11 +46,10 @@ struct EditRecipeView: View {
     @State var ingredientItems = [ItemRow(name: "dummy", amount: "dummy", unit: "dummy")]
     @State private var changed = false
     @State private var firstTime = true
-    @State private var outRecipe: Recipe? = nil
+    @State private var editIsActive = false
     @Binding var isSet: Bool
     
     var recipe: Recipe?
-    var returnShow: Bool = true
     
     var body: some View {
         ScrollView {
@@ -306,35 +305,6 @@ struct EditRecipeView: View {
                 newItem.recipeItemToRecipe = r
                 saveViewContext()
             }
-            outRecipe = r
-        } else {
-            let newRecipe = Recipe(context: viewContext)
-            newRecipe.id = UUID()
-            newRecipe.name = name
-            newRecipe.instructions = instructions
-            if let pic = viewModel.selectedImage {
-                newRecipe.picture = pic.jpegData(compressionQuality: 1.0)
-            } else {
-                newRecipe.picture = UIImage(named: "LTd5gaBKcTextTrans")!.jpegData(compressionQuality: 1.0)
-            }
-            newRecipe.recipeToBrewType = getBrewType(str: selectedBrewType)
-            newRecipe.recipeToUnitType = getUnitType(str: selectedUnitType)
-            newRecipe.timestamp = Date()
-            saveViewContext()
-
-            var sortID = 1
-            for iI in ingredientItems {
-                let newItem = RecipeItem(context: viewContext)
-                newItem.id = UUID()
-                newItem.itemDescription = iI.name
-                newItem.amount = iI.amount
-                newItem.sortId = Int64(sortID)
-                sortID += 1
-                newItem.recipeItemToUnit = getUnit(str: iI.unit)
-                newItem.recipeItemToRecipe = newRecipe
-                saveViewContext()
-            }
-            outRecipe = newRecipe
         }
         isSet.toggle()
         self.presentationMode.wrappedValue.dismiss()

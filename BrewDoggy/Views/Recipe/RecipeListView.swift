@@ -10,7 +10,7 @@ import SwiftUI
 struct RecipeListView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @Environment(\.presentationMode) var presentationMode
-
+    
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Recipe.timestamp, ascending: false)], animation: .default)
     private var recipies: FetchedResults<Recipe>
     @FetchRequest(entity: BrewType.entity(), sortDescriptors: [], animation: .default)
@@ -19,6 +19,8 @@ struct RecipeListView: View {
     @State private var showFavoritesOnly = false
     @State private var bruteForceReload = false
     @State private var showList = true
+    @State private var editIsActive = false
+    @State private var isAddActive = false
     
     var filteredRecipies: [Recipe] {
         recipies.filter { r in
@@ -27,56 +29,66 @@ struct RecipeListView: View {
     }
     
     var body: some View {
-        List {
-            if showList { //Show recipies as a list
-                Toggle(isOn: $showFavoritesOnly) {
-                    Text("Favorites only")
-                }
-                ForEach(filteredRecipies) { recipe in
-                    NavigationLink(destination: RecipeDetailView(recipe: recipe, returnShow: showList)) {
-                        HStack {
-                            Image(uiImage: UIImage(data: recipe.picture!)!)
-                                .resizable()
-                                .frame(width: 50, height: 50)
-                            
-                            Text("\(recipe.recipeToBrewType!.typeDescription!) - \(recipe.name!)")
-                            
-                            Spacer()
-                            
-                            if recipe.isFavorite {
-                                Image(systemName: "star.fill")
-                                    .foregroundColor(.yellow)
+        NavigationView {
+            List {
+                NavigationLink(destination: AddRecipeView(isSet: $bruteForceReload, isAddActive: $editIsActive),
+                               isActive: $editIsActive) { EmptyView() }.hidden()
+                if showList { //Show recipies as a list
+                    Toggle(isOn: $showFavoritesOnly) {
+                        Text("Favorites only")
+                    }
+                    ForEach(filteredRecipies) { recipe in
+                        NavigationLink(destination: RecipeDetailView(isAddActive: $isAddActive, recipe: recipe)) {
+                            HStack {
+                                Image(uiImage: UIImage(data: recipe.picture!)!)
+                                    .resizable()
+                                    .frame(width: 50, height: 50)
+
+                                Text("\(recipe.recipeToBrewType!.typeDescription!) - \(recipe.name!)")
+
+                                Spacer()
+
+                                if recipe.isFavorite {
+                                    Image(systemName: "star.fill")
+                                        .foregroundColor(.yellow)
+                                }
                             }
                         }
                     }
-                }
-                .onDelete(perform: onDelete)
-            } else { // Show recipies sorted by brewtype
-                Image("RecipePic")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(height: 200)
-                    .clipped()
+                    .onDelete(perform: onDelete)
+                } else { // Show recipies sorted by brewtype
+                    Image("RecipePic")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(height: 200)
+                        .clipped()
 
-                ForEach(brewTypes) { bt in
-                    CategoryRow(bt: bt, recipeList: filteredRecipies, returnShow: showList)
-                    .listRowInsets(EdgeInsets())
+                    ForEach(brewTypes) { bt in
+                        CategoryRow(bt: bt, recipeList: filteredRecipies)
+                            .listRowInsets(EdgeInsets())
+                    }
                 }
             }
-        }
-        .navigationBarTitleDisplayMode(.inline)
-        .navigationBarTitle("Your Recipies:")
-        .navigationBarItems(trailing:
-                                NavigationLink(destination: EditRecipeView(isSet: $bruteForceReload, recipe: nil, returnShow: showList)
-                                                .environment(\.managedObjectContext, viewContext)) {
-                                    Image(systemName: "plus")
-                                        .imageScale(.large)
-                                        .padding()
-                                }
-        ) 
-        .toolbar {
-            ToolbarItemGroup(placement: .bottomBar) {
-                Spacer()
+            .navigationBarTitleDisplayMode(.inline)
+            .navigationBarTitle("Your Recipies:")
+            .navigationBarItems(leading:
+                                    Button(action: {
+                                        self.presentationMode.wrappedValue.dismiss()
+                                    }) {
+                                        HStack{
+                                            Image(systemName: "chevron.left")
+                                            Text("Back")
+                                        }
+                                    }, trailing:
+                                        Button(action: { editIsActive = true}) {
+                                            Image(systemName: "plus")
+                                                .imageScale(.large)
+                                                .padding()
+                                        }
+            )
+            .toolbar {
+                ToolbarItemGroup(placement: .bottomBar) {
+                    Spacer()
 
                     VStack {
                         Image(systemName: "house.fill")
@@ -90,9 +102,9 @@ struct RecipeListView: View {
                     .onTapGesture {
                         self.presentationMode.wrappedValue.dismiss()
                     }
-                
-                Spacer()
-                
+
+                    Spacer()
+
                     VStack {
                         Image(systemName: "list.dash")
                             .foregroundColor(Color(.blue))
@@ -106,8 +118,8 @@ struct RecipeListView: View {
                         showList = true
                     }
 
-                Spacer()
-                
+                    Spacer()
+
                     VStack {
                         Image(systemName: "square.grid.4x3.fill")
                             .foregroundColor(Color(.blue))
@@ -121,10 +133,12 @@ struct RecipeListView: View {
                         showList = false
                     }
 
-                
-                Spacer()
+
+                    Spacer()
+                }
             }
         }
+        .navigationBarHidden(true)
     }
     
     private func onDelete(offsets: IndexSet) {
@@ -133,7 +147,7 @@ struct RecipeListView: View {
         }
         saveViewContext()
     }
-    
+
     private func saveViewContext() {
         do {
             try viewContext.save()
@@ -142,13 +156,13 @@ struct RecipeListView: View {
             fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
         }
     }
-
 }
 
 struct CategoryRow: View {
+    @State private var isAddActive = false
+
     var bt: BrewType
     var recipeList: [Recipe]
-    var returnShow: Bool
     var items: [Recipe] {
         recipeList.filter { r in
             (r.recipeToBrewType == bt)
@@ -165,7 +179,7 @@ struct CategoryRow: View {
             ScrollView(.horizontal, showsIndicators: false) {
                 HStack(alignment: .top, spacing: 0) {
                     ForEach(items){ recipe in
-                        NavigationLink(destination: RecipeDetailView(recipe: recipe, returnShow: returnShow)) {
+                        NavigationLink(destination: RecipeDetailView(isAddActive: $isAddActive, recipe: recipe)) {
                             CategoryItem(recipe: recipe)
                         }
                     }

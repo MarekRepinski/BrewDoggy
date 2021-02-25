@@ -20,28 +20,14 @@ struct ContentView: View {
         NavigationView {
             ZStack(alignment: .top) {
                 VStack(alignment: .center) {
-//                    if !showMeny {
-//                        Spacer()
-//                    }
                     Image("LTd5gaBKcTextTrans")
                         .resizable()
                         .frame(width: 300, height: 500)
                         .opacity(opacity)
                         .onTapGesture { enterApp() }
                         .padding(.init(top: 100, leading: 10, bottom: 5, trailing: 10))
-                    if !showMeny {
-                        Button(action: { enterApp() }) {
-                            Text("Enter!!")
-                                .font(.title)
-                                .foregroundColor(Color.blue)
-                                .bold()
-                                .padding()
-                                .contentShape(Rectangle())
-                                .background(Color.white).opacity(0.8)
-                        }
-
-                        Spacer()
-                    }
+                    
+                    Spacer()
                 }
                 if showMeny {
                     VStack {
@@ -72,7 +58,7 @@ struct ContentView: View {
                             Spacer()
                         }
 
-                        NavigationLink(destination: EmptyView()) {
+                        NavigationLink(destination: BrewListView()) {
                             HStack {
                                 Image("brewHeader")
                                     .resizable()
@@ -145,6 +131,15 @@ struct ContentView: View {
                 if brewTypes.count == 0 {
                     _ = MockData(context: viewContext)
                 }
+                let _delay = RunLoop.SchedulerTimeType(.init(timeIntervalSinceNow: 3))
+                RunLoop.main.schedule(after: _delay) {
+                    withAnimation(Animation.easeInOut(duration: 2)){
+                        opacity = 0.08
+                        showMeny = true
+                    }
+                    
+                }
+                
             }
         }
     }

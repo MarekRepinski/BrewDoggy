@@ -296,6 +296,7 @@ struct MockData {
         newBrewType.typeDescription = "Beer"
         newBrewType.picture = UIImage(named: "beerStandard")?.jpegData(compressionQuality: 1.0)
         saveViewContext()
+        let beerBrewType = newBrewType
 
         var newRecipe = Recipe(context: viewContext)
         newRecipe.id = UUID()
@@ -352,6 +353,7 @@ struct MockData {
         newRecipe.timestamp = DateComponents(calendar: Calendar.current, year: 2020, month: 1, day: 4).date!
         newRecipe.recipeToBrewType = newBrewType
         saveViewContext()
+        let belgian = newRecipe
 
         newRecipteItem = RecipeItem(context: viewContext)
         newRecipteItem.id = UUID()
@@ -515,6 +517,7 @@ struct MockData {
         newBrewType.typeDescription = "Wine"
         newBrewType.picture = UIImage(named: "wineStandard")?.jpegData(compressionQuality: 1.0)
         saveViewContext()
+        let wineBrewType = newBrewType
 
         newRecipe = Recipe(context: viewContext)
         newRecipe.id = UUID()
@@ -653,6 +656,7 @@ struct MockData {
         newRecipe.timestamp = DateComponents(calendar: Calendar.current, year: 2020, month: 1, day: 7).date!
         newRecipe.recipeToBrewType = newBrewType
         saveViewContext()
+        let appleWine = newRecipe
 
         newRecipteItem = RecipeItem(context: viewContext)
         newRecipteItem.id = UUID()
@@ -1080,6 +1084,108 @@ struct MockData {
         newRecipteItem.recipeItemToUnit = packet
         newRecipteItem.sortId = 7
         newRecipteItem.recipeItemToRecipe = newRecipe
+        saveViewContext()
+
+        //-----------------------------------------------//
+        //                    Brew                       //
+        //-----------------------------------------------//
+        var newBrew = Brew(context: viewContext)
+        newBrew.id = UUID()
+        newBrew.name = "My first Beer"
+        newBrew.picture = UIImage(named: "myBeer1")?.jpegData(compressionQuality: 1.0)
+        newBrew.isDone = true
+        newBrew.start = DateComponents(calendar: Calendar.current, year: 2020, month: 11, day: 1).date
+        newBrew.eta = DateComponents(calendar: Calendar.current, year: 2020, month: 11, day: 21).date
+        newBrew.originalGravity = 1075
+        newBrew.timestamp = DateComponents(calendar: Calendar.current, year: 2020, month: 11, day: 1).date
+        newBrew.brewToBrewType = beerBrewType
+        newBrew.brewToRecipe = belgian
+        saveViewContext()
+        
+        var newBrewCheck = BrewCheck(context: viewContext)
+        newBrewCheck.id = UUID()
+        newBrewCheck.date = DateComponents(calendar: Calendar.current, year: 2020, month: 11, day: 5).date
+        newBrewCheck.comment = "Just a peek"
+        newBrewCheck.gravity = 1040
+        newBrewCheck.timestamp = DateComponents(calendar: Calendar.current, year: 2020, month: 11, day: 5).date
+        newBrewCheck.brewCheckToBrew = newBrew
+        saveViewContext()
+
+        newBrewCheck = BrewCheck(context: viewContext)
+        newBrewCheck.id = UUID()
+        newBrewCheck.date = DateComponents(calendar: Calendar.current, year: 2020, month: 11, day: 12).date
+        newBrewCheck.comment = "Change bucket"
+        newBrewCheck.gravity = 1030
+        newBrewCheck.timestamp = DateComponents(calendar: Calendar.current, year: 2020, month: 11, day: 12).date
+        newBrewCheck.brewCheckToBrew = newBrew
+        saveViewContext()
+
+        newBrewCheck = BrewCheck(context: viewContext)
+        newBrewCheck.id = UUID()
+        newBrewCheck.date = DateComponents(calendar: Calendar.current, year: 2020, month: 11, day: 19).date
+        newBrewCheck.comment = "Added acid to stop fermenting"
+        newBrewCheck.gravity = 1010
+        newBrewCheck.timestamp = DateComponents(calendar: Calendar.current, year: 2020, month: 11, day: 19).date
+        newBrewCheck.brewCheckToBrew = newBrew
+        saveViewContext()
+
+        newBrewCheck = BrewCheck(context: viewContext)
+        newBrewCheck.id = UUID()
+        newBrewCheck.date = DateComponents(calendar: Calendar.current, year: 2020, month: 11, day: 20).date
+        newBrewCheck.comment = "Botteling"
+        newBrewCheck.gravity = 1005
+        newBrewCheck.timestamp = DateComponents(calendar: Calendar.current, year: 2020, month: 11, day: 20).date
+        newBrewCheck.brewCheckToBrew = newBrew
+        saveViewContext()
+
+        newBrew = Brew(context: viewContext)
+        newBrew.id = UUID()
+        newBrew.name = "My first Applewine"
+        newBrew.picture = UIImage(named: "myAppleWine1")?.jpegData(compressionQuality: 1.0)
+        newBrew.isDone = false
+        newBrew.start = DateComponents(calendar: Calendar.current, year: 2020, month: 12, day: 1).date
+        newBrew.eta = DateComponents(calendar: Calendar.current, year: 2020, month: 12, day: 21).date
+        newBrew.originalGravity = 1095
+        newBrew.grade = 4
+        newBrew.timestamp = DateComponents(calendar: Calendar.current, year: 2020, month: 12, day: 21).date
+        newBrew.brewToBrewType = wineBrewType
+        newBrew.brewToRecipe = appleWine
+        saveViewContext()
+        
+        newBrewCheck = BrewCheck(context: viewContext)
+        newBrewCheck.id = UUID()
+        newBrewCheck.date = DateComponents(calendar: Calendar.current, year: 2020, month: 12, day: 5).date
+        newBrewCheck.comment = "Just a peek"
+        newBrewCheck.gravity = 1040
+        newBrewCheck.timestamp = DateComponents(calendar: Calendar.current, year: 2020, month: 12, day: 5).date
+        newBrewCheck.brewCheckToBrew = newBrew
+        saveViewContext()
+
+        newBrewCheck = BrewCheck(context: viewContext)
+        newBrewCheck.id = UUID()
+        newBrewCheck.date = DateComponents(calendar: Calendar.current, year: 2020, month: 12, day: 12).date
+        newBrewCheck.comment = "Change bucket"
+        newBrewCheck.gravity = 1025
+        newBrewCheck.timestamp = DateComponents(calendar: Calendar.current, year: 2020, month: 12, day: 12).date
+        newBrewCheck.brewCheckToBrew = newBrew
+        saveViewContext()
+
+        newBrewCheck = BrewCheck(context: viewContext)
+        newBrewCheck.id = UUID()
+        newBrewCheck.date = DateComponents(calendar: Calendar.current, year: 2020, month: 12, day: 19).date
+        newBrewCheck.comment = "Added acid to stop fermenting"
+        newBrewCheck.gravity = 1005
+        newBrewCheck.timestamp = DateComponents(calendar: Calendar.current, year: 2020, month: 12, day: 19).date
+        newBrewCheck.brewCheckToBrew = newBrew
+        saveViewContext()
+
+        newBrewCheck = BrewCheck(context: viewContext)
+        newBrewCheck.id = UUID()
+        newBrewCheck.date = DateComponents(calendar: Calendar.current, year: 2020, month: 12, day: 20).date
+        newBrewCheck.comment = "Botteling"
+        newBrewCheck.gravity = 990
+        newBrewCheck.timestamp = DateComponents(calendar: Calendar.current, year: 2020, month: 12, day: 20).date
+        newBrewCheck.brewCheckToBrew = newBrew
         saveViewContext()
     }
     
