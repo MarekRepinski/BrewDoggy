@@ -13,7 +13,7 @@ struct RecipeListView: View {
     
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Recipe.timestamp, ascending: false)], animation: .default)
     private var recipies: FetchedResults<Recipe>
-    @FetchRequest(entity: BrewType.entity(), sortDescriptors: [], animation: .default)
+    @FetchRequest(entity: BrewType.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \BrewType.timestamp, ascending: false)], animation: .default)
     private var brewTypes: FetchedResults<BrewType>
     
     @State private var showFavoritesOnly = false

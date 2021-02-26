@@ -295,6 +295,7 @@ struct MockData {
         newBrewType.id = UUID()
         newBrewType.typeDescription = "Beer"
         newBrewType.picture = UIImage(named: "beerStandard")?.jpegData(compressionQuality: 1.0)
+        newBrewType.timestamp = DateComponents(calendar: Calendar.current, year: 2000, month: 1, day: 10).date!
         saveViewContext()
         let beerBrewType = newBrewType
 
@@ -516,6 +517,7 @@ struct MockData {
         newBrewType.id = UUID()
         newBrewType.typeDescription = "Wine"
         newBrewType.picture = UIImage(named: "wineStandard")?.jpegData(compressionQuality: 1.0)
+        newBrewType.timestamp = DateComponents(calendar: Calendar.current, year: 2000, month: 1, day: 9).date!
         saveViewContext()
         let wineBrewType = newBrewType
 
@@ -737,6 +739,7 @@ struct MockData {
         newBrewType.id = UUID()
         newBrewType.typeDescription = "Cider"
         newBrewType.picture = UIImage(named: "cidetStandard")?.jpegData(compressionQuality: 1.0)
+        newBrewType.timestamp = DateComponents(calendar: Calendar.current, year: 2000, month: 1, day: 8).date!
         saveViewContext()
 
         newRecipe = Recipe(context: viewContext)
@@ -865,6 +868,7 @@ struct MockData {
         newBrewType.id = UUID()
         newBrewType.typeDescription = "Mead"
         newBrewType.picture = UIImage(named: "meadStandard")?.jpegData(compressionQuality: 1.0)
+        newBrewType.timestamp = DateComponents(calendar: Calendar.current, year: 2000, month: 1, day: 7).date!
         saveViewContext()
 
         newRecipe = Recipe(context: viewContext)
@@ -966,6 +970,8 @@ struct MockData {
         newBrewType.id = UUID()
         newBrewType.typeDescription = "Other"
         newBrewType.picture = UIImage(named: "otherStandard")?.jpegData(compressionQuality: 1.0)
+        newBrewType.timestamp = DateComponents(calendar: Calendar.current, year: 2000, month: 1, day: 6).date!
+
         saveViewContext()
 
         newRecipe = Recipe(context: viewContext)
@@ -1094,6 +1100,8 @@ struct MockData {
         newBrew.name = "My first Beer"
         newBrew.picture = UIImage(named: "myBeer1")?.jpegData(compressionQuality: 1.0)
         newBrew.isDone = true
+        newBrew.grade = 2
+        newBrew.finalGravity = 1005
         newBrew.start = DateComponents(calendar: Calendar.current, year: 2020, month: 11, day: 1).date
         newBrew.eta = DateComponents(calendar: Calendar.current, year: 2020, month: 11, day: 21).date
         newBrew.originalGravity = 1075
@@ -1144,10 +1152,9 @@ struct MockData {
         newBrew.picture = UIImage(named: "myAppleWine1")?.jpegData(compressionQuality: 1.0)
         newBrew.isDone = false
         newBrew.start = DateComponents(calendar: Calendar.current, year: 2020, month: 12, day: 1).date
-        newBrew.eta = DateComponents(calendar: Calendar.current, year: 2020, month: 12, day: 21).date
+        newBrew.eta = DateComponents(calendar: Calendar.current, year: 2021, month: 3, day: 1).date
         newBrew.originalGravity = 1095
-        newBrew.grade = 4
-        newBrew.timestamp = DateComponents(calendar: Calendar.current, year: 2020, month: 12, day: 21).date
+        newBrew.timestamp = DateComponents(calendar: Calendar.current, year: 2020, month: 12, day: 1).date
         newBrew.brewToBrewType = wineBrewType
         newBrew.brewToRecipe = appleWine
         saveViewContext()

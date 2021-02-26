@@ -44,7 +44,6 @@ struct RecipeDetailView: View {
             (r.recipeItemToRecipe == recipe)
         }
     }
-    
 
     var body: some View {
         ScrollView {

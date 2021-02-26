@@ -15,6 +15,10 @@ struct ContentView: View {
 
     @State private var opacity = 1.0
     @State private var showMeny = false
+    @State private var recipeGo = false
+    @State private var brewGo = false
+    @State private var wineCellarGo = false
+    @State private var scanGo = false
 
     var body: some View {
         NavigationView {
@@ -37,7 +41,7 @@ struct ContentView: View {
                             .font(.largeTitle)
                             .bold()
                             .padding()
-                        NavigationLink(destination: RecipeListView()) {
+                        NavigationLink(destination: RecipeListView(), isActive: $recipeGo) {
                             HStack {
                                 Image("RecipePic")
                                     .resizable()
@@ -58,7 +62,7 @@ struct ContentView: View {
                             Spacer()
                         }
 
-                        NavigationLink(destination: BrewListView()) {
+                        NavigationLink(destination: BrewListView(), isActive: $brewGo) {
                             HStack {
                                 Image("brewHeader")
                                     .resizable()
@@ -140,6 +144,71 @@ struct ContentView: View {
                     
                 }
                 
+            }
+            .toolbar {
+                ToolbarItemGroup(placement: .bottomBar) {
+                    Spacer()
+
+                    VStack {
+                        Image(systemName: "scroll.fill")
+                            .foregroundColor(Color(.blue))
+                            .imageScale(.large)
+                        Text("Recipe")
+                            .foregroundColor(Color(.blue))
+                            .font(.footnote)
+                            .bold()
+                    }
+                    .onTapGesture {
+                        recipeGo = true
+                    }
+
+                    Spacer()
+
+                    VStack {
+                        Image(systemName: "thermometer")
+                            .foregroundColor(Color(.blue))
+                            .imageScale(.large)
+                        Text("Brew")
+                            .foregroundColor(Color(.blue))
+                            .font(.footnote)
+                            .bold()
+                    }
+                    .onTapGesture {
+                        brewGo = true
+                    }
+
+                    Spacer()
+
+                    VStack {
+                        Image(systemName: "lock.fill")
+                            .foregroundColor(Color(.blue))
+                            .imageScale(.large)
+                        Text("Cellar")
+                            .foregroundColor(Color(.blue))
+                            .font(.footnote)
+                            .bold()
+                    }
+                    .onTapGesture {
+                        wineCellarGo = true
+                    }
+
+                    Spacer()
+
+                    VStack {
+                        Image(systemName: "barcode.viewfinder")
+                            .foregroundColor(Color(.blue))
+                            .imageScale(.large)
+                        Text("Scan")
+                            .foregroundColor(Color(.blue))
+                            .font(.footnote)
+                            .bold()
+                    }
+                    .onTapGesture {
+                        scanGo = true
+                    }
+
+                    Spacer()
+                }
             }
         }
     }

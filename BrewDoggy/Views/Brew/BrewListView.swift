@@ -13,7 +13,7 @@ struct BrewListView: View {
     
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Brew.timestamp, ascending: false)], animation: .default)
     private var brews: FetchedResults<Brew>
-    @FetchRequest(entity: BrewType.entity(), sortDescriptors: [], animation: .default)
+    @FetchRequest(entity: BrewType.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \BrewType.timestamp, ascending: false)], animation: .default)
     private var brewTypes: FetchedResults<BrewType>
     
     @State private var showOnGoingOnly = false
@@ -38,10 +38,10 @@ struct BrewListView: View {
 //                           isActive: $editIsActive) { EmptyView() }.hidden()
                 if showList { //Show recipies as a list
                     Toggle(isOn: $showOnGoingOnly) {
-                        Text("On Going only")
+                        Text("Brewing only")
                     }
                     ForEach(filteredBrews) { brew in
-                        NavigationLink(destination: EmptyView()) {
+                        NavigationLink(destination: BrewDetailView(isAddActive: $isAddActive, brew: brew)) {
                             HStack {
                                 Image(uiImage: UIImage(data: brew.picture!)!)
                                     .resizable()
@@ -53,9 +53,8 @@ struct BrewListView: View {
                                 
                                 if brew.isDone {
                                     Image(systemName: "\(brew.grade).circle.fill")
-//                                Image(systemName: "checkmark.seal.fill")
                                         .imageScale(.large)
-                                        .foregroundColor(gradeColor)
+                                        .foregroundColor(brew.grade < 3 ? Color.red : Color.green)
                                 }
                             }
                         }

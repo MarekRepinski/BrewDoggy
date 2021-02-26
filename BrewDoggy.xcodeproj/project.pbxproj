@@ -48,6 +48,7 @@
 
 /* Begin PBXFileReference section */
 		D55FEDC125E8DE8C00B78153 /* BrewDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrewDetailView.swift; sourceTree = "<group>"; };
+		D55FEDD225E9843600B78153 /* BrewDoggy 24.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BrewDoggy 24.xcdatamodel"; sourceTree = "<group>"; };
 		D561BDEA25E6D20C0063D853 /* BrewDoggy 22.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BrewDoggy 22.xcdatamodel"; sourceTree = "<group>"; };
 		D561BDEF25E6EEAA0063D853 /* BrewListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrewListView.swift; sourceTree = "<group>"; };
 		D561BDF725E784A70063D853 /* BrewDoggy 23.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BrewDoggy 23.xcdatamodel"; sourceTree = "<group>"; };
@@ -537,6 +538,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"BrewDoggy/Preview Content\"";
+				DEVELOPMENT_TEAM = 46J68GY7GW;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = BrewDoggy/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -558,6 +560,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"BrewDoggy/Preview Content\"";
+				DEVELOPMENT_TEAM = 46J68GY7GW;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = BrewDoggy/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
@@ -697,6 +700,7 @@
 		D5ADD55125CFE1DF00C904B6 /* BrewDoggy.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				D55FEDD225E9843600B78153 /* BrewDoggy 24.xcdatamodel */,
 				D561BDF725E784A70063D853 /* BrewDoggy 23.xcdatamodel */,
 				D561BDEA25E6D20C0063D853 /* BrewDoggy 22.xcdatamodel */,
 				D57B46F425DDC6DE00E20036 /* BrewDoggy 21.xcdatamodel */,
@@ -721,7 +725,7 @@
 				D5ADD57A25D1801C00C904B6 /* BrewDoggy 2.xcdatamodel */,
 				D5ADD55225CFE1DF00C904B6 /* BrewDoggy.xcdatamodel */,
 			);
-			currentVersion = D561BDEA25E6D20C0063D853 /* BrewDoggy 22.xcdatamodel */;
+			currentVersion = D561BDF725E784A70063D853 /* BrewDoggy 23.xcdatamodel */;
 			path = BrewDoggy.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
