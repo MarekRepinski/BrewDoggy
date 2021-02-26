@@ -183,22 +183,24 @@ struct CategoryRow: View {
     }
     
     var body: some View {
-        VStack(alignment: .leading) {
-            Text(bt.typeDescription ?? "Unknown")
-                .font(.headline)
-                .padding(.leading, 15)
-                .padding(.top, 5)
-            
-            ScrollView(.horizontal, showsIndicators: false) {
-                HStack(alignment: .top, spacing: 0) {
-                    ForEach(items){ recipe in
-                        NavigationLink(destination: RecipeDetailView(isAddActive: $isAddActive, recipe: recipe)) {
-                            CategoryItem(recipe: recipe)
+        if items.count > 0 {
+            VStack(alignment: .leading) {
+                Text(bt.typeDescription ?? "Unknown")
+                    .font(.headline)
+                    .padding(.leading, 15)
+                    .padding(.top, 5)
+                
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(alignment: .top, spacing: 0) {
+                        ForEach(items){ recipe in
+                            NavigationLink(destination: RecipeDetailView(isAddActive: $isAddActive, recipe: recipe)) {
+                                CategoryItem(recipe: recipe)
+                            }
                         }
                     }
                 }
+                .frame(height: 185)
             }
-            .frame(height: 185)
         }
     }
 }

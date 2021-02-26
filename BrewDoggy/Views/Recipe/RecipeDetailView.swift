@@ -10,6 +10,7 @@ import SwiftUI
 struct RecipeDetailView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @Environment(\.presentationMode) var presentationMode
+    
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Recipe.timestamp, ascending: true)], animation: .default)
     private var recipies: FetchedResults<Recipe>
     @FetchRequest(entity: BrewType.entity(), sortDescriptors: [], animation: .default)
