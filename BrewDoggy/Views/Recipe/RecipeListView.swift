@@ -19,11 +19,11 @@ struct RecipeListView: View {
     @State private var showFavoritesOnly = false
     @State private var bruteForceReload = false
     @State private var showList = true
-    @State private var askBeforeDelete = false
     @State private var editIsActive = false
     @State private var isAddActive = false
     @State private var deleteOffSet: IndexSet = [0]
-    
+    @State private var askBeforeDelete = false
+
     var filteredRecipies: [Recipe] {
         recipies.filter { r in
             (!showFavoritesOnly || r.isFavorite)

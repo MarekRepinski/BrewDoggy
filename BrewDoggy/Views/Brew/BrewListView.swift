@@ -34,9 +34,9 @@ struct BrewListView: View {
     var body: some View {
         NavigationView {
             List {
-//            NavigationLink(destination: AddRecipeView(isSet: $bruteForceReload, isAddActive: $editIsActive),
-//                           isActive: $editIsActive) { EmptyView() }.hidden()
-                if showList { //Show recipies as a list
+            NavigationLink(destination: AddBrewView(isSet: $bruteForceReload, isAddActive: $editIsActive),
+                           isActive: $editIsActive) { EmptyView() }.hidden()
+                if showList { //Show brews as a list
                     Toggle(isOn: $showOnGoingOnly) {
                         Text("Brewing only")
                     }
@@ -194,9 +194,9 @@ struct BrewListView: View {
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack(alignment: .top, spacing: 0) {
                             ForEach(items){ brew in
-    //                            NavigationLink(destination: RecipeDetailView(isAddActive: $isAddActive, recipe: recipe)) {
-                                BrewCategoryItem(brew: brew)
-    //                            }
+                                NavigationLink(destination: BrewDetailView(isAddActive: $isAddActive, brew: brew)) {
+                                    BrewCategoryItem(brew: brew)
+                                }
                             }
                         }
                     }

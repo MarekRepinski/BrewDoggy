@@ -127,7 +127,6 @@ struct RecipeDetailView: View {
         .navigationBarBackButtonHidden(true)
         .navigationBarItems(leading:
                                 Button(action: {
-                                    print("\(isAddActive)")
                                     if isAddActive {
                                         isAddActive = false
                                     } else {

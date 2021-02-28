@@ -15,7 +15,7 @@ struct EditRecipeView: View {
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Recipe.timestamp, ascending: true)], animation: .default)
     private var recipies: FetchedResults<Recipe>
 
-    @FetchRequest(entity: BrewType.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \BrewType.timestamp, ascending: true)], animation: .default)
+    @FetchRequest(entity: BrewType.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \BrewType.timestamp, ascending: false)], animation: .default)
     private var brewTypes: FetchedResults<BrewType>
 
     @FetchRequest(entity: RecipeItem.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \RecipeItem.sortId, ascending: true)], animation: .default)
@@ -100,7 +100,12 @@ struct EditRecipeView: View {
             .fullScreenCover(isPresented: $viewModel.isPresentingImagePicker) {
                 ImagePicker(sourceType: viewModel.sourceType, completionHandler: viewModel.didSelectImage)
             }
-            
+            .alert(isPresented: $showUnitChangeAlert) {
+                Alert(title: Text("Ingredients changed"),
+                      message: Text("Ingredients has changed to \(selectedUnitType) System, but the amounts are NOT converted. Please Check!"),
+                      dismissButton: .cancel())
+            }
+
             VStack(alignment: .leading) {
                 HStack {
                     Text("Name:")
@@ -221,18 +226,14 @@ struct EditRecipeView: View {
                     Spacer()
                 }
                 
-            }.padding(.horizontal, 15)
-        }
-        .alert(isPresented: $showUnitChangeAlert) {
-            Alert(title: Text("Ingredients changed"),
-                  message: Text("Ingredients has changed to \(selectedUnitType) System, but the amounts are NOT converted. Please Check!"),
-                  dismissButton: .cancel())
-        }
-        .alert(isPresented: $showChangeAlert) {
-            Alert(title: Text("Forgot to save?"),
-                  message: Text("Do you want to save before exit?"),
-                  primaryButton: .default(Text("Yes")) { saveRecipe() },
-                  secondaryButton: .cancel(Text("No")) { self.presentationMode.wrappedValue.dismiss() })
+            }
+            .padding(.horizontal, 15)
+            .alert(isPresented: $showChangeAlert) {
+                Alert(title: Text("Forgot to save?"),
+                      message: Text("Do you want to save before exit?"),
+                      primaryButton: .default(Text("Yes")) { saveRecipe() },
+                      secondaryButton: .cancel(Text("No")) { self.presentationMode.wrappedValue.dismiss() })
+            }
         }
     }
     

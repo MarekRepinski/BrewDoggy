@@ -1152,7 +1152,7 @@ struct MockData {
         newBrew.picture = UIImage(named: "myAppleWine1")?.jpegData(compressionQuality: 1.0)
         newBrew.isDone = false
         newBrew.start = DateComponents(calendar: Calendar.current, year: 2020, month: 12, day: 1).date
-        newBrew.eta = DateComponents(calendar: Calendar.current, year: 2021, month: 3, day: 1).date
+        newBrew.eta = DateComponents(calendar: Calendar.current, year: 2021, month: 3, day: 5).date
         newBrew.originalGravity = 1095
         newBrew.timestamp = DateComponents(calendar: Calendar.current, year: 2020, month: 12, day: 1).date
         newBrew.brewToBrewType = wineBrewType
