@@ -10,7 +10,8 @@ import SwiftUI
 struct RecipeDetailView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @Environment(\.presentationMode) var presentationMode
-    
+    @EnvironmentObject var modelData: ModelData
+
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Recipe.timestamp, ascending: true)], animation: .default)
     private var recipies: FetchedResults<Recipe>
     @FetchRequest(entity: BrewType.entity(), sortDescriptors: [], animation: .default)
@@ -31,6 +32,7 @@ struct RecipeDetailView: View {
     @State private var types: [String] = []
     @State private var bruteForceReload = false
     @State private var editIsActive = false
+    @State private var makeBrewIsActive = false
     @Binding var isAddActive: Bool
     
     var recipe: Recipe
@@ -47,9 +49,18 @@ struct RecipeDetailView: View {
 
     var body: some View {
         ScrollView {
-            NavigationLink(destination: EditRecipeView(isSet: $bruteForceReload, recipe: recipe),
-                           isActive: $editIsActive) { EmptyView() }.hidden()
+            Group {
+                NavigationLink(destination: AddBrewView(isSet: $bruteForceReload,
+                                                        isAddActive: $isAddActive,
+                                                        recipe: recipe,
+                                                        flushAfter: true),
+                               isActive: $makeBrewIsActive) { EmptyView() } 
+                
+                NavigationLink(destination: EditRecipeView(isSet: $bruteForceReload, recipe: recipe),
+                               isActive: $editIsActive) { EmptyView() }.hidden()
+            }
 
+            Group {
             RecipeImage(image: UIImage(data: recipe.picture!)!)
                 .padding(.top, 20)
 
@@ -66,7 +77,8 @@ struct RecipeDetailView: View {
                 )
             }
             .padding(.horizontal, 15)
-
+            }
+            
             Divider()
 
             HStack {
@@ -101,6 +113,9 @@ struct RecipeDetailView: View {
                     RecipeItemView(item: rI.name, amount: rI.amount, measure: rI.unit)
                 }
             }.onAppear() {
+                if modelData.flush {
+                    self.presentationMode.wrappedValue.dismiss()
+                }
                 types.removeAll()
                 for ut in unitTypes {
                     types.append(ut.unitTypeName!)
@@ -123,6 +138,9 @@ struct RecipeDetailView: View {
                     .fixedSize(horizontal: false, vertical: true)
             }
             .padding(.horizontal, 15)
+            
+            Button("Make a new Brew from this Recipe") { makeBrewIsActive = true }
+                .padding(15)
         }
         .navigationBarBackButtonHidden(true)
         .navigationBarItems(leading:

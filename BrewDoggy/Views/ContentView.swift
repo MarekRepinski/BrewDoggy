@@ -9,6 +9,7 @@ import SwiftUI
 import CoreData
 
 struct ContentView: View {
+    @EnvironmentObject var modelData: ModelData
     @Environment(\.managedObjectContext) private var viewContext
     @FetchRequest(entity: BrewType.entity(), sortDescriptors: [], animation: .default)
     private var brewTypes: FetchedResults<BrewType>
@@ -19,6 +20,7 @@ struct ContentView: View {
     @State private var brewGo = false
     @State private var wineCellarGo = false
     @State private var scanGo = false
+    @State private var firstTime = true
 
     var body: some View {
         NavigationView {
@@ -135,15 +137,32 @@ struct ContentView: View {
                 if brewTypes.count == 0 {
                     _ = MockData(context: viewContext)
                 }
-                let _delay = RunLoop.SchedulerTimeType(.init(timeIntervalSinceNow: 3))
-                RunLoop.main.schedule(after: _delay) {
-                    withAnimation(Animation.easeInOut(duration: 2)){
-                        opacity = 0.08
-                        showMeny = true
+                if firstTime {
+                    firstTime = false
+                    let _delay = RunLoop.SchedulerTimeType(.init(timeIntervalSinceNow: 3))
+                    RunLoop.main.schedule(after: _delay) {
+                        withAnimation(Animation.easeInOut(duration: 2)){
+                            opacity = 0.08
+                            showMeny = true
+                        }
                     }
-                    
+                } else {
+                    if modelData.flush {
+                        modelData.flush = false
+                        if modelData.recipeGo {
+                            modelData.recipeGo = false
+                            recipeGo = true
+                        }
+                        if modelData.brewGo {
+                            modelData.brewGo = false
+                            brewGo = true
+                        }
+                        if modelData.wineCellarGo {
+                            modelData.wineCellarGo = false
+                            wineCellarGo = true
+                        }
+                    }
                 }
-                
             }
             .toolbar {
                 ToolbarItemGroup(placement: .bottomBar) {

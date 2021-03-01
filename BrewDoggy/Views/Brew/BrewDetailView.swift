@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct BrewDetailView: View {
+    @EnvironmentObject var modelData: ModelData
     @Environment(\.managedObjectContext) private var viewContext
     @Environment(\.presentationMode) var presentationMode
     
@@ -27,11 +28,13 @@ struct BrewDetailView: View {
     @State private var showCheck = false
     @State private var bc: BrewCheck? = nil
     @State private var deleteOffSet: IndexSet = [0]
-    @State private var askBeforeDelete = false
+    @State private var askBeforeDelete2 = false
     @Binding var isAddActive: Bool
-    
+
     var brew: Brew
     
+    var flushAfter = false
+
     var brewIndex: Int {
         brews.firstIndex(where: { $0.id == brew.id})!
     }
@@ -49,7 +52,7 @@ struct BrewDetailView: View {
 
             RecipeImage(image: UIImage(data: brew.picture!)!)
                 .padding(.top, 20)
-            
+
             VStack(alignment: .center) {
                 if isDone {
                     GradeStarsView(full: Int(brew.grade), empty: 5 - Int(brew.grade))
@@ -87,9 +90,9 @@ struct BrewDetailView: View {
                 }
             }
             .padding(.horizontal, 15)
-            
+
             Divider()
-            
+
             VStack{
                 NavigationLink(destination: AddBrewCheckView(brew: brew)) {
                     HStack{
@@ -132,7 +135,7 @@ struct BrewDetailView: View {
             isDone = brew.isDone
             daysLeft = daysBetween(start: Date(), end: brew.eta!)
         }
-        .alert(isPresented: $askBeforeDelete) {
+        .alert(isPresented: $askBeforeDelete2) {
             Alert(title: Text("Deleting a Brew Check"),
                   message: Text("This action can not be undone. Are you really sure?"),
                   primaryButton: .default(Text("Yes")) { deleteBrewCheck() },
@@ -144,11 +147,12 @@ struct BrewDetailView: View {
         .navigationBarBackButtonHidden(true)
         .navigationBarItems(leading:
                                 Button(action: {
-                                    if isAddActive {
-                                        isAddActive = false
-                                    } else {
-                                        self.presentationMode.wrappedValue.dismiss()
+                                    if flushAfter {
+                                        modelData.flush = true
+                                        modelData.brewGo = true
                                     }
+
+                                    self.presentationMode.wrappedValue.dismiss()
                                 }) {
                                     HStack{
                                         Image(systemName: "chevron.left")
@@ -182,7 +186,7 @@ struct BrewDetailView: View {
 
     private func onDelete(offsets: IndexSet) {
         deleteOffSet = offsets
-        askBeforeDelete = true
+        askBeforeDelete2 = true
     }
     
     private func deleteBrewCheck() {

@@ -10,6 +10,7 @@ import SwiftUI
 struct AddBrewView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @Environment(\.presentationMode) var presentationMode
+    @EnvironmentObject var modelData: ModelData
     @StateObject var viewModel = ViewModel()
 
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Recipe.timestamp, ascending: true)], animation: .default)
@@ -36,12 +37,18 @@ struct AddBrewView: View {
     @State private var changed = false
     @State private var outBrew: Brew? = nil
     @State private var saveAndMoveOn = false
+    @State private var firstTime = true
     @Binding var isSet: Bool
     @Binding var isAddActive: Bool
+    
+    var recipe: Recipe? = nil
+    var flushAfter: Bool = false
 
     var body: some View {
         ScrollView {
-            NavigationLink(destination: BrewDetailView(isAddActive: $isAddActive, brew: outBrew ?? brews[0]),
+            NavigationLink(destination: BrewDetailView(isAddActive: $isAddActive,
+                                                       brew: outBrew ?? brews[0],
+                                                       flushAfter: flushAfter),
                            isActive: $saveAndMoveOn) { EmptyView() }.hidden()
 
             VStack(alignment: .center, spacing: 5.0) {
@@ -67,6 +74,10 @@ struct AddBrewView: View {
             }
             .padding(.init(top: 20, leading: 0, bottom: 5, trailing: 0))
             .onAppear(){
+                print("\(modelData.flush)")
+                if modelData.flush {
+                    self.presentationMode.wrappedValue.dismiss()
+                }
                 setUpStates()
             }
             .navigationBarBackButtonHidden(true)
@@ -232,11 +243,19 @@ struct AddBrewView: View {
             bTypes.append(bt.typeDescription!)
         }
 
-        if selectedBrewType == "" {
-            selectedBrewType = "Beer"
+        if firstTime {
+            if let r = recipe {
+                selectedBrewType = (r.recipeToBrewType?.typeDescription)!
+                selectedRecipe = r.name!
+            }
+            
+            if selectedBrewType == "" {
+                selectedBrewType = "Beer"
+            }
+            setRecipeList(bt: selectedBrewType)
             eta = addForthNight()
+            firstTime = false
         }
-        setRecipeList(bt: selectedBrewType)
     }
     
     private func setRecipeList(bt: String) {
@@ -262,6 +281,7 @@ struct AddBrewView: View {
         if g > -1 {
             let newBrew = Brew(context: viewContext)
             newBrew.id = UUID()
+            if name == "" { name = "no name Brew" }
             newBrew.name = name
             newBrew.originalGravity = Int64(g)
             newBrew.eta = eta
@@ -320,7 +340,7 @@ struct AddBrewView: View {
         }
         return brewTypes[0]
     }
-    
+
     private func saveViewContext() {
         do {
             try viewContext.save()

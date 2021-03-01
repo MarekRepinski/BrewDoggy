@@ -15,12 +15,15 @@ struct BrewListView: View {
     private var brews: FetchedResults<Brew>
     @FetchRequest(entity: BrewType.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \BrewType.timestamp, ascending: false)], animation: .default)
     private var brewTypes: FetchedResults<BrewType>
+    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \BrewCheck.date, ascending: true)], animation: .default)
+    private var brewChecks: FetchedResults<BrewCheck>
     
     @State private var showOnGoingOnly = false
     @State private var bruteForceReload = false
     @State private var showList = true
     @State private var gradeColor = Color.green
     @State private var askBeforeDelete = false
+    @State private var cantBeDeleted = false
     @State private var editIsActive = false
     @State private var isAddActive = false
     @State private var deleteOffSet: IndexSet = [0]
@@ -34,8 +37,6 @@ struct BrewListView: View {
     var body: some View {
         NavigationView {
             List {
-            NavigationLink(destination: AddBrewView(isSet: $bruteForceReload, isAddActive: $editIsActive),
-                           isActive: $editIsActive) { EmptyView() }.hidden()
                 if showList { //Show brews as a list
                     Toggle(isOn: $showOnGoingOnly) {
                         Text("Brewing only")
@@ -59,7 +60,7 @@ struct BrewListView: View {
                             }
                         }
                     }
-                    //                .onDelete(perform: onDelete)
+                    .onDelete(perform: onDelete)
                 } else { // Show recipies sorted by brewtype
                     Image("brewHeader")
                         .resizable()
@@ -121,7 +122,12 @@ struct BrewListView: View {
                     .onTapGesture {
                         showList = true
                     }
-                    
+                    .alert(isPresented: $cantBeDeleted) {
+                        Alert(title: Text("Cant delete Brew"),
+                              message: Text("This Brew cant be deleted because it has Checks. Remove the Checks first!"),
+                              dismissButton: .cancel())
+                    }
+
                     Spacer()
                     
                     VStack {
@@ -136,16 +142,17 @@ struct BrewListView: View {
                     .onTapGesture {
                         showList = false
                     }
-                    
+                    .alert(isPresented: $askBeforeDelete) {
+                        Alert(title: Text("Deleting a Brew"),
+                              message: Text("This action can not be undone. Are you really sure?"),
+                              primaryButton: .default(Text("Yes")) { deleteBrew() },
+                              secondaryButton: .cancel(Text("No")))
+                    }
                     
                     Spacer()
+                    NavigationLink(destination: AddBrewView(isSet: $bruteForceReload, isAddActive: $editIsActive),
+                                   isActive: $editIsActive) { EmptyView() }.hidden()
                 }
-            }
-            .alert(isPresented: $askBeforeDelete) {
-                Alert(title: Text("Deleting a recipe"),
-                      message: Text("This action can not be undone. Are you really sure?"),
-                      primaryButton: .default(Text("Yes")) { deleteBrew() },
-                      secondaryButton: .cancel(Text("No")))
             }
         }
         .navigationBarHidden(true)
@@ -153,13 +160,24 @@ struct BrewListView: View {
     
     private func onDelete(offsets: IndexSet) {
         deleteOffSet = offsets
-        askBeforeDelete = true
+        if deletableBrew() { askBeforeDelete = true }
+        else { cantBeDeleted = true }
+    }
+    
+    private func deletableBrew() -> Bool {
+        for index in deleteOffSet {
+            for bc in brewChecks {
+                if bc.brewCheckToBrew == filteredBrews[index] { return false }
+            }
+        }
+        return true
     }
     
     private func deleteBrew() {
         withAnimation {
             deleteOffSet.map { filteredBrews[$0] }.forEach(viewContext.delete)
         }
+        askBeforeDelete = false
         saveViewContext()
     }
     
@@ -171,7 +189,7 @@ struct BrewListView: View {
             fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
         }
     }
-
+    
     struct BrewCategoryRow: View {
         @State private var isAddActive = false
 
@@ -205,7 +223,7 @@ struct BrewListView: View {
             }
         }
     }
-
+    
     struct BrewCategoryItem: View {
         var brew: Brew
         

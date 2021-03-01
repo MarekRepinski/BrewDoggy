@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D5537FB625ED149400A60056 /* ModelData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5537FB525ED149400A60056 /* ModelData.swift */; };
 		D55FEDC225E8DE8C00B78153 /* BrewDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D55FEDC125E8DE8C00B78153 /* BrewDetailView.swift */; };
 		D55FEDE225EC185100B78153 /* AddBrewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D55FEDE125EC185100B78153 /* AddBrewView.swift */; };
 		D55FEDE725EC35FE00B78153 /* AddBrewCheckView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D55FEDE625EC35FE00B78153 /* AddBrewCheckView.swift */; };
@@ -49,6 +50,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		D5537FB525ED149400A60056 /* ModelData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelData.swift; sourceTree = "<group>"; };
 		D55FEDC125E8DE8C00B78153 /* BrewDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrewDetailView.swift; sourceTree = "<group>"; };
 		D55FEDD225E9843600B78153 /* BrewDoggy 24.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BrewDoggy 24.xcdatamodel"; sourceTree = "<group>"; };
 		D55FEDE125EC185100B78153 /* AddBrewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddBrewView.swift; sourceTree = "<group>"; };
@@ -142,6 +144,7 @@
 			isa = PBXGroup;
 			children = (
 				D56B3D7325DF0D9500DBE34C /* ViewModel.swift */,
+				D5537FB525ED149400A60056 /* ModelData.swift */,
 			);
 			path = ModelData;
 			sourceTree = "<group>";
@@ -372,6 +375,7 @@
 			files = (
 				D561BDF025E6EEAA0063D853 /* BrewListView.swift in Sources */,
 				D5ADD55325CFE1DF00C904B6 /* BrewDoggy.xcdatamodeld in Sources */,
+				D5537FB625ED149400A60056 /* ModelData.swift in Sources */,
 				D5ADD58925D1932200C904B6 /* RecipeListView.swift in Sources */,
 				D5ADD58425D18CD200C904B6 /* RecipeDetailView.swift in Sources */,
 				D569055425E0F8F300B6DEFE /* IngredientsView.swift in Sources */,

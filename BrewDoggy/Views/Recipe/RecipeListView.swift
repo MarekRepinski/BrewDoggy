@@ -8,9 +8,10 @@
 import SwiftUI
 
 struct RecipeListView: View {
+    @EnvironmentObject var modelData: ModelData
     @Environment(\.managedObjectContext) private var viewContext
     @Environment(\.presentationMode) var presentationMode
-    
+
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Recipe.timestamp, ascending: false)], animation: .default)
     private var recipies: FetchedResults<Recipe>
     @FetchRequest(entity: BrewType.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \BrewType.timestamp, ascending: false)], animation: .default)
@@ -33,8 +34,6 @@ struct RecipeListView: View {
     var body: some View {
         NavigationView {
             List {
-                NavigationLink(destination: AddRecipeView(isSet: $bruteForceReload, isAddActive: $editIsActive),
-                               isActive: $editIsActive) { EmptyView() }.hidden()
                 if showList { //Show recipies as a list
                     Toggle(isOn: $showFavoritesOnly) {
                         Text("Favorites only")
@@ -135,8 +134,9 @@ struct RecipeListView: View {
                         showList = false
                     }
 
-
                     Spacer()
+                    NavigationLink(destination: AddRecipeView(isSet: $bruteForceReload, isAddActive: $editIsActive),
+                                   isActive: $editIsActive) { EmptyView() }.hidden()
                 }
             }
             .alert(isPresented: $askBeforeDelete) {
@@ -147,6 +147,11 @@ struct RecipeListView: View {
             }
         }
         .navigationBarHidden(true)
+        .onAppear() {
+            if modelData.flush {
+                self.presentationMode.wrappedValue.dismiss()
+            }
+        }
     }
     
     private func onDelete(offsets: IndexSet) {
