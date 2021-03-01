@@ -29,7 +29,6 @@ struct EditRecipeView: View {
     @FetchRequest(entity: Unit.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \Unit.timestamp, ascending: true)], animation: .default)
     private var units: FetchedResults<Unit>
 
-
     @State private var title = "Add a new Recipe"
     @State private var name = ""
     @State private var instructions = ""

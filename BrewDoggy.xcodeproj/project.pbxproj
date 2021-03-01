@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		D5537FB625ED149400A60056 /* ModelData.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5537FB525ED149400A60056 /* ModelData.swift */; };
+		D5537FBB25ED3B4400A60056 /* EditBrewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5537FBA25ED3B4400A60056 /* EditBrewView.swift */; };
+		D5537FC825ED5EEF00A60056 /* GradeStars.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5537FC725ED5EEF00A60056 /* GradeStars.swift */; };
 		D55FEDC225E8DE8C00B78153 /* BrewDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D55FEDC125E8DE8C00B78153 /* BrewDetailView.swift */; };
 		D55FEDE225EC185100B78153 /* AddBrewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D55FEDE125EC185100B78153 /* AddBrewView.swift */; };
 		D55FEDE725EC35FE00B78153 /* AddBrewCheckView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D55FEDE625EC35FE00B78153 /* AddBrewCheckView.swift */; };
@@ -51,6 +53,9 @@
 
 /* Begin PBXFileReference section */
 		D5537FB525ED149400A60056 /* ModelData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelData.swift; sourceTree = "<group>"; };
+		D5537FBA25ED3B4400A60056 /* EditBrewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditBrewView.swift; sourceTree = "<group>"; };
+		D5537FC725ED5EEF00A60056 /* GradeStars.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradeStars.swift; sourceTree = "<group>"; };
+		D5537FCC25ED81A800A60056 /* BrewDoggy 25.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BrewDoggy 25.xcdatamodel"; sourceTree = "<group>"; };
 		D55FEDC125E8DE8C00B78153 /* BrewDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrewDetailView.swift; sourceTree = "<group>"; };
 		D55FEDD225E9843600B78153 /* BrewDoggy 24.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BrewDoggy 24.xcdatamodel"; sourceTree = "<group>"; };
 		D55FEDE125EC185100B78153 /* AddBrewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddBrewView.swift; sourceTree = "<group>"; };
@@ -136,6 +141,7 @@
 				D55FEDC125E8DE8C00B78153 /* BrewDetailView.swift */,
 				D55FEDE125EC185100B78153 /* AddBrewView.swift */,
 				D55FEDE625EC35FE00B78153 /* AddBrewCheckView.swift */,
+				D5537FBA25ED3B4400A60056 /* EditBrewView.swift */,
 			);
 			path = Brew;
 			sourceTree = "<group>";
@@ -240,6 +246,7 @@
 				D5ADD62925D3D7C300C904B6 /* FavoriteButton.swift */,
 				D5ADD65125D476B000C904B6 /* MockData.swift */,
 				D56B3D6D25DEAC9200DBE34C /* ImagePicker.swift */,
+				D5537FC725ED5EEF00A60056 /* GradeStars.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -375,6 +382,7 @@
 			files = (
 				D561BDF025E6EEAA0063D853 /* BrewListView.swift in Sources */,
 				D5ADD55325CFE1DF00C904B6 /* BrewDoggy.xcdatamodeld in Sources */,
+				D5537FBB25ED3B4400A60056 /* EditBrewView.swift in Sources */,
 				D5537FB625ED149400A60056 /* ModelData.swift in Sources */,
 				D5ADD58925D1932200C904B6 /* RecipeListView.swift in Sources */,
 				D5ADD58425D18CD200C904B6 /* RecipeDetailView.swift in Sources */,
@@ -387,6 +395,7 @@
 				D5ADD54925CFE1DC00C904B6 /* ContentView.swift in Sources */,
 				D5ADD54725CFE1DC00C904B6 /* BrewDoggyApp.swift in Sources */,
 				D55FEDE225EC185100B78153 /* AddBrewView.swift in Sources */,
+				D5537FC825ED5EEF00A60056 /* GradeStars.swift in Sources */,
 				D56B3D6E25DEAC9200DBE34C /* ImagePicker.swift in Sources */,
 				D5ADD5D625D1C1AD00C904B6 /* RecipeImage.swift in Sources */,
 				D55FEDC225E8DE8C00B78153 /* BrewDetailView.swift in Sources */,
@@ -712,6 +721,7 @@
 		D5ADD55125CFE1DF00C904B6 /* BrewDoggy.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				D5537FCC25ED81A800A60056 /* BrewDoggy 25.xcdatamodel */,
 				D55FEDD225E9843600B78153 /* BrewDoggy 24.xcdatamodel */,
 				D561BDF725E784A70063D853 /* BrewDoggy 23.xcdatamodel */,
 				D561BDEA25E6D20C0063D853 /* BrewDoggy 22.xcdatamodel */,
@@ -737,7 +747,7 @@
 				D5ADD57A25D1801C00C904B6 /* BrewDoggy 2.xcdatamodel */,
 				D5ADD55225CFE1DF00C904B6 /* BrewDoggy.xcdatamodel */,
 			);
-			currentVersion = D561BDF725E784A70063D853 /* BrewDoggy 23.xcdatamodel */;
+			currentVersion = D5537FCC25ED81A800A60056 /* BrewDoggy 25.xcdatamodel */;
 			path = BrewDoggy.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

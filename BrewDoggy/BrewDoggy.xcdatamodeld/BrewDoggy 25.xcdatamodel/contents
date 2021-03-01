@@ -2,6 +2,7 @@
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17709" systemVersion="20D80" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="Brew" representedClassName="Brew" syncable="YES" codeGenerationType="class">
         <attribute name="eta" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="finalGravity" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="grade" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="isDone" attributeType="Boolean" defaultValueString="NO" usesScalarValueType="YES"/>
@@ -13,6 +14,7 @@
         <relationship name="brewToBrewCheck" optional="YES" toMany="YES" deletionRule="Deny" destinationEntity="BrewCheck" inverseName="brewCheckToBrew" inverseEntity="BrewCheck"/>
         <relationship name="brewToBrewType" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="BrewType" inverseName="brewTypeToBrew" inverseEntity="BrewType"/>
         <relationship name="brewToRecipe" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Recipe" inverseName="recipeToBrew" inverseEntity="Recipe"/>
+        <relationship name="brewToWineCellar" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="WineCellar" inverseName="wineCellarToBrew" inverseEntity="WineCellar"/>
     </entity>
     <entity name="BrewCheck" representedClassName="BrewCheck" syncable="YES" codeGenerationType="class">
         <attribute name="comment" attributeType="String" defaultValueString=""/>
@@ -51,6 +53,15 @@
         <relationship name="recipeItemToRecipe" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Recipe" inverseName="recipeToRecipeItem" inverseEntity="Recipe"/>
         <relationship name="recipeItemToUnit" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Unit" inverseName="unitToRecipeItem" inverseEntity="Unit"/>
     </entity>
+    <entity name="Taste" representedClassName="Taste" syncable="YES" codeGenerationType="class">
+        <attribute name="bottles" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="comment" attributeType="String" defaultValueString="&quot;&quot;"/>
+        <attribute name="date" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="rate" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="timestamp" attributeType="Date" defaultDateTimeInterval="-161590980" usesScalarValueType="NO"/>
+        <relationship name="tasteToWineCellar" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="WineCellar" inverseName="wineCellarToTaste" inverseEntity="WineCellar"/>
+    </entity>
     <entity name="Unit" representedClassName="Unit" syncable="YES" codeGenerationType="class">
         <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="timestamp" attributeType="Date" defaultDateTimeInterval="-161590980" usesScalarValueType="NO"/>
@@ -74,15 +85,26 @@
         <relationship name="unitTypeToRecipe" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Recipe" inverseName="recipeToUnitType" inverseEntity="Recipe"/>
         <relationship name="unitTypeToUnit" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Unit" inverseName="unitToUnitType" inverseEntity="Unit"/>
     </entity>
-    <entity name="WineCellar" representedClassName="WineCellar" syncable="YES" codeGenerationType="class"/>
+    <entity name="WineCellar" representedClassName="WineCellar" syncable="YES" codeGenerationType="class">
+        <attribute name="bottlesStart" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="isNotDrunk" attributeType="Boolean" defaultValueString="YES" usesScalarValueType="YES"/>
+        <attribute name="name" attributeType="String" defaultValueString="&quot;&quot;"/>
+        <attribute name="qrID" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="start" attributeType="Date" defaultDateTimeInterval="-161590980" usesScalarValueType="NO"/>
+        <attribute name="timestap" attributeType="Date" defaultDateTimeInterval="-162454980" usesScalarValueType="NO"/>
+        <relationship name="wineCellarToBrew" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Brew" inverseName="brewToWineCellar" inverseEntity="Brew"/>
+        <relationship name="wineCellarToTaste" optional="YES" toMany="YES" deletionRule="Deny" destinationEntity="Taste" inverseName="tasteToWineCellar" inverseEntity="Taste"/>
+    </entity>
     <elements>
-        <element name="Brew" positionX="-36" positionY="135" width="128" height="209"/>
+        <element name="Brew" positionX="-36" positionY="135" width="128" height="239"/>
         <element name="BrewCheck" positionX="-45" positionY="126" width="128" height="119"/>
         <element name="BrewType" positionX="-63" positionY="18" width="128" height="119"/>
         <element name="Recipe" positionX="-63" positionY="-18" width="128" height="179"/>
         <element name="RecipeItem" positionX="-45" positionY="54" width="128" height="134"/>
         <element name="Unit" positionX="-54" positionY="81" width="128" height="209"/>
         <element name="UnitType" positionX="-45" positionY="108" width="128" height="134"/>
-        <element name="WineCellar" positionX="-45" positionY="144" width="128" height="29"/>
+        <element name="WineCellar" positionX="-36" positionY="153" width="128" height="164"/>
+        <element name="Taste" positionX="-18" positionY="162" width="128" height="134"/>
     </elements>
 </model>

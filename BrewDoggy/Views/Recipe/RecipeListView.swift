@@ -42,7 +42,9 @@ struct RecipeListView: View {
                         NavigationLink(destination: RecipeDetailView(isAddActive: $isAddActive, recipe: recipe)) {
                             HStack {
                                 Image(uiImage: UIImage(data: recipe.picture!)!)
+                                    .renderingMode(.original)
                                     .resizable()
+                                    .aspectRatio(contentMode: .fit)
                                     .frame(width: 50, height: 50)
 
                                 Text("\(recipe.recipeToBrewType!.typeDescription!) - \(recipe.name!)")

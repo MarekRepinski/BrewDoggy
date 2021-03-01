@@ -1,16 +1,15 @@
 //
-//  AddBrewView.swift
+//  EditBrewView.swift
 //  BrewDoggy
 //
-//  Created by Marek Repinski on 2021-02-28.
+//  Created by Marek Repinski on 2021-03-01.
 //
 
 import SwiftUI
 
-struct AddBrewView: View {
+struct EditBrewView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @Environment(\.presentationMode) var presentationMode
-    @EnvironmentObject var modelData: ModelData
     @StateObject var viewModel = ViewModel()
 
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Recipe.timestamp, ascending: true)], animation: .default)
@@ -20,11 +19,14 @@ struct AddBrewView: View {
     @FetchRequest(entity: BrewType.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \BrewType.timestamp, ascending: false)], animation: .default)
     private var brewTypes: FetchedResults<BrewType>
 
-    @State private var title = "Add a new Brew"
+    @State private var title = ""
     @State private var name = ""
     @State private var og = ""
     @State private var eta = Date()
-    
+    @State private var isDone = false
+    @State private var grade = 0
+    @State private var fg = ""
+
     @State private var showChangeAlert = false
     @State private var showTypeChangeAlert = false
     @State private var showGravityAlert = false
@@ -35,22 +37,13 @@ struct AddBrewView: View {
     @State private var selectedRecipe = ""
     @State private var rTypes: [String] = []
     @State private var changed = false
-    @State private var outBrew: Brew? = nil
-    @State private var saveAndMoveOn = false
     @State private var firstTime = true
     @Binding var isSet: Bool
-    @Binding var isAddActive: Bool
     
-    var recipe: Recipe? = nil
-    var flushAfter: Bool = false
+    var brew: Brew
 
     var body: some View {
         ScrollView {
-            NavigationLink(destination: BrewDetailView(isAddActive: $isAddActive,
-                                                       brew: outBrew ?? brews[0],
-                                                       flushAfter: flushAfter),
-                           isActive: $saveAndMoveOn) { EmptyView() }.hidden()
-
             VStack(alignment: .center, spacing: 5.0) {
                 Button(action: {
                     viewModel.choosePhoto()
@@ -74,10 +67,6 @@ struct AddBrewView: View {
             }
             .padding(.init(top: 20, leading: 0, bottom: 5, trailing: 0))
             .onAppear(){
-                print("\(modelData.flush)")
-                if modelData.flush {
-                    self.presentationMode.wrappedValue.dismiss()
-                }
                 setUpStates()
             }
             .navigationBarBackButtonHidden(true)
@@ -111,9 +100,9 @@ struct AddBrewView: View {
 
             VStack(alignment: .leading) {
                 HStack {
-                    Spacer()
                     Text("Name:")
                         .bold()
+                    Spacer()
                     TextField("Name of brew", text: $name)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .onChange(of: name) {dummy in
@@ -127,10 +116,16 @@ struct AddBrewView: View {
 
                 VStack {
                     HStack {
-                        Text("Brew Type:")
-                            .bold()
+                        Text("Type:")
+
                         Button(selectedBrewType){
                             self.showBrewTypePicker.toggle()
+                        }
+                        Spacer()
+                        Text("Recipe:")
+                            
+                        Button(selectedRecipe){
+                            self.showRecipePicker.toggle()
                         }
                         Spacer()
                     }
@@ -143,17 +138,6 @@ struct AddBrewView: View {
                               dismissButton: .cancel())
                     }
 
-                    HStack {
-                        Text("Recipe:")
-                            .bold()
-                        Button(selectedRecipe){
-                            self.showRecipePicker.toggle()
-                        }
-                        Spacer()
-                    }
-                    .padding(.horizontal, 15)
-                    .padding(.vertical, 5)
-                    .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.blue, lineWidth: 1))
                 }
                 .padding(.vertical, 5)
 
@@ -216,6 +200,49 @@ struct AddBrewView: View {
                 .padding(.vertical, 5)
 
                 HStack {
+                    Toggle(isOn: $isDone) {
+                        Text("Finished Brewing")
+                            .bold()
+                    }
+                    .onChange(of: isDone) {dummy in
+                        changed = true
+                    }
+                }
+                .padding(.horizontal, 15)
+                .padding(.vertical, 5)
+                .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.blue, lineWidth: 1))
+                .padding(.vertical, 5)
+
+                if isDone {
+                    HStack {
+                        Text("Final Gravity:")
+                            .bold()
+                        TextField("FG", text: $fg)
+                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                            .onChange(of: fg) {dummy in
+                                changed = true
+                            }
+                    }
+                    .padding(.horizontal, 15)
+                    .padding(.vertical, 5)
+                    .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.blue, lineWidth: 1))
+                    .padding(.vertical, 5)
+
+                    HStack {
+                        Text("Rate your Brew:")
+                            .bold()
+                        
+                        Spacer()
+                        
+                        GradeStars(grade: $grade, setGrade: true)
+                    }
+                    .padding(.horizontal, 15)
+                    .padding(.vertical, 5)
+                    .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.blue, lineWidth: 1))
+                    .padding(.vertical, 5)
+                }
+                
+                HStack {
                     Spacer()
                     Button(action: { saveBrew() }) {
                         Text("Save")
@@ -227,34 +254,27 @@ struct AddBrewView: View {
                 
             }
             .padding(.horizontal, 15)
+            .padding(.bottom, 50)
         }
-    }
-    
-    private func addForthNight() -> Date {
-        let currenDate = Date()
-        var dateComponent = DateComponents()
-        dateComponent.day = 14
-        return Calendar.current.date(byAdding: dateComponent, to: currenDate)!
     }
     
     private func setUpStates() {
         if firstTime {
+            firstTime = false
             bTypes.removeAll()
             for bt in brewTypes {
                 bTypes.append(bt.typeDescription!)
             }
 
-            if let r = recipe {
-                selectedBrewType = (r.recipeToBrewType?.typeDescription)!
-                selectedRecipe = r.name!
-            }
-            
-            if selectedBrewType == "" {
-                selectedBrewType = "Beer"
-            }
+            name = brew.name ?? "Cant find name"
+            selectedBrewType = (brew.brewToBrewType?.typeDescription)!
+            selectedRecipe = (brew.brewToRecipe?.name)!
+            viewModel.selectedImage = UIImage(data: brew.picture!)!
+            og = String(brew.originalGravity)
+            fg = String(brew.finalGravity)
+            eta = brew.eta!
+            isDone = brew.isDone
             setRecipeList(bt: selectedBrewType)
-            eta = addForthNight()
-            firstTime = false
         }
     }
     
@@ -277,32 +297,32 @@ struct AddBrewView: View {
     }
     
     private func saveBrew() {
-        let g = checkGravity(s: og)
-        if g > -1 {
-            let newBrew = Brew(context: viewContext)
-            newBrew.id = UUID()
-            if name == "" { name = "no name Brew" }
-            newBrew.name = name
-            newBrew.originalGravity = Int64(g)
-            newBrew.eta = eta
-            newBrew.finalGravity = 0
-            newBrew.isDone = false
-            newBrew.grade = 0
-            if let pic = viewModel.selectedImage {
-                newBrew.picture = pic.jpegData(compressionQuality: 1.0)
+        let ogg = checkGravity(s: og)
+        if ogg > -1 {
+            let fgg = checkGravity(s: fg)
+            if fgg > -1 {
+                if name == "" { name = "no name Brew" }
+                brew.name = name
+                brew.originalGravity = Int64(ogg)
+                brew.eta = eta
+                brew.finalGravity = Int64(fgg)
+                brew.isDone = isDone
+                brew.grade = Int64(grade)
+                if let pic = viewModel.selectedImage {
+                    brew.picture = pic.jpegData(compressionQuality: 1.0)
+                } else {
+                    brew.picture = UIImage(named: "LTd5gaBKcTextTrans")!.jpegData(compressionQuality: 1.0)
+                }
+                brew.timestamp = Date()
+                brew.brewToRecipe = findRecipe()
+                brew.brewToBrewType = findBrewType()
+                
+                saveViewContext()
+                isSet.toggle()
+                self.presentationMode.wrappedValue.dismiss()
             } else {
-                newBrew.picture = UIImage(named: "LTd5gaBKcTextTrans")!.jpegData(compressionQuality: 1.0)
+                showGravityAlert = true
             }
-            newBrew.start = Date()
-            newBrew.timestamp = Date()
-            newBrew.brewToRecipe = findRecipe()
-            newBrew.brewToBrewType = findBrewType()
-            saveViewContext()
-
-            outBrew = newBrew
-
-            isSet.toggle()
-            saveAndMoveOn = true
         } else {
             showGravityAlert = true
         }
@@ -351,8 +371,8 @@ struct AddBrewView: View {
     }
 }
 
-//struct AddBrewView_Previews: PreviewProvider {
+//struct EditBrewView_Previews: PreviewProvider {
 //    static var previews: some View {
-//        AddBrewView()
+//        EditBrewView()
 //    }
 //}

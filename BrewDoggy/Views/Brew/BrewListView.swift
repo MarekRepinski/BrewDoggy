@@ -45,7 +45,9 @@ struct BrewListView: View {
                         NavigationLink(destination: BrewDetailView(isAddActive: $isAddActive, brew: brew)) {
                             HStack {
                                 Image(uiImage: UIImage(data: brew.picture!)!)
+                                    .renderingMode(.original)
                                     .resizable()
+                                    .aspectRatio(contentMode: .fit)
                                     .frame(width: 50, height: 50)
                                 
                                 Text("\(brew.brewToBrewType!.typeDescription!) - \(brew.name!)")

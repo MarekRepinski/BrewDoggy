@@ -29,6 +29,7 @@ struct BrewDetailView: View {
     @State private var bc: BrewCheck? = nil
     @State private var deleteOffSet: IndexSet = [0]
     @State private var askBeforeDelete2 = false
+    @State private var showGrade = 0
     @Binding var isAddActive: Bool
 
     var brew: Brew
@@ -47,15 +48,18 @@ struct BrewDetailView: View {
     
     var body: some View {
         VStack {
-//            NavigationLink(destination: EditRecipeView(isSet: $bruteForceReload, recipe: recipe),
-//                           isActive: $editIsActive) { EmptyView() }.hidden()
+            NavigationLink(destination: EditBrewView(isSet: $bruteForceReload, brew: brew),
+                           isActive: $editIsActive) { EmptyView() }.hidden()
 
             RecipeImage(image: UIImage(data: brew.picture!)!)
                 .padding(.top, 20)
 
             VStack(alignment: .center) {
+                Text("\(brew.name!)")
+                    .font(.title)
                 if isDone {
-                    GradeStarsView(full: Int(brew.grade), empty: 5 - Int(brew.grade))
+                    GradeStars(grade: $showGrade)
+//                    GradeStarsView(full: Int(brew.grade), empty: 5 - Int(brew.grade))
                 } else {
                     if daysLeft < 0 {
                         Text("Past Due date!!")
@@ -65,8 +69,6 @@ struct BrewDetailView: View {
                             .foregroundColor(.green)
                     }
                 }
-                Text("\(brew.name!)")
-                    .font(.title)
             }
             .padding()
             VStack(alignment: .leading, spacing: 10) {
@@ -133,6 +135,7 @@ struct BrewDetailView: View {
         }
         .onAppear() {
             isDone = brew.isDone
+            showGrade = Int(brew.grade)
             daysLeft = daysBetween(start: Date(), end: brew.eta!)
         }
         .alert(isPresented: $askBeforeDelete2) {
