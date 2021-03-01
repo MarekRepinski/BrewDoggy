@@ -1194,6 +1194,73 @@ struct MockData {
         newBrewCheck.timestamp = DateComponents(calendar: Calendar.current, year: 2020, month: 12, day: 20).date
         newBrewCheck.brewCheckToBrew = newBrew
         saveViewContext()
+    
+        //-----------------------------------------------//
+        //                 Wine Cellar                   //
+        //-----------------------------------------------//
+        
+        var newStorage = WineCellar(context: viewContext)
+        newStorage.id = UUID()
+        newStorage.name = "Applewine storage first try"
+        newStorage.start = DateComponents(calendar: Calendar.current, year: 2017, month: 3, day: 1).date
+        newStorage.bottlesStart = 12
+        newStorage.isNotDrunk = true
+        newStorage.timestamp = DateComponents(calendar: Calendar.current, year: 2017, month: 3, day: 1).date
+        newStorage.wineCellarToBrew = newBrew
+        newStorage.qrID = newBrew.id
+        saveViewContext()
+    
+        var newTaste = Taste(context: viewContext)
+        newTaste.id = UUID()
+        newTaste.date = DateComponents(calendar: Calendar.current, year: 2018, month: 3, day: 1).date
+        newTaste.bottles = 1
+        newTaste.comment = "Needs a alot more time..."
+        newTaste.rate = 1
+        newTaste.timestamp = DateComponents(calendar: Calendar.current, year: 2018, month: 3, day: 1).date
+        newTaste.tasteToWineCellar = newStorage
+        saveViewContext()
+
+        newTaste = Taste(context: viewContext)
+        newTaste.id = UUID()
+        newTaste.date = DateComponents(calendar: Calendar.current, year: 2019, month: 3, day: 1).date
+        newTaste.bottles = 2
+        newTaste.comment = "After two years its actually decent"
+        newTaste.rate = 3
+        newTaste.timestamp = DateComponents(calendar: Calendar.current, year: 2019, month: 3, day: 1).date
+        newTaste.tasteToWineCellar = newStorage
+        saveViewContext()
+
+        newTaste = Taste(context: viewContext)
+        newTaste.id = UUID()
+        newTaste.date = DateComponents(calendar: Calendar.current, year: 2020, month: 3, day: 1).date
+        newTaste.bottles = 3
+        newTaste.comment = "Big, big difference! Peftect level of sweetness. I wonder if the wine has peeked?"
+        newTaste.rate = 4
+        newTaste.timestamp = DateComponents(calendar: Calendar.current, year: 2020, month: 3, day: 1).date
+        newTaste.tasteToWineCellar = newStorage
+        saveViewContext()
+
+        newStorage = WineCellar(context: viewContext)
+        newStorage.id = UUID()
+        newStorage.name = "Sauvignon from Moldova"
+        newStorage.start = DateComponents(calendar: Calendar.current, year: 2019, month: 3, day: 1).date
+        newStorage.bottlesStart = 12
+        newStorage.isNotDrunk = true
+        newStorage.timestamp = DateComponents(calendar: Calendar.current, year: 2019, month: 3, day: 1).date
+        newStorage.wineCellarToBrew = nil
+        newStorage.qrID = UUID()
+        saveViewContext()
+    
+        newTaste = Taste(context: viewContext)
+        newTaste.id = UUID()
+        newTaste.date = DateComponents(calendar: Calendar.current, year: 2020, month: 3, day: 1).date
+        newTaste.bottles = 4
+        newTaste.comment = "Well, it was good at start and it taste more or less the same now."
+        newTaste.rate = 3
+        newTaste.timestamp = DateComponents(calendar: Calendar.current, year: 2020, month: 3, day: 1).date
+        newTaste.tasteToWineCellar = newStorage
+        saveViewContext()
+
     }
     
     private func saveViewContext() {
