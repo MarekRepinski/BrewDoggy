@@ -1201,7 +1201,9 @@ struct MockData {
         
         var newStorage = WineCellar(context: viewContext)
         newStorage.id = UUID()
+        newStorage.picture = UIImage(named: "wineStore1")?.jpegData(compressionQuality: 1.0)
         newStorage.name = "Applewine storage first try"
+        newStorage.comment = "This wine was a bit sweet at the begining"
         newStorage.start = DateComponents(calendar: Calendar.current, year: 2017, month: 3, day: 1).date
         newStorage.bottlesStart = 12
         newStorage.isNotDrunk = true
@@ -1241,8 +1243,10 @@ struct MockData {
         saveViewContext()
 
         newStorage = WineCellar(context: viewContext)
+        newStorage.picture = UIImage(named: "winestore2")?.jpegData(compressionQuality: 1.0)
         newStorage.id = UUID()
         newStorage.name = "Sauvignon from Moldova"
+        newStorage.comment = "A Cabernet Sauvignon from Moldova which I got hold of."
         newStorage.start = DateComponents(calendar: Calendar.current, year: 2019, month: 3, day: 1).date
         newStorage.bottlesStart = 12
         newStorage.isNotDrunk = true

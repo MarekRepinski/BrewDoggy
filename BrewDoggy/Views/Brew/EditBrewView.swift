@@ -274,6 +274,7 @@ struct EditBrewView: View {
             fg = String(brew.finalGravity)
             eta = brew.eta!
             isDone = brew.isDone
+            grade = Int(brew.grade)
             setRecipeList(bt: selectedBrewType)
         }
     }

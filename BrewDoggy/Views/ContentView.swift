@@ -85,7 +85,7 @@ struct ContentView: View {
                             Spacer()
                         }
 
-                        NavigationLink(destination: EmptyView()) {
+                        NavigationLink(destination: WineCellarListView(), isActive: $wineCellarGo) {
                             HStack {
                                 Image("wineCellar")
                                     .resizable()

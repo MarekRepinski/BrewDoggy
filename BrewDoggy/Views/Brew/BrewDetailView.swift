@@ -19,7 +19,6 @@ struct BrewDetailView: View {
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \BrewCheck.date, ascending: true)], animation: .default)
     private var brewChecks: FetchedResults<BrewCheck>
     
-    @State private var currentItems: [ItemRow] = []
     @State private var types: [String] = []
     @State private var bruteForceReload = false
     @State private var editIsActive = false
@@ -36,10 +35,6 @@ struct BrewDetailView: View {
     
     var flushAfter = false
 
-    var brewIndex: Int {
-        brews.firstIndex(where: { $0.id == brew.id})!
-    }
-    
     var filteredBrewItems: [BrewCheck] {
         brewChecks.filter { bc in
             (bc.brewCheckToBrew == brew)
@@ -59,7 +54,6 @@ struct BrewDetailView: View {
                     .font(.title)
                 if isDone {
                     GradeStars(grade: $showGrade)
-//                    GradeStarsView(full: Int(brew.grade), empty: 5 - Int(brew.grade))
                 } else {
                     if daysLeft < 0 {
                         Text("Past Due date!!")
@@ -123,6 +117,7 @@ struct BrewDetailView: View {
                         }
                         .padding(.horizontal, 10)
                         .padding(.vertical, 5)
+                        .contentShape(Rectangle())
                         .onTapGesture {
                             bc = fB
                             showCheck = true
@@ -216,26 +211,6 @@ struct BrewDetailView: View {
         } catch {
             let nsError = error as NSError
             fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
-        }
-    }
-}
-
-struct GradeStarsView: View {
-    var full: Int
-    var empty: Int
-
-    var body: some View {
-        HStack{
-            ForEach(0..<full) {_ in
-                Image(systemName: "star.fill")
-                    .imageScale(.large)
-                    .foregroundColor(.yellow)
-            }
-            ForEach(0..<empty) {_ in
-                Image(systemName: "star")
-                    .imageScale(.large)
-                    .foregroundColor(.yellow)
-            }
         }
     }
 }

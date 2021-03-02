@@ -60,6 +60,7 @@ struct BrewListView: View {
                                         .foregroundColor(brew.grade < 3 ? Color.red : Color.green)
                                 }
                             }
+                            .contentShape(Rectangle())
                         }
                     }
                     .onDelete(perform: onDelete)

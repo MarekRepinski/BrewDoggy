@@ -25,6 +25,7 @@ struct AddBrewCheckView: View {
                     .font(.title)
                     .bold()
                     .padding()
+                
                 VStack(alignment: .leading, spacing: 10) {
                     HStack {
                         Text("Gravity:")

@@ -56,6 +56,7 @@ struct RecipeListView: View {
                                         .foregroundColor(.yellow)
                                 }
                             }
+                            .contentShape(Rectangle())
                         }
                     }
                     .onDelete(perform: onDelete)
