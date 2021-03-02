@@ -36,6 +36,7 @@ struct WineCellarDetailView: View {
     @Binding var isAddActive: Bool
 
     var store: WineCellar
+    var flushAfter = false
 
     var filteredTasteItems: [Taste] {
         tastes.filter { taste in
@@ -45,8 +46,8 @@ struct WineCellarDetailView: View {
     
     var body: some View {
         VStack {
-//            NavigationLink(destination: EditTasteView(isSet: $bruteForceReload, brew: brew),
-//                           isActive: $editIsActive) { EmptyView() }.hidden()
+            NavigationLink(destination: EditWineCellarView(isSet: $bruteForceReload, store: store, minBottles: minBottles(store: store)),
+                           isActive: $editIsActive) { EmptyView() }.hidden()
 
             VStack(alignment: .center) {
                 RecipeImage(image: UIImage(data: store.picture!)!)
@@ -165,7 +166,16 @@ struct WineCellarDetailView: View {
         .navigationBarBackButtonHidden(true)
         .navigationBarItems(leading:
                                 Button(action: {
-                                    self.presentationMode.wrappedValue.dismiss()
+                                    if flushAfter {
+                                        modelData.flush = true
+                                        modelData.wineCellarGo = true
+                                        self.presentationMode.wrappedValue.dismiss()
+                                    }
+                                    if isAddActive {
+                                        isAddActive = false
+                                    } else {
+                                        self.presentationMode.wrappedValue.dismiss()
+                                    }
                                 }) {
                                     HStack{
                                         Image(systemName: "chevron.left")
@@ -237,6 +247,17 @@ struct WineCellarDetailView: View {
         return formatter.string(from: d)
     }
 
+    private func minBottles(store: WineCellar) -> Int {
+        var rc = 0
+        for taste in tastes {
+            if taste.tasteToWineCellar == store {
+                rc += Int(taste.bottles)
+            }
+        }
+
+        return rc
+    }
+    
     private func bottlesLeft(store: WineCellar) -> Int {
         var rc = store.bottlesStart
         for taste in tastes {

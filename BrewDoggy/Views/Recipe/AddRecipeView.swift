@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct AddRecipeView: View {
+    @EnvironmentObject var modelData: ModelData
     @Environment(\.managedObjectContext) private var viewContext
     @Environment(\.presentationMode) var presentationMode
     @StateObject var viewModel = ViewModel()
@@ -52,7 +53,8 @@ struct AddRecipeView: View {
 
     var body: some View {
         ScrollView {
-            NavigationLink(destination: RecipeDetailView(isAddActive: $isAddActive, recipe: outRecipe ?? recipies[0]),
+            NavigationLink(destination: RecipeDetailView(isAddActive: $isAddActive, recipe: outRecipe ?? recipies[0],
+                                                         flushAfter: true),
                            isActive: $saveAndMoveOn) { EmptyView() }.hidden()
 
             VStack(alignment: .center, spacing: 5.0) {
@@ -78,6 +80,9 @@ struct AddRecipeView: View {
             }
             .padding(.init(top: 20, leading: 0, bottom: 5, trailing: 0))
             .onAppear(){
+                if modelData.flush {
+                    self.presentationMode.wrappedValue.dismiss()
+                }
                 setUpStates()
             }
             .navigationBarBackButtonHidden(true)

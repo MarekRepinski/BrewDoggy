@@ -32,7 +32,6 @@ struct BrewDetailView: View {
     @Binding var isAddActive: Bool
 
     var brew: Brew
-    
     var flushAfter = false
 
     var filteredBrewItems: [BrewCheck] {
@@ -149,7 +148,6 @@ struct BrewDetailView: View {
                                         modelData.flush = true
                                         modelData.brewGo = true
                                     }
-
                                     self.presentationMode.wrappedValue.dismiss()
                                 }) {
                                     HStack{

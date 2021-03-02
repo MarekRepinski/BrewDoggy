@@ -36,7 +36,8 @@ struct RecipeDetailView: View {
     @Binding var isAddActive: Bool
     
     var recipe: Recipe
-    
+    var flushAfter = false
+
     var recipeIndex: Int {
         recipies.firstIndex(where: { $0.id == recipe.id})!
     }
@@ -52,8 +53,7 @@ struct RecipeDetailView: View {
             Group {
                 NavigationLink(destination: AddBrewView(isSet: $bruteForceReload,
                                                         isAddActive: $isAddActive,
-                                                        recipe: recipe,
-                                                        flushAfter: true),
+                                                        recipe: recipe),
                                isActive: $makeBrewIsActive) { EmptyView() } 
                 
                 NavigationLink(destination: EditRecipeView(isSet: $bruteForceReload, recipe: recipe),
@@ -145,11 +145,11 @@ struct RecipeDetailView: View {
         .navigationBarBackButtonHidden(true)
         .navigationBarItems(leading:
                                 Button(action: {
-                                    if isAddActive {
-                                        isAddActive = false
-                                    } else {
-                                        self.presentationMode.wrappedValue.dismiss()
+                                    if flushAfter {
+                                        modelData.flush = true
+                                        modelData.recipeGo = true
                                     }
+                                    self.presentationMode.wrappedValue.dismiss()
                                 }) {
                                     HStack{
                                         Image(systemName: "chevron.left")

@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct WineCellarListView: View {
+    @EnvironmentObject var modelData: ModelData
     @Environment(\.managedObjectContext) private var viewContext
     @Environment(\.presentationMode) var presentationMode
     
@@ -26,7 +27,7 @@ struct WineCellarListView: View {
     
     var filteredStores: [WineCellar] {
         stores.filter { s in
-            (!showNotEmptyOnly || s.isNotDrunk)
+            (!showNotEmptyOnly || bottlesLeft(store: s) > 0)
         }
     }
     
@@ -100,12 +101,17 @@ struct WineCellarListView: View {
                     }
                     
                     Spacer()
-//                    NavigationLink(destination: AddBrewView(isSet: $bruteForceReload, isAddActive: $editIsActive),
-//                                   isActive: $editIsActive) { EmptyView() }.hidden()
+                    NavigationLink(destination: AddWineCellarView(isSet: $bruteForceReload, isAddActive: $editIsActive),
+                                   isActive: $editIsActive) { EmptyView() }.hidden()
                 }
             }
         }
         .navigationBarHidden(true)
+        .onAppear() {
+            if modelData.flush {
+                self.presentationMode.wrappedValue.dismiss()
+            }
+        }
     }
     
     private func onDelete(offsets: IndexSet) {

@@ -19,6 +19,8 @@
 		D56278A725EE31EC0052F02D /* WineCellarDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D56278A625EE31EC0052F02D /* WineCellarDetailView.swift */; };
 		D56278AC25EE62510052F02D /* AddTasteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D56278AB25EE62510052F02D /* AddTasteView.swift */; };
 		D56278B925EE95510052F02D /* GradeStarsNB.swift in Sources */ = {isa = PBXBuildFile; fileRef = D56278B825EE95510052F02D /* GradeStarsNB.swift */; };
+		D56278BE25EEAB240052F02D /* AddWineCellarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D56278BD25EEAB240052F02D /* AddWineCellarView.swift */; };
+		D56278C325EECE2C0052F02D /* EditWineCellarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D56278C225EECE2C0052F02D /* EditWineCellarView.swift */; };
 		D569055425E0F8F300B6DEFE /* IngredientsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D569055325E0F8F300B6DEFE /* IngredientsView.swift */; };
 		D56B3D6E25DEAC9200DBE34C /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = D56B3D6D25DEAC9200DBE34C /* ImagePicker.swift */; };
 		D56B3D7425DF0D9500DBE34C /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D56B3D7325DF0D9500DBE34C /* ViewModel.swift */; };
@@ -74,6 +76,8 @@
 		D56278A625EE31EC0052F02D /* WineCellarDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WineCellarDetailView.swift; sourceTree = "<group>"; };
 		D56278AB25EE62510052F02D /* AddTasteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTasteView.swift; sourceTree = "<group>"; };
 		D56278B825EE95510052F02D /* GradeStarsNB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradeStarsNB.swift; sourceTree = "<group>"; };
+		D56278BD25EEAB240052F02D /* AddWineCellarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddWineCellarView.swift; sourceTree = "<group>"; };
+		D56278C225EECE2C0052F02D /* EditWineCellarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditWineCellarView.swift; sourceTree = "<group>"; };
 		D563C17C25DAA9E100A37003 /* BrewDoggy 13.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BrewDoggy 13.xcdatamodel"; sourceTree = "<group>"; };
 		D569055325E0F8F300B6DEFE /* IngredientsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientsView.swift; sourceTree = "<group>"; };
 		D56B3D6D25DEAC9200DBE34C /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
@@ -162,6 +166,8 @@
 				D562789E25EE30610052F02D /* WineCellarListView.swift */,
 				D56278A625EE31EC0052F02D /* WineCellarDetailView.swift */,
 				D56278AB25EE62510052F02D /* AddTasteView.swift */,
+				D56278BD25EEAB240052F02D /* AddWineCellarView.swift */,
+				D56278C225EECE2C0052F02D /* EditWineCellarView.swift */,
 			);
 			path = WineCellar;
 			sourceTree = "<group>";
@@ -417,6 +423,7 @@
 				D56278A725EE31EC0052F02D /* WineCellarDetailView.swift in Sources */,
 				D56B3D7425DF0D9500DBE34C /* ViewModel.swift in Sources */,
 				D55FEDE725EC35FE00B78153 /* AddBrewCheckView.swift in Sources */,
+				D56278C325EECE2C0052F02D /* EditWineCellarView.swift in Sources */,
 				D5ADD54925CFE1DC00C904B6 /* ContentView.swift in Sources */,
 				D5ADD54725CFE1DC00C904B6 /* BrewDoggyApp.swift in Sources */,
 				D55FEDE225EC185100B78153 /* AddBrewView.swift in Sources */,
@@ -426,6 +433,7 @@
 				D5ADD5D625D1C1AD00C904B6 /* RecipeImage.swift in Sources */,
 				D55FEDC225E8DE8C00B78153 /* BrewDetailView.swift in Sources */,
 				D5ADD65225D476B000C904B6 /* MockData.swift in Sources */,
+				D56278BE25EEAB240052F02D /* AddWineCellarView.swift in Sources */,
 				D561BE3625E7F3700063D853 /* AddRecipeView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -48,7 +48,7 @@ struct AddBrewView: View {
         ScrollView {
             NavigationLink(destination: BrewDetailView(isAddActive: $isAddActive,
                                                        brew: outBrew ?? brews[0],
-                                                       flushAfter: flushAfter),
+                                                       flushAfter: true),
                            isActive: $saveAndMoveOn) { EmptyView() }.hidden()
 
             VStack(alignment: .center, spacing: 5.0) {
@@ -73,13 +73,6 @@ struct AddBrewView: View {
                 .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.blue, lineWidth: 1))
             }
             .padding(.init(top: 20, leading: 0, bottom: 5, trailing: 0))
-            .onAppear(){
-                print("\(modelData.flush)")
-                if modelData.flush {
-                    self.presentationMode.wrappedValue.dismiss()
-                }
-                setUpStates()
-            }
             .navigationBarBackButtonHidden(true)
             .navigationBarItems(leading: Button(action: {
                 if changed {
@@ -227,6 +220,12 @@ struct AddBrewView: View {
                 
             }
             .padding(.horizontal, 15)
+        }
+        .onAppear(){
+            if modelData.flush {
+                self.presentationMode.wrappedValue.dismiss()
+            }
+            setUpStates()
         }
     }
     

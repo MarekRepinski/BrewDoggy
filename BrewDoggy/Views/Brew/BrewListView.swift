@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct BrewListView: View {
+    @EnvironmentObject var modelData: ModelData
     @Environment(\.managedObjectContext) private var viewContext
     @Environment(\.presentationMode) var presentationMode
     
@@ -159,6 +160,11 @@ struct BrewListView: View {
             }
         }
         .navigationBarHidden(true)
+        .onAppear() {
+            if modelData.flush {
+                self.presentationMode.wrappedValue.dismiss()
+            }
+        }
     }
     
     private func onDelete(offsets: IndexSet) {
