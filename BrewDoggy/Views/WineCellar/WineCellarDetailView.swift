@@ -74,8 +74,9 @@ struct WineCellarDetailView: View {
                         }
                     }
                     Spacer()
-                    Button("Create QR-code") {
-                        print("Create QR-code")
+                    NavigationLink(destination: CreateQR(id: store.id!)) {
+                        Text("Create QR-code")
+                            .foregroundColor(.blue)
                     }
                 }
                 HStack {

@@ -78,9 +78,9 @@ struct BrewDetailView: View {
                 HStack {
                     Text("\(isDone ? "End" : "ETA"): \(dateForm(d: brew.eta!))")
                     Spacer()
-                    Button("Create QR-code") {
-                        print("Create QR-code")
-                        print("id: \(brew.id!)")
+                    NavigationLink(destination: CreateQR(id: brew.id!)) {
+                        Text("Create QR-code")
+                            .foregroundColor(.blue)
                     }
                 }
             }
