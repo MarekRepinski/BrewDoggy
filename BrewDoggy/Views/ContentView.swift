@@ -7,12 +7,17 @@
 
 import SwiftUI
 import CoreData
+import CodeScanner
 
 struct ContentView: View {
     @EnvironmentObject var modelData: ModelData
     @Environment(\.managedObjectContext) private var viewContext
     @FetchRequest(entity: BrewType.entity(), sortDescriptors: [], animation: .default)
     private var brewTypes: FetchedResults<BrewType>
+    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Brew.timestamp, ascending: false)], animation: .default)
+    private var brews: FetchedResults<Brew>
+    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \WineCellar.timestamp, ascending: false)], animation: .default)
+    private var stores: FetchedResults<WineCellar>
 
     @State private var opacity = 1.0
     @State private var showMeny = false
@@ -21,6 +26,13 @@ struct ContentView: View {
     @State private var wineCellarGo = false
     @State private var scanGo = false
     @State private var firstTime = true
+    @State private var scanFailed = false
+    @State private var scanNotFound = false
+    @State private var dummyDeleteLater = false
+    @State private var outBrew: Brew? = nil
+    @State private var outStore: WineCellar? = nil
+    @State private var jumpToBrew = false
+    @State private var jumpToCellar = false
 
     var body: some View {
         NavigationView {
@@ -105,30 +117,51 @@ struct ContentView: View {
 
                             Spacer()
                         }
+                        .alert(isPresented: $scanNotFound) {
+                            Alert(title: Text("Scanned id not found"),
+                                  message: Text("The scanned ID not found in the database."),
+                                  dismissButton: .cancel())
 
-                        NavigationLink(destination: EmptyView()) {
-                            HStack {
-                                Image("qrCodeHeader")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .clipShape(RoundedRectangle(cornerRadius: 25.0))
-                                    .overlay(RoundedRectangle(cornerRadius: 25.0).stroke(Color.white, lineWidth: 8))
-                                    .frame(width: 100, height: 80, alignment: .leading)
+                        }
 
-                                Text("Scan")
-                                    .font(.title)
-                                    .bold()
-                                    .padding()
-                            }
-                            .padding(.init(top: 5, leading: 60, bottom: 5, trailing: 30))
-                            .contentShape(Rectangle())
-                            .background(Color.white).opacity(0.8)
+                        HStack {
+                            Image("qrCodeHeader")
+                                .resizable()
+                                .scaledToFit()
+                                .clipShape(RoundedRectangle(cornerRadius: 25.0))
+                                .overlay(RoundedRectangle(cornerRadius: 25.0).stroke(Color.white, lineWidth: 8))
+                                .frame(width: 100, height: 80, alignment: .leading)
 
+                            Text("Scan")
+                                .foregroundColor(.blue)
+                                .font(.title)
+                                .bold()
+                                .padding()
+                            
                             Spacer()
                         }
+                        .padding(.init(top: 5, leading: 60, bottom: 5, trailing: 30))
+                        .contentShape(Rectangle())
+                        .background(Color.white).opacity(0.8)
+                        .onTapGesture {
+                            scanGo = true
+                        }
+                        .alert(isPresented: $scanFailed) {
+                            Alert(title: Text("Scan Failed"),
+                                  message: Text("Either the QR-code is bad or the Scanner is not working"),
+                                  dismissButton: .cancel())
+
+                        }
+
                         Spacer()
                     }
                 }
+                NavigationLink(destination: BrewDetailView(isAddActive: $dummyDeleteLater,
+                                                           brew: outBrew ?? brews[0]),
+                               isActive: $jumpToBrew) { EmptyView() }.hidden()
+                NavigationLink(destination: WineCellarDetailView(isAddActive: $dummyDeleteLater,
+                                                           store: outStore ?? stores[0]),
+                               isActive: $jumpToCellar) { EmptyView() }.hidden()
             }
             .navigationViewStyle(StackNavigationViewStyle())
             .background(Color.white)
@@ -163,6 +196,9 @@ struct ContentView: View {
                         }
                     }
                 }
+            }
+            .sheet(isPresented: $scanGo) {
+                CodeScannerView(codeTypes: [.qr], simulatedData: brews[0].id?.uuidString ?? "Brew not found", completion: self.handleScan)
             }
             .toolbar {
                 ToolbarItemGroup(placement: .bottomBar) {
@@ -236,6 +272,29 @@ struct ContentView: View {
         withAnimation(Animation.easeInOut(duration: 1)){
             opacity = 0.08
             showMeny = true
+        }
+    }
+    
+    private func handleScan(result: Result<String, CodeScannerView.ScanError>) {
+        scanGo = false
+        
+        switch result {
+        case .success(let code):
+            for brew in brews {
+                if brew.id?.uuidString == code {
+                    outBrew = brew
+                    jumpToBrew = true
+                }
+            }
+            for store in stores {
+                if store.id?.uuidString == code {
+                    outStore = store
+                    jumpToCellar = true
+                }
+            }
+
+        case .failure( _):
+            scanFailed = true
         }
     }
 }

@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -22,6 +22,7 @@
 		D56278BE25EEAB240052F02D /* AddWineCellarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D56278BD25EEAB240052F02D /* AddWineCellarView.swift */; };
 		D56278C325EECE2C0052F02D /* EditWineCellarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D56278C225EECE2C0052F02D /* EditWineCellarView.swift */; };
 		D56278CE25EF89380052F02D /* CreateQR.swift in Sources */ = {isa = PBXBuildFile; fileRef = D56278CD25EF89380052F02D /* CreateQR.swift */; };
+		D562790E25EFC6740052F02D /* CodeScanner in Frameworks */ = {isa = PBXBuildFile; productRef = D562790D25EFC6740052F02D /* CodeScanner */; };
 		D569055425E0F8F300B6DEFE /* IngredientsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D569055325E0F8F300B6DEFE /* IngredientsView.swift */; };
 		D56B3D6E25DEAC9200DBE34C /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = D56B3D6D25DEAC9200DBE34C /* ImagePicker.swift */; };
 		D56B3D7425DF0D9500DBE34C /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D56B3D7325DF0D9500DBE34C /* ViewModel.swift */; };
@@ -130,6 +131,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D562790E25EFC6740052F02D /* CodeScanner in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -298,6 +300,9 @@
 			dependencies = (
 			);
 			name = BrewDoggy;
+			packageProductDependencies = (
+				D562790D25EFC6740052F02D /* CodeScanner */,
+			);
 			productName = BrewDoggy;
 			productReference = D5ADD54325CFE1DC00C904B6 /* BrewDoggy.app */;
 			productType = "com.apple.product-type.application";
@@ -369,6 +374,9 @@
 				Base,
 			);
 			mainGroup = D5ADD53A25CFE1DC00C904B6;
+			packageReferences = (
+				D562790C25EFC6740052F02D /* XCRemoteSwiftPackageReference "Codescanner" */,
+			);
 			productRefGroup = D5ADD54425CFE1DC00C904B6 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -754,6 +762,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		D562790C25EFC6740052F02D /* XCRemoteSwiftPackageReference "Codescanner" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/twostraws/Codescanner";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.7;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		D562790D25EFC6740052F02D /* CodeScanner */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D562790C25EFC6740052F02D /* XCRemoteSwiftPackageReference "Codescanner" */;
+			productName = CodeScanner;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		D5ADD55125CFE1DF00C904B6 /* BrewDoggy.xcdatamodeld */ = {

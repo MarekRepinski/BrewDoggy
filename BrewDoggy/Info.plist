@@ -2,8 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>If you want to save QR.code</string>
 	<key>NSCameraUsageDescription</key>
-	<string>Brew Doggy needs to access the camera if you want to put up your own pictures</string>
+	<string>Brew Doggy needs to access the camera if you want to put up your own pictures and scan QR-codes</string>
 	<key>LSApplicationCategoryType</key>
 	<string></string>
 	<key>CFBundleDevelopmentRegion</key>
