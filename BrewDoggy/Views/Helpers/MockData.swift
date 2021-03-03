@@ -9,6 +9,7 @@ import Foundation
 import CoreData
 import SwiftUI
 
+// Add lots of mockdata to database
 struct MockData {
     var viewContext: NSManagedObjectContext
   

@@ -19,20 +19,19 @@ struct ContentView: View {
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \WineCellar.timestamp, ascending: false)], animation: .default)
     private var stores: FetchedResults<WineCellar>
 
-    @State private var opacity = 1.0
-    @State private var showMeny = false
-    @State private var recipeGo = false
-    @State private var brewGo = false
-    @State private var wineCellarGo = false
-    @State private var scanGo = false
-    @State private var firstTime = true
-    @State private var scanFailed = false
-    @State private var scanNotFound = false
-    @State private var dummyDeleteLater = false
-    @State private var outBrew: Brew? = nil
-    @State private var outStore: WineCellar? = nil
-    @State private var jumpToBrew = false
-    @State private var jumpToCellar = false
+    @State private var opacity = 1.0                    // Opacity of splash image
+    @State private var showMeny = false                 // Show meny after splash image
+    @State private var recipeGo = false                 // Activate RecipeList NavLink
+    @State private var brewGo = false                   // Activate BrewList NavLink
+    @State private var wineCellarGo = false             // Activate WineCellar NavLink
+    @State private var scanGo = false                   // Activate Scan-Sheet
+    @State private var firstTime = true                 // Check if onAppear run for first time then activate splash image animation
+    @State private var scanFailed = false               // Open Scan Failure Alert
+    @State private var scanNotFound = false             // Open Scan ID not found Alert
+    @State private var outBrew: Brew? = nil             // Container if scan ID found a brew
+    @State private var outStore: WineCellar? = nil      // Container if scan ID found a winecellar
+    @State private var jumpToBrew = false               // Activate a NavLink if scan ID found a brew
+    @State private var jumpToCellar = false             // Activate a NavLink if scan ID found a winecellar
 
     var body: some View {
         NavigationView {
@@ -118,7 +117,7 @@ struct ContentView: View {
                             Spacer()
                         }
                         .alert(isPresented: $scanNotFound) {
-                            Alert(title: Text("Scanned id not found"),
+                            Alert(title: Text("Scanned ID not found"),
                                   message: Text("The scanned ID not found in the database."),
                                   dismissButton: .cancel())
 
@@ -156,11 +155,9 @@ struct ContentView: View {
                         Spacer()
                     }
                 }
-                NavigationLink(destination: BrewDetailView(isAddActive: $dummyDeleteLater,
-                                                           brew: outBrew ?? brews[0]),
+                NavigationLink(destination: BrewDetailView(brew: outBrew ?? brews[0]),
                                isActive: $jumpToBrew) { EmptyView() }.hidden()
-                NavigationLink(destination: WineCellarDetailView(isAddActive: $dummyDeleteLater,
-                                                           store: outStore ?? stores[0]),
+                NavigationLink(destination: WineCellarDetailView(store: outStore ?? stores[0]),
                                isActive: $jumpToCellar) { EmptyView() }.hidden()
             }
             .navigationViewStyle(StackNavigationViewStyle())
@@ -269,6 +266,7 @@ struct ContentView: View {
     }
     
     private func enterApp() {
+        // Animate splash image
         withAnimation(Animation.easeInOut(duration: 1)){
             opacity = 0.08
             showMeny = true
@@ -276,6 +274,7 @@ struct ContentView: View {
     }
     
     private func handleScan(result: Result<String, CodeScannerView.ScanError>) {
+        // Handle result from scanner
         scanGo = false
         
         switch result {

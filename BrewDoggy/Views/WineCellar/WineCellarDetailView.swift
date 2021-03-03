@@ -33,7 +33,6 @@ struct WineCellarDetailView: View {
     @State private var goToBrew = false
     @State private var storeIsEmptyAlert = false
     @State private var addTasteIsActive = false
-    @Binding var isAddActive: Bool
 
     var store: WineCellar
     var flushAfter = false
@@ -154,7 +153,7 @@ struct WineCellarDetailView: View {
                       secondaryButton: .cancel(Text("No")))
             }
 
-            NavigationLink(destination: BrewDetailView(isAddActive: $isAddActive, brew: brew ?? brews[0]),
+            NavigationLink(destination: BrewDetailView(brew: brew ?? brews[0]),
                            isActive: $goToBrew) { EmptyView() }.hidden()
         }
         .onAppear() {
@@ -172,11 +171,7 @@ struct WineCellarDetailView: View {
                                         modelData.wineCellarGo = true
                                         self.presentationMode.wrappedValue.dismiss()
                                     }
-                                    if isAddActive {
-                                        isAddActive = false
-                                    } else {
-                                        self.presentationMode.wrappedValue.dismiss()
-                                    }
+                                    self.presentationMode.wrappedValue.dismiss()
                                 }) {
                                     HStack{
                                         Image(systemName: "chevron.left")

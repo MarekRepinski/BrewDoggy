@@ -17,13 +17,12 @@ struct RecipeListView: View {
     @FetchRequest(entity: BrewType.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \BrewType.timestamp, ascending: false)], animation: .default)
     private var brewTypes: FetchedResults<BrewType>
     
-    @State private var showFavoritesOnly = false
-    @State private var bruteForceReload = false
-    @State private var showList = true
-    @State private var editIsActive = false
-    @State private var isAddActive = false
-    @State private var deleteOffSet: IndexSet = [0]
-    @State private var askBeforeDelete = false
+    @State private var showFavoritesOnly = false            // Show only favorite marked recipies
+    @State private var bruteForceReload = false             // Binding Bool used to force reload of view
+    @State private var showList = true                      // Switch between list view and category view
+    @State private var editIsActive = false                 // Activate AddRecipe NavLink
+    @State private var deleteOffSet: IndexSet = [0]         // Container for recipe marked for delete
+    @State private var askBeforeDelete = false              // Activate Delete Alert
 
     var filteredRecipies: [Recipe] {
         recipies.filter { r in
@@ -39,7 +38,7 @@ struct RecipeListView: View {
                         Text("Favorites only")
                     }
                     ForEach(filteredRecipies) { recipe in
-                        NavigationLink(destination: RecipeDetailView(isAddActive: $isAddActive, recipe: recipe)) {
+                        NavigationLink(destination: RecipeDetailView(recipe: recipe)) {
                             HStack {
                                 Image(uiImage: UIImage(data: recipe.picture!)!)
                                     .renderingMode(.original)
@@ -180,8 +179,6 @@ struct RecipeListView: View {
 }
 
 struct CategoryRow: View {
-    @State private var isAddActive = false
-
     var bt: BrewType
     var recipeList: [Recipe]
     var items: [Recipe] {
@@ -201,7 +198,7 @@ struct CategoryRow: View {
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(alignment: .top, spacing: 0) {
                         ForEach(items){ recipe in
-                            NavigationLink(destination: RecipeDetailView(isAddActive: $isAddActive, recipe: recipe)) {
+                            NavigationLink(destination: RecipeDetailView(recipe: recipe)) {
                                 CategoryItem(recipe: recipe)
                             }
                         }

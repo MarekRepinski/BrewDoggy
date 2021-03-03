@@ -15,45 +15,39 @@ struct AddRecipeView: View {
 
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Recipe.timestamp, ascending: true)], animation: .default)
     private var recipies: FetchedResults<Recipe>
-
     @FetchRequest(entity: BrewType.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \BrewType.timestamp, ascending: false)], animation: .default)
     private var brewTypes: FetchedResults<BrewType>
-
     @FetchRequest(entity: RecipeItem.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \RecipeItem.sortId, ascending: true)], animation: .default)
     private var recipeItems: FetchedResults<RecipeItem>
-    
     @FetchRequest(entity: UnitType.entity(),
                   sortDescriptors: [NSSortDescriptor(keyPath: \UnitType.unitTypeSort, ascending: true)],
                   predicate: NSPredicate(format: "unitTypeSort > 0"), animation: .default)
     private var unitTypes: FetchedResults<UnitType>
-    
     @FetchRequest(entity: Unit.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \Unit.timestamp, ascending: true)], animation: .default)
     private var units: FetchedResults<Unit>
 
-
-    @State private var title = "Add a new Recipe"
-    @State private var name = ""
-    @State private var instructions = ""
-    @State private var currentItems: [RecipeItem] = []
-    @State private var prevUnitType = ""
-    @State private var showChangeAlert = false
-    @State private var showUnitChangeAlert = false
-    @State private var selectedUnitType = ""
-    @State private var showUnitTypePicker = false
-    @State private var uTypes: [String] = []
-    @State private var showBrewTypePicker = false
-    @State private var selectedBrewType = ""
-    @State private var bTypes: [String] = []
-    @State var ingredientItems = [ItemRow(name: "dummy", amount: "dummy", unit: "dummy")]
-    @State private var changed = false
-    @State private var outRecipe: Recipe? = nil
-    @State private var saveAndMoveOn = false
-    @Binding var isSet: Bool
-    @Binding var isAddActive: Bool
+    @State private var title = "Add a new Recipe"               // NavigationBar title
+    @State private var name = ""                                // Container for Recipe name
+    @State private var instructions = ""                        // Container for recipe instructions
+    @State private var currentItems: [RecipeItem] = []          //*** Is this really used here?????
+    @State private var prevUnitType = ""                        // Keep trac of previous measurement system. To know how to convert
+    @State private var showChangeAlert = false                  // Activate Alert not to exit without save
+    @State private var showUnitChangeAlert = false              // Activate Alert that measurement system has been changed
+    @State private var selectedUnitType = ""                    // Container for selected measurement system
+    @State private var showUnitTypePicker = false               // Activate measurement system picker
+    @State private var uTypes: [String] = []                    // Array of Strings for "Metric", "Imperial" and "US"
+    @State private var showBrewTypePicker = false               // Activate brewtype picker
+    @State private var selectedBrewType = ""                    // Container for selected brewtype
+    @State private var bTypes: [String] = []                    // Array with strings of available brewtypes
+    @State var ingredientItems = [ItemRow(name: "dummy", amount: "dummy", unit: "dummy")]   // Array of selected ingredients
+    @State private var changed = false                          // Keep trac if something change to give without save warning
+    @State private var outRecipe: Recipe? = nil                 // Container for new recipe after save, used to call RecipeDetail
+    @State private var saveAndMoveOn = false                    // Activate RecipeDetail
+    @Binding var isSet: Bool                                    // Make change on binding to force reload of previous views
 
     var body: some View {
         ScrollView {
-            NavigationLink(destination: RecipeDetailView(isAddActive: $isAddActive, recipe: outRecipe ?? recipies[0],
+            NavigationLink(destination: RecipeDetailView(recipe: outRecipe ?? recipies[0],
                                                          flushAfter: true),
                            isActive: $saveAndMoveOn) { EmptyView() }.hidden()
 
@@ -257,9 +251,9 @@ struct AddRecipeView: View {
             if ingredientItems[0].unit == "dummy" {
                 prevUnitType = selectedUnitType
                 ingredientItems.removeAll()
-                for rI in currentItems {
-                    ingredientItems.append(ItemRow(name: rI.itemDescription!, amount: rI.amount!, unit: rI.recipeItemToUnit!.unitAbbreviation!))
-                }
+//                for rI in currentItems {
+//                    ingredientItems.append(ItemRow(name: rI.itemDescription!, amount: rI.amount!, unit: rI.recipeItemToUnit!.unitAbbreviation!))
+//                }
             }
         }
         if selectedBrewType == "" { selectedBrewType = "Beer" }
@@ -267,7 +261,6 @@ struct AddRecipeView: View {
     }
     
     private func saveRecipe() {
-        
         let newRecipe = Recipe(context: viewContext)
         newRecipe.id = UUID()
         newRecipe.name = name
@@ -300,6 +293,7 @@ struct AddRecipeView: View {
         saveAndMoveOn = true
     }
     
+    // Get database unit from string
     private func getUnit(str: String) -> Unit? {
         var lastUnit: Unit? = nil
         for unit in units {
@@ -312,6 +306,7 @@ struct AddRecipeView: View {
         return lastUnit
     }
     
+    // Get database brewtype from string
     private func getBrewType(str: String) -> BrewType? {
         var lastBT: BrewType? = nil
         for bt in brewTypes {
@@ -321,7 +316,8 @@ struct AddRecipeView: View {
         
         return lastBT
     }
-    
+
+    // Get database unittype from string
     private func getUnitType(str: String) -> UnitType? {
         var lastUT: UnitType? = nil
         for ut in unitTypes {
@@ -332,6 +328,7 @@ struct AddRecipeView: View {
         return lastUT
     }
     
+    // Convert units between measuremant systems - hard coded!!
     private func convertUnits() {
         let mets = ["l", "dl", "ml", "kg", "g"]
         let imps = ["gal", "pt", "fl.oz", "lb", "oz"]

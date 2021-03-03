@@ -8,6 +8,7 @@
 import SwiftUI
 import CoreImage.CIFilterBuiltins
 
+// Create QR-Code and let user share it
 struct CreateQR: View {
     @State private var items: [UIImage] = []
     @State private var sheet = false

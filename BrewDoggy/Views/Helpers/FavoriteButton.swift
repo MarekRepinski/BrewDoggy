@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+// Make a favorite Star with binding and save if changed
 struct FavoriteButton: View {
     @Binding var isSet: Bool
     @Environment(\.managedObjectContext) private var viewContext

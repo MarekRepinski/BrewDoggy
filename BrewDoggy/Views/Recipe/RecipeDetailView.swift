@@ -23,20 +23,19 @@ struct RecipeDetailView: View {
                   predicate: NSPredicate(format: "unitTypeSort > 0"), animation: .default)
     private var unitTypes: FetchedResults<UnitType>
 
-    @State private var currentItems: [ItemRow] = []
-    @State private var metItems = [ItemRow]()
-    @State private var impItems = [ItemRow]()
-    @State private var usItems = [ItemRow]()
-    @State private var pickerVisible = false
-    @State private var selectedType = "Metric"
-    @State private var types: [String] = []
-    @State private var bruteForceReload = false
-    @State private var editIsActive = false
-    @State private var makeBrewIsActive = false
-    @Binding var isAddActive: Bool
+    @State private var currentItems: [ItemRow] = []     // Container used for recipe items. Switch between systems.
+    @State private var metItems = [ItemRow]()           // Container used for recipe items. Metric system.
+    @State private var impItems = [ItemRow]()           // Container used for recipe items. Imperial system.
+    @State private var usItems = [ItemRow]()            // Container used for recipe items. US system.
+    @State private var pickerVisible = false            // Toggle picker to choose system
+    @State private var selectedType = "Metric"          // Container with picked system
+    @State private var types: [String] = []             // Array of Strings for "Metric", "Imperial" and "US"
+    @State private var bruteForceReload = false         // Binding Bool used to force reload of view
+    @State private var editIsActive = false             // Activate EditRecipeView
+    @State private var makeBrewIsActive = false         // Activate AddBrewView
     
     var recipe: Recipe
-    var flushAfter = false
+    var flushAfter = false                              // Flush Navigation history
 
     var recipeIndex: Int {
         recipies.firstIndex(where: { $0.id == recipe.id})!
@@ -52,7 +51,6 @@ struct RecipeDetailView: View {
         ScrollView {
             Group {
                 NavigationLink(destination: AddBrewView(isSet: $bruteForceReload,
-                                                        isAddActive: $isAddActive,
                                                         recipe: recipe),
                                isActive: $makeBrewIsActive) { EmptyView() } 
                 
@@ -199,6 +197,7 @@ struct RecipeDetailView: View {
         }
     }
     
+    // Setting up an array with ingrident for every measure system
     private func setUpIngrediens() {
         var metConvErr = false
         var impConvErr = false

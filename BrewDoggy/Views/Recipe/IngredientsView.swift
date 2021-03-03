@@ -7,23 +7,25 @@
 
 import SwiftUI
 
+
+// Edit indredients in recipe - called from AddRecipe and EditRecipe
 struct IngredientsView : View {
     @Environment(\.managedObjectContext) private var viewContext
     @FetchRequest(entity: Unit.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \Unit.timestamp, ascending: true)], animation: .default)
     private var units: FetchedResults<Unit>
 
-    @State private var ingredient = ""
-    @State private var amount = ""
-    @State private var selectedUnit = "Tbsp"
-    @State private var showAddIngredient = false
-    @State private var showUndoButton = false
-    @State private var pickerVisible = false
-    @State private var editMode = EditMode.inactive
-    @State private var orgItems: [ItemRow] = []
-    @State private var currIndex = -1
-    @Binding var ingredientItems: [ItemRow]
-    @Binding var changed: Bool
-    var unitType: String
+    @State private var ingredient = ""                  // Container for ingredient
+    @State private var amount = ""                      // Container for the amount of ingredient
+    @State private var selectedUnit = "Tbsp"            // Container for selected unit
+    @State private var showAddIngredient = false        // Activate view with view to add or modify ingredient
+    @State private var showUndoButton = false           // Activate button to undo all changes
+    @State private var pickerVisible = false            // Activate unit picker
+    @State private var editMode = EditMode.inactive     // Activate mode to modify the list
+    @State private var orgItems: [ItemRow] = []         // Array of orignal ingredients, use with undo
+    @State private var currIndex = -1                   // Index to keep trac which ingredient you are updating, -1 = new ingredient
+    @Binding var ingredientItems: [ItemRow]             // All ingredient from previous view with binding
+    @Binding var changed: Bool                          // Keep trac if something change to give without save warning in previous view
+    var unitType: String                                // Input: chosen measurement system
     
     var filteredUnits: [String] {
         var rc: [String] = []

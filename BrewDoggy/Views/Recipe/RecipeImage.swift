@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+// Display image, used not only in recipe segment
 struct RecipeImage: View {
     var image: UIImage
     

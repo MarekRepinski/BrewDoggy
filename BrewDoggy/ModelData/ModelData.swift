@@ -9,9 +9,8 @@ import Foundation
 import SwiftUI
 
 class ModelData: ObservableObject {
-    @Published var flush: Bool = false
-    @Published var isPresentingImagePicker = false
-    @Published var recipeGo = false
-    @Published var brewGo = false
-    @Published var wineCellarGo = false
+    @Published var flush: Bool = false      // Flush Navigation History back to Top level
+    @Published var recipeGo = false         // Activate RecipeList NavLink in ContentView
+    @Published var brewGo = false           // Activate BrewList NavLink in ContentView
+    @Published var wineCellarGo = false     // Activate WineCellarList NavLink in ContentView
 }

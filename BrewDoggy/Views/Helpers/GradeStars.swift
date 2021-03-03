@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+// Make five stars for rating, with binding
 struct GradeStars: View {
     @Binding var grade: Int
     var setGrade: Bool = false

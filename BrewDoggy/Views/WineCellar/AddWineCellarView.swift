@@ -44,7 +44,6 @@ struct AddWineCellarView: View {
     var body: some View {
         ScrollView {
             NavigationLink(destination: WineCellarDetailView(
-                            isAddActive: $isAddActive,
                             store: outStore ?? stores[0],
                             flushAfter: true),
                             isActive: $saveAndMoveOn) { EmptyView() }.hidden()

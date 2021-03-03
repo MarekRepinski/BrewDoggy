@@ -46,8 +46,7 @@ struct AddBrewView: View {
 
     var body: some View {
         ScrollView {
-            NavigationLink(destination: BrewDetailView(isAddActive: $isAddActive,
-                                                       brew: outBrew ?? brews[0],
+            NavigationLink(destination: BrewDetailView(brew: outBrew ?? brews[0],
                                                        flushAfter: true),
                            isActive: $saveAndMoveOn) { EmptyView() }.hidden()
 

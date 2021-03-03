@@ -19,15 +19,14 @@ struct BrewListView: View {
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \BrewCheck.date, ascending: true)], animation: .default)
     private var brewChecks: FetchedResults<BrewCheck>
     
-    @State private var showOnGoingOnly = false
-    @State private var bruteForceReload = false
-    @State private var showList = true
-    @State private var gradeColor = Color.green
-    @State private var askBeforeDelete = false
-    @State private var cantBeDeleted = false
-    @State private var editIsActive = false
-    @State private var isAddActive = false
-    @State private var deleteOffSet: IndexSet = [0]
+    @State private var showOnGoingOnly = false          // Show only brews that are brewing
+    @State private var bruteForceReload = false         // Bool used in binding to force reload
+    @State private var showList = true                  // Show brews as list or categories
+    @State private var gradeColor = Color.green         // Change color of image depending on grade
+    @State private var askBeforeDelete = false          // Activate ask before delete Alert
+    @State private var cantBeDeleted = false            // Activete cant be deleted Alert (Brew has checks)
+    @State private var editIsActive = false             // Activate AddBrew NavLink
+    @State private var deleteOffSet: IndexSet = [0]     // Container for brews to be deleted
     
     var filteredBrews: [Brew] {
         brews.filter { r in
@@ -43,7 +42,7 @@ struct BrewListView: View {
                         Text("Brewing only")
                     }
                     ForEach(filteredBrews) { brew in
-                        NavigationLink(destination: BrewDetailView(isAddActive: $isAddActive, brew: brew)) {
+                        NavigationLink(destination: BrewDetailView(brew: brew)) {
                             HStack {
                                 Image(uiImage: UIImage(data: brew.picture!)!)
                                     .renderingMode(.original)
@@ -154,7 +153,7 @@ struct BrewListView: View {
                     }
                     
                     Spacer()
-                    NavigationLink(destination: AddBrewView(isSet: $bruteForceReload, isAddActive: $editIsActive),
+                    NavigationLink(destination: AddBrewView(isSet: $bruteForceReload),
                                    isActive: $editIsActive) { EmptyView() }.hidden()
                 }
             }
@@ -221,7 +220,7 @@ struct BrewListView: View {
                     ScrollView(.horizontal, showsIndicators: false) {
                         HStack(alignment: .top, spacing: 0) {
                             ForEach(items){ brew in
-                                NavigationLink(destination: BrewDetailView(isAddActive: $isAddActive, brew: brew)) {
+                                NavigationLink(destination: BrewDetailView(brew: brew)) {
                                     BrewCategoryItem(brew: brew)
                                 }
                             }

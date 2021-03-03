@@ -15,21 +15,20 @@ struct BrewDetailView: View {
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Brew.timestamp, ascending: false)], animation: .default)
     private var brews: FetchedResults<Brew>
     @FetchRequest(entity: BrewType.entity(), sortDescriptors: [], animation: .default)
-    private var brewTypes: FetchedResults<BrewType>
+    private var brewTypes: FetchedResults<BrewType>         //*** not used?
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \BrewCheck.date, ascending: true)], animation: .default)
     private var brewChecks: FetchedResults<BrewCheck>
     
-    @State private var types: [String] = []
-    @State private var bruteForceReload = false
-    @State private var editIsActive = false
-    @State private var isDone = false
-    @State private var daysLeft = 0
-    @State private var showCheck = false
-    @State private var bc: BrewCheck? = nil
-    @State private var deleteOffSet: IndexSet = [0]
-    @State private var askBeforeDelete2 = false
-    @State private var showGrade = 0
-    @Binding var isAddActive: Bool
+    @State private var types: [String] = []                 //*** not used?
+    @State private var bruteForceReload = false             // Bool used in binding to force reload
+    @State private var editIsActive = false                 // Activate EditBrewView NavLink
+    @State private var isDone = false                       // Check if brew is no longer brewing
+    @State private var daysLeft = 0                         // Check how many days to ETA
+    @State private var showCheck = false                    // Avtivate clicked check in sheet
+    @State private var bc: BrewCheck? = nil                 // Container which brew check to show
+    @State private var deleteOffSet: IndexSet = [0]         // Container for checks marked for delete
+    @State private var askBeforeDelete2 = false             // Activate Delete Alert
+    @State private var showGrade = 0                        // Input for show grading with GradeStar
 
     var brew: Brew
     var flushAfter = false

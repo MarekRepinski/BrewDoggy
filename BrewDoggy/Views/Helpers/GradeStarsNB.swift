@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+// Make five stars for rating, without binding
 struct GradeStarsNB: View {
     var grade: Int
     
