@@ -25,7 +25,6 @@ struct AddWineCellarView: View {
     @State private var bottles = 12                             // Container for start no of bottles in store
     @State private var comment = ""                             // Container for Comment
     @State private var brewList: [String] = []                  // Array with strings of available brews
-    @State private var brew: Brew? = nil                        //*** Is this really used here????? Brew object store is linked to
     @State private var selectedBrew = "*not* homebrewed"        // Container for selected Brew
     
     @State private var showChangeAlert = false                  // Activate Alert not to exit without save

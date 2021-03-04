@@ -27,7 +27,6 @@ struct WineCellarDetailView: View {
     @State private var taste: Taste? = nil              // Container which taste to show
     @State private var deleteOffSet: IndexSet = [0]     // Container for Tastes marked for delete
     @State private var askBeforeDelete2 = false         // Activate Delete Alert
-    @State private var startGrade = -1                  //*** not used?
     @State private var brew: Brew? = nil                // Brew object store is linked to
     @State private var homeBrewed = false               // Container for if store is linked to Brew
     @State private var goToBrew = false                 // Activate BrewDetail NavLink
@@ -311,7 +310,6 @@ struct WineCellarDetailView: View {
 
 struct DetailTasteView: View {
     @Environment(\.presentationMode) var presentationMode
-    @State private var startGrade = -1                  //*** not used?
     @Binding var taste: Taste?
     
     var body: some View {

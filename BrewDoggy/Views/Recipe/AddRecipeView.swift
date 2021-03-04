@@ -29,7 +29,6 @@ struct AddRecipeView: View {
     @State private var title = "Add a new Recipe"               // NavigationBar title
     @State private var name = ""                                // Container for Recipe name
     @State private var instructions = ""                        // Container for recipe instructions
-    @State private var currentItems: [RecipeItem] = []          //*** Is this really used here?????
     @State private var prevUnitType = ""                        // Keep trac of previous measurement system. To know how to convert
     @State private var showChangeAlert = false                  // Activate Alert not to exit without save
     @State private var showUnitChangeAlert = false              // Activate Alert that measurement system has been changed
@@ -251,9 +250,6 @@ struct AddRecipeView: View {
             if ingredientItems[0].unit == "dummy" {
                 prevUnitType = selectedUnitType
                 ingredientItems.removeAll()
-//                for rI in currentItems {
-//                    ingredientItems.append(ItemRow(name: rI.itemDescription!, amount: rI.amount!, unit: rI.recipeItemToUnit!.unitAbbreviation!))
-//                }
             }
         }
         if selectedBrewType == "" { selectedBrewType = "Beer" }

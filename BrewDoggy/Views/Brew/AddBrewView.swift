@@ -40,7 +40,7 @@ struct AddBrewView: View {
     @State private var firstTime = true                     // Check if onAppear run for first time for setUpStates()
     @Binding var isSet: Bool                                // Make change on binding to force reload of previous views
     
-    var recipe: Recipe? = nil                               //*** Is this really used here?????
+    var recipe: Recipe? = nil                               // If call came from RecipeDetail, an Recipe is already chosen
 
     var body: some View {
         ScrollView {

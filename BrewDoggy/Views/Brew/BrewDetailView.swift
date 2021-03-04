@@ -14,12 +14,9 @@ struct BrewDetailView: View {
     
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Brew.timestamp, ascending: false)], animation: .default)
     private var brews: FetchedResults<Brew>
-    @FetchRequest(entity: BrewType.entity(), sortDescriptors: [], animation: .default)
-    private var brewTypes: FetchedResults<BrewType>         //*** not used?
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \BrewCheck.date, ascending: true)], animation: .default)
     private var brewChecks: FetchedResults<BrewCheck>
     
-    @State private var types: [String] = []                 //*** not used?
     @State private var bruteForceReload = false             // Bool used in binding to force reload
     @State private var editIsActive = false                 // Activate EditBrewView NavLink
     @State private var isDone = false                       // Check if brew is no longer brewing
