@@ -20,29 +20,27 @@ struct AddBrewView: View {
     @FetchRequest(entity: BrewType.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \BrewType.timestamp, ascending: false)], animation: .default)
     private var brewTypes: FetchedResults<BrewType>
 
-    @State private var title = "Add a new Brew"
-    @State private var name = ""
-    @State private var og = ""
-    @State private var eta = Date()
+    @State private var title = "Add a new Brew"             // Container NavigationBar title
+    @State private var name = ""                            // Container for Brew name
+    @State private var og = ""                              // Container for Original Gravity
+    @State private var eta = Date()                         // Container for ETA
     
-    @State private var showChangeAlert = false
-    @State private var showTypeChangeAlert = false
-    @State private var showGravityAlert = false
-    @State private var showBrewTypePicker = false
-    @State private var selectedBrewType = ""
-    @State private var bTypes: [String] = []
-    @State private var showRecipePicker = false
-    @State private var selectedRecipe = ""
-    @State private var rTypes: [String] = []
-    @State private var changed = false
-    @State private var outBrew: Brew? = nil
-    @State private var saveAndMoveOn = false
-    @State private var firstTime = true
-    @Binding var isSet: Bool
-    @Binding var isAddActive: Bool
+    @State private var showChangeAlert = false              // Activate Alert not to exit without save
+    @State private var showTypeChangeAlert = false          // Activate Alert that BrewType has been changed and recipe nullified
+    @State private var showGravityAlert = false             // Activate Alert that gravity entrance is wrong
+    @State private var showBrewTypePicker = false           // Activate BrewType picker
+    @State private var selectedBrewType = ""                // Container for slected BrewType
+    @State private var bTypes: [String] = []                // Array with strings of available brewtypes
+    @State private var showRecipePicker = false             // Activate Recipe picker
+    @State private var selectedRecipe = ""                  // Container for slected Recipe
+    @State private var rTypes: [String] = []                // Array with strings of available recipies
+    @State private var changed = false                      // Keep trac if something change to give without save warning
+    @State private var outBrew: Brew? = nil                 // Container for new brew after save, used to call BrewDetail
+    @State private var saveAndMoveOn = false                // Activate BrewDetail
+    @State private var firstTime = true                     // Check if onAppear run for first time for setUpStates()
+    @Binding var isSet: Bool                                // Make change on binding to force reload of previous views
     
-    var recipe: Recipe? = nil
-    var flushAfter: Bool = false
+    var recipe: Recipe? = nil                               //*** Is this really used here?????
 
     var body: some View {
         ScrollView {
@@ -228,6 +226,7 @@ struct AddBrewView: View {
         }
     }
     
+    // Add 14 days to date
     private func addForthNight() -> Date {
         let currenDate = Date()
         var dateComponent = DateComponents()
@@ -242,10 +241,10 @@ struct AddBrewView: View {
                 bTypes.append(bt.typeDescription!)
             }
 
-            if let r = recipe {
-                selectedBrewType = (r.recipeToBrewType?.typeDescription)!
-                selectedRecipe = r.name!
-            }
+//            if let r = recipe {
+//                selectedBrewType = (r.recipeToBrewType?.typeDescription)!
+//                selectedRecipe = r.name!
+//            }
             
             if selectedBrewType == "" {
                 selectedBrewType = "Beer"
@@ -256,6 +255,7 @@ struct AddBrewView: View {
         }
     }
     
+    // Compile recipe list acording to BrewType
     private func setRecipeList(bt: String) {
         var changedType = true
         
@@ -306,6 +306,7 @@ struct AddBrewView: View {
         }
     }
     
+    // Check gravity entrance
     private func checkGravity(s: String) -> Int {
         if s == "" {
             return 0
@@ -321,6 +322,7 @@ struct AddBrewView: View {
         return -1
     }
     
+    // Find Recipe Object with Recipe Name
     private func findRecipe() -> Recipe {
         for r in recipies {
             if r.name == selectedRecipe {
@@ -330,6 +332,7 @@ struct AddBrewView: View {
         return recipies[0]
     }
     
+    // Find BrewType Object with BrewType Name
     private func findBrewType() -> BrewType {
         for bt in brewTypes {
             if bt.typeDescription == selectedBrewType {

@@ -11,12 +11,12 @@ struct AddBrewCheckView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @Environment(\.presentationMode) var presentationMode
     
-    @State private var gravity = ""
-    @State private var comment = ""
-    @State private var changed = false
-    @State private var showChangeAlert = false
-    @State private var showGravityAlert = false
-    var brew: Brew
+    @State private var gravity = ""                 // Container for gravity
+    @State private var comment = ""                 // Container for comment
+    @State private var changed = false              // Keep trac if something change to give without save warning
+    @State private var showChangeAlert = false      // Activate Alert not to exit without save
+    @State private var showGravityAlert = false     // Activate Alert that gravity entrance is wrong
+    var brew: Brew                                  // Which Brew to add check to
     
     var body: some View {
         ScrollView {
@@ -116,6 +116,7 @@ struct AddBrewCheckView: View {
         }
     }
     
+    // Check gravity entrance
     private func checkGravity(s: String) -> Int {
         if s == "" {
             return 0

@@ -30,8 +30,8 @@ struct BrewDetailView: View {
     @State private var askBeforeDelete2 = false             // Activate Delete Alert
     @State private var showGrade = 0                        // Input for show grading with GradeStar
 
-    var brew: Brew
-    var flushAfter = false
+    var brew: Brew                                          // Brew Object to display
+    var flushAfter = false                                  // Flush Navigation history
 
     var filteredBrewItems: [BrewCheck] {
         brewChecks.filter { bc in
@@ -127,6 +127,9 @@ struct BrewDetailView: View {
             .padding(.bottom, 50)
         }
         .onAppear() {
+            if modelData.flush {
+                self.presentationMode.wrappedValue.dismiss()
+            }
             isDone = brew.isDone
             showGrade = Int(brew.grade)
             daysLeft = daysBetween(start: Date(), end: brew.eta!)

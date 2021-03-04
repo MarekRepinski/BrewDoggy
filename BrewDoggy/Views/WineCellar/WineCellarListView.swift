@@ -17,15 +17,14 @@ struct WineCellarListView: View {
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Taste.date, ascending: true)], animation: .default)
     private var tastes: FetchedResults<Taste>
     
-    @State private var showNotEmptyOnly = false
-    @State private var bruteForceReload = false
-    @State private var askBeforeDelete = false
-    @State private var cantBeDeleted = false
-    @State private var editIsActive = false
-    @State private var isAddActive = false
-    @State private var deleteOffSet: IndexSet = [0]
+    @State private var showNotEmptyOnly = false             // Show only stores that contains bottles
+    @State private var bruteForceReload = false             // Bool used in binding to force reload
+    @State private var askBeforeDelete = false              // Activate ask before delete Alert
+    @State private var cantBeDeleted = false                // Activete cant be deleted Alert (Store has Tastes)
+    @State private var editIsActive = false                 // Activate AddWineCellar NavLink
+    @State private var deleteOffSet: IndexSet = [0]         // Container for brews to be deleted
     
-    var filteredStores: [WineCellar] {
+    var filteredStores: [WineCellar] {                      // Filter on empty stores only
         stores.filter { s in
             (!showNotEmptyOnly || bottlesLeft(store: s) > 0)
         }
@@ -38,7 +37,7 @@ struct WineCellarListView: View {
                     Text("Not Empty only")
                 }
                 ForEach(filteredStores) { store in
-                    NavigationLink(destination: WineCellarDetailView(isAddActive: $isAddActive, store: store)) {
+                    NavigationLink(destination: WineCellarDetailView(store: store)) {
                         HStack {
                             Image(uiImage: UIImage(data: store.picture!)!)
                                 .renderingMode(.original)
@@ -101,7 +100,7 @@ struct WineCellarListView: View {
                     }
                     
                     Spacer()
-                    NavigationLink(destination: AddWineCellarView(isSet: $bruteForceReload, isAddActive: $editIsActive),
+                    NavigationLink(destination: AddWineCellarView(isSet: $bruteForceReload),
                                    isActive: $editIsActive) { EmptyView() }.hidden()
                 }
             }
@@ -146,6 +145,7 @@ struct WineCellarListView: View {
         }
     }
     
+    // Return how many bottles left in a Store
     private func bottlesLeft(store: WineCellar) -> Int {
         var rc = store.bottlesStart
         for taste in tastes {
@@ -157,6 +157,7 @@ struct WineCellarListView: View {
         return Int(rc)
     }
     
+    // Show a icon corresponding to number of bottles left
     private func bottlesLeftIcon(store: WineCellar) -> String {
         let bottles = bottlesLeft(store: store)
         switch bottles {
@@ -180,6 +181,7 @@ struct WineCellarListView: View {
         }
     }
 
+    // Truncate string
     private func getSubstring(s: String) -> String {
         var rc = s
 

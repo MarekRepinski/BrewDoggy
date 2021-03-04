@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct EditWineCellarView: View {
-
     @Environment(\.managedObjectContext) private var viewContext
     @Environment(\.presentationMode) var presentationMode
     @EnvironmentObject var modelData: ModelData
@@ -21,20 +20,20 @@ struct EditWineCellarView: View {
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \WineCellar.timestamp, ascending: false)], animation: .default)
     private var stores: FetchedResults<WineCellar>
 
-    @State private var title = "Add a new Storage"
-    @State private var name = ""
-    @State private var bottles = 12
-    @State private var comment = ""
-    @State private var brewList: [String] = []
-    @State private var selectedBrew = "*not* homebrewed"
-    @State private var brewEmptyAtStart = false
+    @State private var title = "Add a new Storage"              // Container for NavigationBar title
+    @State private var name = ""                                // Container for Name
+    @State private var bottles = 12                             // Container for start no of bottles in store
+    @State private var comment = ""                             // Container for Comment
+    @State private var brewList: [String] = []                  // Array with strings of available brews
+    @State private var selectedBrew = "*not* homebrewed"        // Container for selected Brew
+    @State private var brewEmptyAtStart = false                 // Keep track if brew changed from nil to something
     
-    @State private var showChangeAlert = false
-    @State private var showBrewPicker = false
-    @State private var showBottlesPicker = false
-    @State private var changed = false
-    @State private var firstTime = true
-    @Binding var isSet: Bool
+    @State private var showChangeAlert = false                  // Activate Alert not to exit without save
+    @State private var showBrewPicker = false                   // Activate Brew picker
+    @State private var showBottlesPicker = false                // Activate no of bottles picker
+    @State private var changed = false                          // Keep trac if something change to give without save warning
+    @State private var firstTime = true                         // Check if onAppear run for first time for setUpStates()
+    @Binding var isSet: Bool                                    // Make change on binding to force reload of previous views
 
     var store: WineCellar
     var minBottles: Int
@@ -261,6 +260,7 @@ struct EditWineCellarView: View {
         self.presentationMode.wrappedValue.dismiss()
     }
     
+    // Find Brew object with selectedBrew(name)
     private func findBrew() -> Brew? {
         for b in brews {
             if selectedBrew == b.name {

@@ -20,26 +20,24 @@ struct AddWineCellarView: View {
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \WineCellar.timestamp, ascending: false)], animation: .default)
     private var stores: FetchedResults<WineCellar>
 
-    @State private var title = "Add a new Storage"
-    @State private var name = ""
-    @State private var bottles = 12
-    @State private var comment = ""
-    @State private var brewList: [String] = []
-    @State private var brew: Brew? = nil
-    @State private var selectedBrew = "*not* homebrewed"
+    @State private var title = "Add a new Storage"              // Container for NavigationBar title
+    @State private var name = ""                                // Container for Name
+    @State private var bottles = 12                             // Container for start no of bottles in store
+    @State private var comment = ""                             // Container for Comment
+    @State private var brewList: [String] = []                  // Array with strings of available brews
+    @State private var brew: Brew? = nil                        //*** Is this really used here????? Brew object store is linked to
+    @State private var selectedBrew = "*not* homebrewed"        // Container for selected Brew
     
-    @State private var showChangeAlert = false
-    @State private var showBrewPicker = false
-    @State private var showBottlesPicker = false
-    @State private var changed = false
-    @State private var outStore: WineCellar? = nil
-    @State private var saveAndMoveOn = false
-    @State private var firstTime = true
-    @Binding var isSet: Bool
-    @Binding var isAddActive: Bool
+    @State private var showChangeAlert = false                  // Activate Alert not to exit without save
+    @State private var showBrewPicker = false                   // Activate Brew picker
+    @State private var showBottlesPicker = false                // Activate no of bottles picker
+    @State private var changed = false                          // Keep trac if something change to give without save warning
+    @State private var outStore: WineCellar? = nil              // Container for new WineCellar Objcet after save, used to call WineCellarDetail
+    @State private var saveAndMoveOn = false                    // Activate WineCellarDetail
+    @State private var firstTime = true                         // Check if onAppear run for first time for setUpStates()
+    @Binding var isSet: Bool                                    // Make change on binding to force reload of previous views
     
-    var flushAfter: Bool = false
-    var maxNoOfBottles: Int = 144
+    var maxNoOfBottles: Int = 144                               // Max no of bottles in Store
 
     var body: some View {
         ScrollView {
@@ -258,6 +256,7 @@ struct AddWineCellarView: View {
         saveAndMoveOn = true
     }
     
+    // Find Brew object with selectedBrew(name)
     private func findBrew() -> Brew? {
         for b in brews {
             if selectedBrew == b.name {

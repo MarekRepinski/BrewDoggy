@@ -11,14 +11,14 @@ struct AddTasteView: View {
     @Environment(\.managedObjectContext) private var viewContext
     @Environment(\.presentationMode) var presentationMode
     
-    @State private var bottles = 1
-    @State private var comment = ""
-    @State private var rate = 0
-    @State private var changed = false
-    @State private var showChangeAlert = false
-    @State private var showBottlesPicker = false
-    var store: WineCellar
-    var maxNoOfBottles: Int
+    @State private var bottles = 1                          // Container for how many bottles taken out of store
+    @State private var comment = ""                         // Container for comment
+    @State private var rate = 0                             // Container for rating
+    @State private var changed = false                      // Keep trac if something change to give without save warning
+    @State private var showChangeAlert = false              // Activate Alert not to exit without save
+    @State private var showBottlesPicker = false            // Activate no of bottles picker
+    var store: WineCellar                                   // WinCeller Object to attach taste to
+    var maxNoOfBottles: Int                                 // Max no of bottles that can be taken out of store
     
     var body: some View {
         ScrollView {
@@ -141,21 +141,6 @@ struct AddTasteView: View {
         newTaste.tasteToWineCellar = store
         saveViewContext()
         self.presentationMode.wrappedValue.dismiss()
-    }
-    
-    private func checkBottles(s: String) -> Int {
-        if s == "" {
-            return 0
-        }
-        var ss = s.replacingOccurrences(of: ",", with: "")
-        ss = ss.replacingOccurrences(of: ".", with: "")
-        
-        if let g = Int(ss) {
-            if g > 800 && g < 1775 {
-                return g
-            }
-        }
-        return -1
     }
     
     private func saveViewContext() {

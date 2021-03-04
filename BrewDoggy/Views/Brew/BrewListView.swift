@@ -28,7 +28,7 @@ struct BrewListView: View {
     @State private var editIsActive = false             // Activate AddBrew NavLink
     @State private var deleteOffSet: IndexSet = [0]     // Container for brews to be deleted
     
-    var filteredBrews: [Brew] {
+    var filteredBrews: [Brew] {                         // Filter Brewing only
         brews.filter { r in
             (!showOnGoingOnly || !r.isDone)
         }

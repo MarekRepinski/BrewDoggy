@@ -14,18 +14,14 @@ struct EditRecipeView: View {
 
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Recipe.timestamp, ascending: true)], animation: .default)
     private var recipies: FetchedResults<Recipe>
-
     @FetchRequest(entity: BrewType.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \BrewType.timestamp, ascending: false)], animation: .default)
     private var brewTypes: FetchedResults<BrewType>
-
     @FetchRequest(entity: RecipeItem.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \RecipeItem.sortId, ascending: true)], animation: .default)
     private var recipeItems: FetchedResults<RecipeItem>
-    
     @FetchRequest(entity: UnitType.entity(),
                   sortDescriptors: [NSSortDescriptor(keyPath: \UnitType.unitTypeSort, ascending: true)],
                   predicate: NSPredicate(format: "unitTypeSort > 0"), animation: .default)
     private var unitTypes: FetchedResults<UnitType>
-    
     @FetchRequest(entity: Unit.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \Unit.timestamp, ascending: true)], animation: .default)
     private var units: FetchedResults<Unit>
 
@@ -45,9 +41,9 @@ struct EditRecipeView: View {
     @State var ingredientItems = [ItemRow(name: "dummy", amount: "dummy", unit: "dummy")]   // Array of selected ingredients
     @State private var changed = false                          // Keep trac if something change to give without save warning
     @State private var firstTime = true                         // Keep trac if its the first time OnAppear runs
-    @Binding var isSet: Bool
+    @Binding var isSet: Bool                                    // Make change on binding to force reload of previous views
     
-    var recipe: Recipe?
+    var recipe: Recipe?                                         // The Recipe Object to be edited
     
     var body: some View {
         ScrollView {

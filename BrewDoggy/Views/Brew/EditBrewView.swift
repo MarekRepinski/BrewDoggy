@@ -19,28 +19,28 @@ struct EditBrewView: View {
     @FetchRequest(entity: BrewType.entity(), sortDescriptors: [NSSortDescriptor(keyPath: \BrewType.timestamp, ascending: false)], animation: .default)
     private var brewTypes: FetchedResults<BrewType>
 
-    @State private var title = ""
-    @State private var name = ""
-    @State private var og = ""
-    @State private var eta = Date()
-    @State private var isDone = false
-    @State private var grade = 0
-    @State private var fg = ""
+    @State private var title = ""                       // NavigationBar title
+    @State private var name = ""                        // Container for Brew name
+    @State private var og = ""                          // Container for Original Gravity
+    @State private var eta = Date()                     // Container for ETA
+    @State private var isDone = false                   // Container for isDone, if brew is finished
+    @State private var grade = 0                        // Container for grade (if isDone)
+    @State private var fg = ""                          // Container for Final Gravity (if isDone)
 
-    @State private var showChangeAlert = false
-    @State private var showTypeChangeAlert = false
-    @State private var showGravityAlert = false
-    @State private var showBrewTypePicker = false
-    @State private var selectedBrewType = ""
-    @State private var bTypes: [String] = []
-    @State private var showRecipePicker = false
-    @State private var selectedRecipe = ""
-    @State private var rTypes: [String] = []
-    @State private var changed = false
-    @State private var firstTime = true
-    @Binding var isSet: Bool
+    @State private var showChangeAlert = false          // Activate Alert not to exit without save
+    @State private var showTypeChangeAlert = false      // Activate Alert that BrewType has been changed and recipe nullified
+    @State private var showGravityAlert = false         // Activate Alert that gravity entrance is wrong
+    @State private var showBrewTypePicker = false       // Activate BrewType picker
+    @State private var selectedBrewType = ""            // Container for slected BrewType
+    @State private var bTypes: [String] = []            // Array with strings of available brewtypes
+    @State private var showRecipePicker = false         // Activate Recipe picker
+    @State private var selectedRecipe = ""              // Container for slected Recipe
+    @State private var rTypes: [String] = []            // Array with strings of available recipies
+    @State private var changed = false                  // Keep trac if something change to give without save warning
+    @State private var firstTime = true                 // Check if onAppear run for first time for setUpStates()
+    @Binding var isSet: Bool                            // Make change on binding to force reload of previous views
     
-    var brew: Brew
+    var brew: Brew                                      // The Brew Object to be edited
 
     var body: some View {
         ScrollView {
@@ -279,6 +279,7 @@ struct EditBrewView: View {
         }
     }
     
+    // Compile recipe list acording to BrewType
     private func setRecipeList(bt: String) {
         var changedType = true
         
@@ -329,6 +330,7 @@ struct EditBrewView: View {
         }
     }
     
+    // Check gravity entrance
     private func checkGravity(s: String) -> Int {
         if s == "" {
             return 0
@@ -344,6 +346,7 @@ struct EditBrewView: View {
         return -1
     }
     
+    // Find Recipe Object with Recipe Name
     private func findRecipe() -> Recipe {
         for r in recipies {
             if r.name == selectedRecipe {
@@ -353,6 +356,7 @@ struct EditBrewView: View {
         return recipies[0]
     }
     
+    // Find BrewType Object with BrewType Name
     private func findBrewType() -> BrewType {
         for bt in brewTypes {
             if bt.typeDescription == selectedBrewType {

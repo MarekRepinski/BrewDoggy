@@ -19,25 +19,25 @@ struct WineCellarDetailView: View {
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Taste.date, ascending: true)], animation: .default)
     private var tastes: FetchedResults<Taste>
 
-    @State private var types: [String] = []
-    @State private var bruteForceReload = false
-    @State private var editIsActive = false
-    @State private var yearsInStore = ""
-    @State private var showTaste = false
-    @State private var taste: Taste? = nil
-    @State private var deleteOffSet: IndexSet = [0]
-    @State private var askBeforeDelete2 = false
-    @State private var startGrade = -1
-    @State private var brew: Brew? = nil
-    @State private var homeBrewed = false
-    @State private var goToBrew = false
-    @State private var storeIsEmptyAlert = false
-    @State private var addTasteIsActive = false
+    @State private var types: [String] = []             //*** not used?
+    @State private var bruteForceReload = false         // Bool used in binding to force reload
+    @State private var editIsActive = false             // Activate EditWineCellarView NavLink
+    @State private var yearsInStore = ""                // Container for YearsInStorage (calculated)
+    @State private var showTaste = false                // Avtivate clicked taste in sheet
+    @State private var taste: Taste? = nil              // Container which taste to show
+    @State private var deleteOffSet: IndexSet = [0]     // Container for Tastes marked for delete
+    @State private var askBeforeDelete2 = false         // Activate Delete Alert
+    @State private var startGrade = -1                  //*** not used?
+    @State private var brew: Brew? = nil                // Brew object store is linked to
+    @State private var homeBrewed = false               // Container for if store is linked to Brew
+    @State private var goToBrew = false                 // Activate BrewDetail NavLink
+    @State private var storeIsEmptyAlert = false        // Activate Add Taste when store empty Alert
+    @State private var addTasteIsActive = false         // Activate AddTasteView NavLink
 
-    var store: WineCellar
-    var flushAfter = false
+    var store: WineCellar                               // WineCellar Object to display
+    var flushAfter = false                              // Flush Navigation history
 
-    var filteredTasteItems: [Taste] {
+    var filteredTasteItems: [Taste] {                   // Filter non-empty stores
         tastes.filter { taste in
             (taste.tasteToWineCellar == store)
         }
@@ -157,6 +157,9 @@ struct WineCellarDetailView: View {
                            isActive: $goToBrew) { EmptyView() }.hidden()
         }
         .onAppear() {
+            if modelData.flush {
+                self.presentationMode.wrappedValue.dismiss()
+            }
             yearsInStore = timeInStore(start: store.start!)
             homeBrewed = isHomeBrewed()
         }
@@ -169,7 +172,6 @@ struct WineCellarDetailView: View {
                                     if flushAfter {
                                         modelData.flush = true
                                         modelData.wineCellarGo = true
-                                        self.presentationMode.wrappedValue.dismiss()
                                     }
                                     self.presentationMode.wrappedValue.dismiss()
                                 }) {
@@ -188,6 +190,7 @@ struct WineCellarDetailView: View {
         .navigationBarTitleDisplayMode(.inline)
     }
 
+    // Check is this sore is linked to a Brew
     private func isHomeBrewed() -> Bool {
         if let b = store.wineCellarToBrew {
             brew = b
@@ -196,6 +199,7 @@ struct WineCellarDetailView: View {
         return false
     }
     
+    // Truncate a string
     private func getSubstring(s: String) -> String {
         var rc = s
 
@@ -218,6 +222,7 @@ struct WineCellarDetailView: View {
         saveViewContext()
     }
 
+    // Get Brew name which is linked to this store
     private func getBrew() -> String {
         if let b = store.wineCellarToBrew {
             return b.name!
@@ -226,16 +231,19 @@ struct WineCellarDetailView: View {
         }
     }
     
+    // Calculate how much time bottles been in store
     private func timeInStore(start: Date) ->  String {
         let days = daysBetween(start: start, end: Date())
         if days < 365 { return String("\(days/30) months in store") }
         else { return String(format: "%.1f years in store", Double(days)/365.0) }
     }
     
+    // Calculate number of days between two dates
     private func daysBetween(start: Date, end: Date) -> Int {
        Calendar.current.dateComponents([.day], from: start, to: end).day!
     }
     
+    // Return formatted date as string
     private func dateForm(d: Date) -> String {
         let formatter = DateFormatter()
         formatter.dateStyle = .short
@@ -243,6 +251,7 @@ struct WineCellarDetailView: View {
         return formatter.string(from: d)
     }
 
+    // Calculate min amount of bottles allowed in EditWinCellar
     private func minBottles(store: WineCellar) -> Int {
         var rc = 0
         for taste in tastes {
@@ -254,6 +263,7 @@ struct WineCellarDetailView: View {
         return rc
     }
     
+    // Calculate how many bottles left in store
     private func bottlesLeft(store: WineCellar) -> Int {
         var rc = store.bottlesStart
         for taste in tastes {
@@ -265,6 +275,7 @@ struct WineCellarDetailView: View {
         return Int(rc)
     }
     
+    // return icon depending on how many bottles are left in store
     private func bottlesLeftIcon(store: WineCellar) -> String {
         let bottles = bottlesLeft(store: store)
         switch bottles {
@@ -300,7 +311,7 @@ struct WineCellarDetailView: View {
 
 struct DetailTasteView: View {
     @Environment(\.presentationMode) var presentationMode
-    @State private var startGrade = -1
+    @State private var startGrade = -1                  //*** not used?
     @Binding var taste: Taste?
     
     var body: some View {

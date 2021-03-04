@@ -34,7 +34,7 @@ struct RecipeDetailView: View {
     @State private var editIsActive = false             // Activate EditRecipeView
     @State private var makeBrewIsActive = false         // Activate AddBrewView
     
-    var recipe: Recipe
+    var recipe: Recipe                                  // Recipe Object to display
     var flushAfter = false                              // Flush Navigation history
 
     var recipeIndex: Int {

@@ -24,7 +24,7 @@ struct RecipeListView: View {
     @State private var deleteOffSet: IndexSet = [0]         // Container for recipe marked for delete
     @State private var askBeforeDelete = false              // Activate Delete Alert
 
-    var filteredRecipies: [Recipe] {
+    var filteredRecipies: [Recipe] {                        // Filter favorites only
         recipies.filter { r in
             (!showFavoritesOnly || r.isFavorite)
         }
@@ -137,7 +137,7 @@ struct RecipeListView: View {
                     }
 
                     Spacer()
-                    NavigationLink(destination: AddRecipeView(isSet: $bruteForceReload, isAddActive: $editIsActive),
+                    NavigationLink(destination: AddRecipeView(isSet: $bruteForceReload),
                                    isActive: $editIsActive) { EmptyView() }.hidden()
                 }
             }
