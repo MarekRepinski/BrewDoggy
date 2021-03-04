@@ -57,7 +57,7 @@ struct BrewDetailView: View {
                         Text("Past Due date!!")
                             .foregroundColor(.red)
                     } else {
-                        Text("\(daysLeft) day\(daysLeft > 1 ? "s" : "") left")
+                        Text("\(daysLeft + 1) day\(daysLeft > 1 ? "s" : "") left")
                             .foregroundColor(.green)
                     }
                 }

@@ -296,8 +296,10 @@ struct AddRecipeView: View {
     // Get database unit from string
     private func getUnit(str: String) -> Unit? {
         var lastUnit: Unit? = nil
+        
         for unit in units {
-            if unit.unitToUnitType?.unitTypeName == selectedUnitType && unit.unitAbbreviation == str {
+            if (unit.unitToUnitType!.unitTypeName == selectedUnitType || unit.unitToUnitType!.unitTypeName == "All") &&
+                unit.unitAbbreviation! == str {
                 return unit
             }
             lastUnit = unit
