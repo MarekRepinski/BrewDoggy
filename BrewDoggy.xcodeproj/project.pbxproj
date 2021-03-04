@@ -23,6 +23,7 @@
 		D56278C325EECE2C0052F02D /* EditWineCellarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D56278C225EECE2C0052F02D /* EditWineCellarView.swift */; };
 		D56278CE25EF89380052F02D /* CreateQR.swift in Sources */ = {isa = PBXBuildFile; fileRef = D56278CD25EF89380052F02D /* CreateQR.swift */; };
 		D562790E25EFC6740052F02D /* CodeScanner in Frameworks */ = {isa = PBXBuildFile; productRef = D562790D25EFC6740052F02D /* CodeScanner */; };
+		D562791925F145560052F02D /* ScanningView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D562791825F145560052F02D /* ScanningView.swift */; };
 		D569055425E0F8F300B6DEFE /* IngredientsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D569055325E0F8F300B6DEFE /* IngredientsView.swift */; };
 		D56B3D6E25DEAC9200DBE34C /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = D56B3D6D25DEAC9200DBE34C /* ImagePicker.swift */; };
 		D56B3D7425DF0D9500DBE34C /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D56B3D7325DF0D9500DBE34C /* ViewModel.swift */; };
@@ -81,6 +82,7 @@
 		D56278BD25EEAB240052F02D /* AddWineCellarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddWineCellarView.swift; sourceTree = "<group>"; };
 		D56278C225EECE2C0052F02D /* EditWineCellarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditWineCellarView.swift; sourceTree = "<group>"; };
 		D56278CD25EF89380052F02D /* CreateQR.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateQR.swift; sourceTree = "<group>"; };
+		D562791825F145560052F02D /* ScanningView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanningView.swift; sourceTree = "<group>"; };
 		D563C17C25DAA9E100A37003 /* BrewDoggy 13.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BrewDoggy 13.xcdatamodel"; sourceTree = "<group>"; };
 		D569055325E0F8F300B6DEFE /* IngredientsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientsView.swift; sourceTree = "<group>"; };
 		D56B3D6D25DEAC9200DBE34C /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
@@ -262,6 +264,7 @@
 		D5ADD5D425D1C17B00C904B6 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				D562791825F145560052F02D /* ScanningView.swift */,
 				D562789D25EE30460052F02D /* WineCellar */,
 				D561BDEE25E6EE1B0063D853 /* Brew */,
 				D5ADD62825D3D7A800C904B6 /* Helpers */,
@@ -420,6 +423,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D56278CE25EF89380052F02D /* CreateQR.swift in Sources */,
+				D562791925F145560052F02D /* ScanningView.swift in Sources */,
 				D561BDF025E6EEAA0063D853 /* BrewListView.swift in Sources */,
 				D5ADD55325CFE1DF00C904B6 /* BrewDoggy.xcdatamodeld in Sources */,
 				D5537FBB25ED3B4400A60056 /* EditBrewView.swift in Sources */,
