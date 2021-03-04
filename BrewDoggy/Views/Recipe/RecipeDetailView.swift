@@ -141,6 +141,7 @@ struct RecipeDetailView: View {
             
             Button("Make a new Brew from this Recipe") { makeBrewIsActive = true }
                 .padding(15)
+                .padding(.bottom, 50)
         }
         .navigationBarBackButtonHidden(true)
         .navigationBarItems(leading:

@@ -301,7 +301,7 @@ struct EditBrewView: View {
         let ogg = checkGravity(s: og)
         if ogg > -1 {
             let fgg = checkGravity(s: fg)
-            if fgg > -1 {
+            if fgg > -1 || !isDone {
                 if name == "" { name = "no name Brew" }
                 brew.name = name
                 brew.originalGravity = Int64(ogg)
