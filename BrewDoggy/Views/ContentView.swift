@@ -9,15 +9,20 @@ import SwiftUI
 import CoreData
 import CodeScanner
 
+//-----------------------------------------------------------------------//
+//                              BUGs                                     //
+//-----------------------------------------------------------------------//
+//  *   Empty .toolbar pops up in BrewDetailView and WineCellarDetailView
+//      after open and close .sheet. Change to TabView?
+//
+//  *   flush dont allways manage to update in time
+//
+
 struct ContentView: View {
     @EnvironmentObject var modelData: ModelData
     @Environment(\.managedObjectContext) private var viewContext
     @FetchRequest(entity: BrewType.entity(), sortDescriptors: [], animation: .default)
     private var brewTypes: FetchedResults<BrewType>
-//    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Brew.timestamp, ascending: false)], animation: .default)
-//    private var brews: FetchedResults<Brew>
-//    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \WineCellar.timestamp, ascending: false)], animation: .default)
-//    private var stores: FetchedResults<WineCellar>
 
     @State private var opacity = 1.0                    // Opacity of splash image
     @State private var showMeny = false                 // Show meny after splash image
@@ -26,12 +31,6 @@ struct ContentView: View {
     @State private var wineCellarGo = false             // Activate WineCellar NavLink
     @State private var scanGo = false                   // Activate Scan-Sheet
     @State private var firstTime = true                 // Check if onAppear run for first time then activate splash image animation
-//    @State private var scanFailed = false               // Open Scan Failure Alert
-//    @State private var scanNotFound = false             // Open Scan ID not found Alert
-//    @State private var outBrew: Brew? = nil             // Container if scan ID found a brew
-//    @State private var outStore: WineCellar? = nil      // Container if scan ID found a winecellar
-//    @State private var jumpToBrew = false               // Activate a NavLink if scan ID found a brew
-//    @State private var jumpToCellar = false             // Activate a NavLink if scan ID found a winecellar
 
     var body: some View {
         NavigationView {
@@ -116,12 +115,6 @@ struct ContentView: View {
 
                             Spacer()
                         }
-//                        .alert(isPresented: $scanNotFound) {
-//                            Alert(title: Text("Scanned ID not found"),
-//                                  message: Text("The scanned ID not found in the database."),
-//                                  dismissButton: .cancel())
-//
-//                        }
 
                         NavigationLink(destination: ScanningView(), isActive: $scanGo) {
                             HStack {
@@ -144,23 +137,10 @@ struct ContentView: View {
                         .padding(.init(top: 5, leading: 60, bottom: 5, trailing: 30))
                         .contentShape(Rectangle())
                         .background(Color.white).opacity(0.8)
-//                        .onTapGesture {
-//                            scanGo = true
-//                        }
-//                        .alert(isPresented: $scanFailed) {
-//                            Alert(title: Text("Scan Failed"),
-//                                  message: Text("Either the QR-code is bad or the Scanner is not working"),
-//                                  dismissButton: .cancel())
-//
-//                        }
 
                         Spacer()
                     }
                 }
-//                NavigationLink(destination: BrewDetailView(brew: outBrew ?? brews[0]),
-//                               isActive: $jumpToBrew) { EmptyView() }.hidden()
-//                NavigationLink(destination: WineCellarDetailView(store: outStore ?? stores[0]),
-//                               isActive: $jumpToCellar) { EmptyView() }.hidden()
             }
             .navigationViewStyle(StackNavigationViewStyle())
             .background(Color.white)
@@ -196,9 +176,6 @@ struct ContentView: View {
                     }
                 }
             }
-//            .sheet(isPresented: $scanGo) {
-//                CodeScannerView(codeTypes: [.qr], simulatedData: brews[0].id?.uuidString ?? "Brew not found", completion: self.handleScan)
-//            }
             .toolbar {
                 ToolbarItemGroup(placement: .bottomBar) {
                     Spacer()

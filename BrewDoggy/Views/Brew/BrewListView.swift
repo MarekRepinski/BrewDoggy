@@ -92,7 +92,7 @@ struct BrewListView: View {
                                             Image(systemName: "plus")
                                                 .imageScale(.large)
                                                 .padding()
-                                        }
+                                    }
             )
             .toolbar {
                 ToolbarItemGroup(placement: .bottomBar) {

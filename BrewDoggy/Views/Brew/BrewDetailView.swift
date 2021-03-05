@@ -113,7 +113,7 @@ struct BrewDetailView: View {
             }
             .padding(5)
 
-            VStack(alignment: .leading, spacing: 5) {
+            VStack(alignment: .leading, spacing: 0) {
                 List {
                     ForEach(filteredBrewItems) {fB in
                         HStack {
@@ -132,6 +132,9 @@ struct BrewDetailView: View {
                     .onDelete(perform: onDelete)
                 }
             }
+            .sheet(isPresented: $showCheck) {
+                DetailCheckView(bc: $bc, og: Int(brew.originalGravity))
+            }
             .padding(.bottom, 50)
         }
         .onAppear() {
@@ -147,9 +150,6 @@ struct BrewDetailView: View {
                   message: Text("This action can not be undone. Are you really sure?"),
                   primaryButton: .default(Text("Yes")) { deleteBrewCheck() },
                   secondaryButton: .cancel(Text("No")))
-        }
-        .sheet(isPresented: $showCheck) {
-            DetailCheckView(bc: $bc, og: Int(brew.originalGravity))
         }
         .navigationBarBackButtonHidden(true)
         .navigationBarItems(leading:
