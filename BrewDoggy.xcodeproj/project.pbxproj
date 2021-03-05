@@ -24,6 +24,7 @@
 		D56278CE25EF89380052F02D /* CreateQR.swift in Sources */ = {isa = PBXBuildFile; fileRef = D56278CD25EF89380052F02D /* CreateQR.swift */; };
 		D562790E25EFC6740052F02D /* CodeScanner in Frameworks */ = {isa = PBXBuildFile; productRef = D562790D25EFC6740052F02D /* CodeScanner */; };
 		D562791925F145560052F02D /* ScanningView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D562791825F145560052F02D /* ScanningView.swift */; };
+		D562792725F267AB0052F02D /* NotificationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D562792625F267AB0052F02D /* NotificationsView.swift */; };
 		D569055425E0F8F300B6DEFE /* IngredientsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D569055325E0F8F300B6DEFE /* IngredientsView.swift */; };
 		D56B3D6E25DEAC9200DBE34C /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = D56B3D6D25DEAC9200DBE34C /* ImagePicker.swift */; };
 		D56B3D7425DF0D9500DBE34C /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D56B3D7325DF0D9500DBE34C /* ViewModel.swift */; };
@@ -83,6 +84,7 @@
 		D56278C225EECE2C0052F02D /* EditWineCellarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditWineCellarView.swift; sourceTree = "<group>"; };
 		D56278CD25EF89380052F02D /* CreateQR.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateQR.swift; sourceTree = "<group>"; };
 		D562791825F145560052F02D /* ScanningView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanningView.swift; sourceTree = "<group>"; };
+		D562792625F267AB0052F02D /* NotificationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsView.swift; sourceTree = "<group>"; };
 		D563C17C25DAA9E100A37003 /* BrewDoggy 13.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "BrewDoggy 13.xcdatamodel"; sourceTree = "<group>"; };
 		D569055325E0F8F300B6DEFE /* IngredientsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngredientsView.swift; sourceTree = "<group>"; };
 		D56B3D6D25DEAC9200DBE34C /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
@@ -283,6 +285,7 @@
 				D5537FC725ED5EEF00A60056 /* GradeStars.swift */,
 				D56278B825EE95510052F02D /* GradeStarsNB.swift */,
 				D56278CD25EF89380052F02D /* CreateQR.swift */,
+				D562792625F267AB0052F02D /* NotificationsView.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -433,6 +436,7 @@
 				D5ADD58425D18CD200C904B6 /* RecipeDetailView.swift in Sources */,
 				D562789F25EE30610052F02D /* WineCellarListView.swift in Sources */,
 				D569055425E0F8F300B6DEFE /* IngredientsView.swift in Sources */,
+				D562792725F267AB0052F02D /* NotificationsView.swift in Sources */,
 				D5ADD62A25D3D7C300C904B6 /* FavoriteButton.swift in Sources */,
 				D5ADD55025CFE1DF00C904B6 /* Persistence.swift in Sources */,
 				D5ADD6A425D5949600C904B6 /* EditRecipeView.swift in Sources */,

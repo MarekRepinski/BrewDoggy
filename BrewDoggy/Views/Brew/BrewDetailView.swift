@@ -29,6 +29,7 @@ struct BrewDetailView: View {
     @State private var askBeforeDelete2 = false             // Activate Delete Alert
     @State private var showGrade = 0                        // Input for show grading with GradeStar
     @State private var goToRecipe = false                   // Activate RecipeDetail NavLink
+    @State private var goToNotification = false             // Activate NotificationsView NavLink
     @State private var recipe: Recipe? = nil                // Recipe object brew is linked to
 
     var brew: Brew                                          // Brew Object to display
@@ -48,6 +49,9 @@ struct BrewDetailView: View {
             NavigationLink(destination: RecipeDetailView(recipe: recipe ?? recipies[0]),
                            isActive: $goToRecipe) { EmptyView() }.hidden()
 
+            NavigationLink(destination: NotificationsView(brew: brew),
+                           isActive: $goToNotification) { EmptyView() }.hidden()
+
             RecipeImage(image: UIImage(data: brew.picture!)!)
                 .padding(.top, 20)
 
@@ -61,7 +65,7 @@ struct BrewDetailView: View {
                         Text("Past Due date!!")
                             .foregroundColor(.red)
                     } else {
-                        Text("\(daysLeft + 1) day\(daysLeft > 1 ? "s" : "") left")
+                        Text("\(daysLeft) day\(daysLeft > 1 ? "s" : "") left")
                             .foregroundColor(.green)
                     }
                 }
@@ -165,12 +169,21 @@ struct BrewDetailView: View {
                                         Text("Back")
                                     }
                                 }, trailing:
-                                    Button(action: { editIsActive = true }) {
-                                        Image(systemName: "pencil").padding()
-                                            .imageScale(.large)
-                                            .animation(.easeInOut)
-                                            .padding()
-                                    })
+                                    HStack {
+                                        Button(action: { goToNotification = true }) {
+                                            Image(systemName: "bell.fill")
+                                                .imageScale(.large)
+                                                .animation(.easeInOut)
+                                                .padding(5)
+                                        }
+
+                                        Button(action: { editIsActive = true }) {
+                                            Image(systemName: "pencil")
+                                                .imageScale(.large)
+                                                .animation(.easeInOut)
+                                                .padding(10)
+                                        }
+                                })
         .navigationTitle(brew.name!)
         .navigationBarTitleDisplayMode(.inline)
     }
@@ -203,7 +216,7 @@ struct BrewDetailView: View {
     }
 
     private func daysBetween(start: Date, end: Date) -> Int {
-       Calendar.current.dateComponents([.day], from: start, to: end).day!
+       Calendar.current.dateComponents([.day], from: start, to: end).day! + 1
     }
     
     private func dateForm(d: Date) -> String {

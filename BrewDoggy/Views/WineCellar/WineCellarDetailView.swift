@@ -239,7 +239,7 @@ struct WineCellarDetailView: View {
     
     // Calculate number of days between two dates
     private func daysBetween(start: Date, end: Date) -> Int {
-       Calendar.current.dateComponents([.day], from: start, to: end).day!
+       Calendar.current.dateComponents([.day], from: start, to: end).day! + 1
     }
     
     // Return formatted date as string
