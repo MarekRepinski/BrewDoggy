@@ -16,7 +16,9 @@ struct BrewDetailView: View {
     private var brews: FetchedResults<Brew>
     @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \BrewCheck.date, ascending: true)], animation: .default)
     private var brewChecks: FetchedResults<BrewCheck>
-    
+    @FetchRequest(sortDescriptors: [NSSortDescriptor(keyPath: \Recipe.timestamp, ascending: false)], animation: .default)
+    private var recipies: FetchedResults<Recipe>
+
     @State private var bruteForceReload = false             // Bool used in binding to force reload
     @State private var editIsActive = false                 // Activate EditBrewView NavLink
     @State private var isDone = false                       // Check if brew is no longer brewing
@@ -26,6 +28,8 @@ struct BrewDetailView: View {
     @State private var deleteOffSet: IndexSet = [0]         // Container for checks marked for delete
     @State private var askBeforeDelete2 = false             // Activate Delete Alert
     @State private var showGrade = 0                        // Input for show grading with GradeStar
+    @State private var goToRecipe = false                   // Activate RecipeDetail NavLink
+    @State private var recipe: Recipe? = nil                // Recipe object brew is linked to
 
     var brew: Brew                                          // Brew Object to display
     var flushAfter = false                                  // Flush Navigation history
@@ -40,6 +44,9 @@ struct BrewDetailView: View {
         VStack {
             NavigationLink(destination: EditBrewView(isSet: $bruteForceReload, brew: brew),
                            isActive: $editIsActive) { EmptyView() }.hidden()
+
+            NavigationLink(destination: RecipeDetailView(recipe: recipe ?? recipies[0]),
+                           isActive: $goToRecipe) { EmptyView() }.hidden()
 
             RecipeImage(image: UIImage(data: brew.picture!)!)
                 .padding(.top, 20)
@@ -62,6 +69,10 @@ struct BrewDetailView: View {
             .padding()
             VStack(alignment: .leading, spacing: 10) {
                 Text("Recipe: \(brew.brewToRecipe!.name!) (\(brew.brewToBrewType!.typeDescription!))")
+                    .foregroundColor(.blue)
+                    .onTapGesture {
+                        goToRecipe = true
+                    }
                 HStack {
                     Text("Start: \(dateForm(d: brew.start!))")
                     Spacer()
